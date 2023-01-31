@@ -6,4 +6,5 @@
  *
  */
 module reto3 {
+	requires java.desktop;
 }
