@@ -1,24 +1,29 @@
 package carteleraElorrieta.bbdd.pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class Pelicula implements Serializable{
+;
 
-	
-	private static final long serialVersionUID = 5310038255982230545L;
+public class Pelicula implements Serializable {
+
+	private static final long serialVersionUID = 4825478076256101165L;
 	private int cod_pelicula;
-	private String genero;
 	private int duracion;
+	private String genero;
+
+	ArrayList<Emision> emisiones = null;
 
 	@Override
 	public String toString() {
-		return "Pelicula [cod_pelicula=" + cod_pelicula + ", genero=" + genero + ", duracion=" + duracion + "]";
+		return "Pelicula [cod_pelicula=" + cod_pelicula + ", duracion=" + duracion + ", genero=" + genero
+				+ ", emisiones=" + emisiones + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cod_pelicula, duracion, genero);
+		return Objects.hash(cod_pelicula, duracion, emisiones, genero);
 	}
 
 	@Override
@@ -30,7 +35,8 @@ public class Pelicula implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Pelicula other = (Pelicula) obj;
-		return cod_pelicula == other.cod_pelicula && duracion == other.duracion && Objects.equals(genero, other.genero);
+		return cod_pelicula == other.cod_pelicula && duracion == other.duracion
+				&& Objects.equals(emisiones, other.emisiones) && Objects.equals(genero, other.genero);
 	}
 
 	public int getCod_pelicula() {
@@ -41,6 +47,14 @@ public class Pelicula implements Serializable{
 		this.cod_pelicula = cod_pelicula;
 	}
 
+	public int getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
+
 	public String getGenero() {
 		return genero;
 	}
@@ -49,12 +63,12 @@ public class Pelicula implements Serializable{
 		this.genero = genero;
 	}
 
-	public int getDuracion() {
-		return duracion;
+	public ArrayList<Emision> getEmisiones() {
+		return emisiones;
 	}
 
-	public void setDuracion(int duracion) {
-		this.duracion = duracion;
+	public void setEmisiones(ArrayList<Emision> emisiones) {
+		this.emisiones = emisiones;
 	}
 
 }

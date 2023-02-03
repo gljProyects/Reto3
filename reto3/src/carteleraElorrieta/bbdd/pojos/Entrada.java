@@ -6,18 +6,22 @@ import java.util.Objects;
 
 public class Entrada implements Serializable {
 
-	private static final long serialVersionUID = 8554642783300054225L;
+	
+	private static final long serialVersionUID = 4196253156002190181L;
 	private int cod_entrada;
 	private Date fecha_compra;
+	Cliente cliente = null;
+	Emision emision = null;
 
 	@Override
 	public String toString() {
-		return "Entrada [cod_entrada=" + cod_entrada + ", fecha_compra=" + fecha_compra + "]";
+		return "Entrada [cod_entrada=" + cod_entrada + ", fecha_compra=" + fecha_compra + ", cliente=" + cliente
+				+ ", emision=" + emision + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cod_entrada, fecha_compra);
+		return Objects.hash(cliente, cod_entrada, emision, fecha_compra);
 	}
 
 	@Override
@@ -29,7 +33,8 @@ public class Entrada implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Entrada other = (Entrada) obj;
-		return cod_entrada == other.cod_entrada && Objects.equals(fecha_compra, other.fecha_compra);
+		return Objects.equals(cliente, other.cliente) && cod_entrada == other.cod_entrada
+				&& Objects.equals(emision, other.emision) && Objects.equals(fecha_compra, other.fecha_compra);
 	}
 
 	public int getCod_entrada() {
@@ -46,6 +51,22 @@ public class Entrada implements Serializable {
 
 	public void setFecha_compra(Date fecha_compra) {
 		this.fecha_compra = fecha_compra;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Emision getEmision() {
+		return emision;
+	}
+
+	public void setEmision(Emision emision) {
+		this.emision = emision;
 	}
 
 }

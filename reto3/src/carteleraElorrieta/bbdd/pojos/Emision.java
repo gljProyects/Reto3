@@ -5,28 +5,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-public class Emision implements Serializable{
+public class Emision implements Serializable {
 
-	
-	private static final long serialVersionUID = 1020962104556644391L;
+	private static final long serialVersionUID = 5714538808800220227L;
 	private int cod_emision;
 	private Date fecha;
 	private Date horario;
 	private int precio;
-
-	Sala sala = null;
-	Pelicula pelicula=null;
 	ArrayList<Entrada> entradas = null;
-	
+	Sala sala = null;
+	Pelicula pelicula = null;
+
 	@Override
 	public String toString() {
 		return "Emision [cod_emision=" + cod_emision + ", fecha=" + fecha + ", horario=" + horario + ", precio="
-				+ precio + "]";
+				+ precio + ", entradas=" + entradas + ", sala=" + sala + ", pelicula=" + pelicula + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cod_emision, fecha, horario, precio);
+		return Objects.hash(cod_emision, entradas, fecha, horario, pelicula, precio, sala);
 	}
 
 	@Override
@@ -38,8 +36,10 @@ public class Emision implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Emision other = (Emision) obj;
-		return cod_emision == other.cod_emision && Objects.equals(fecha, other.fecha)
-				&& Objects.equals(horario, other.horario) && precio == other.precio;
+		return cod_emision == other.cod_emision && Objects.equals(entradas, other.entradas)
+				&& Objects.equals(fecha, other.fecha) && Objects.equals(horario, other.horario)
+				&& Objects.equals(pelicula, other.pelicula) && precio == other.precio
+				&& Objects.equals(sala, other.sala);
 	}
 
 	public int getCod_emision() {
@@ -72,6 +72,30 @@ public class Emision implements Serializable{
 
 	public void setPrecio(int precio) {
 		this.precio = precio;
+	}
+
+	public ArrayList<Entrada> getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(ArrayList<Entrada> entradas) {
+		this.entradas = entradas;
+	}
+
+	public Sala getSala() {
+		return sala;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
+	public Pelicula getPelicula() {
+		return pelicula;
+	}
+
+	public void setPelicula(Pelicula pelicula) {
+		this.pelicula = pelicula;
 	}
 
 }

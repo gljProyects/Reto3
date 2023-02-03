@@ -6,22 +6,24 @@ import java.util.Objects;
 
 public class Cine implements Serializable {
 
-	private static final long serialVersionUID = -834238569626668040L;
-	private int cod_sala;
-	private int nombre_sala;
-	private String relacion;
+	
+	private static final long serialVersionUID = -3879462207701133525L;
 	private int cod_cine;
+	private String direccion;
+	private int num_sala;
+	private String nombre;
 	ArrayList<Sala> salas = null;
+	
 
 	@Override
 	public String toString() {
-		return "Cine [cod_sala=" + cod_sala + ", nombre_sala=" + nombre_sala + ", relacion=" + relacion + ", cod_cine="
-				+ cod_cine + "]";
+		return "Cine [cod_cine=" + cod_cine + ", direccion=" + direccion + ", num_sala=" + num_sala + ", nombre="
+				+ nombre + ", salas=" + salas + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cod_cine, cod_sala, nombre_sala, relacion);
+		return Objects.hash(cod_cine, direccion, nombre, num_sala, salas);
 	}
 
 	@Override
@@ -33,32 +35,9 @@ public class Cine implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cine other = (Cine) obj;
-		return cod_cine == other.cod_cine && cod_sala == other.cod_sala && nombre_sala == other.nombre_sala
-				&& Objects.equals(relacion, other.relacion);
-	}
-
-	public int getCod_sala() {
-		return cod_sala;
-	}
-
-	public void setCod_sala(int cod_sala) {
-		this.cod_sala = cod_sala;
-	}
-
-	public int getNombre_sala() {
-		return nombre_sala;
-	}
-
-	public void setNombre_sala(int nombre_sala) {
-		this.nombre_sala = nombre_sala;
-	}
-
-	public String getRelacion() {
-		return relacion;
-	}
-
-	public void setRelacion(String relacion) {
-		this.relacion = relacion;
+		return cod_cine == other.cod_cine && Objects.equals(direccion, other.direccion)
+				&& Objects.equals(nombre, other.nombre) && num_sala == other.num_sala
+				&& Objects.equals(salas, other.salas);
 	}
 
 	public int getCod_cine() {
@@ -67,6 +46,38 @@ public class Cine implements Serializable {
 
 	public void setCod_cine(int cod_cine) {
 		this.cod_cine = cod_cine;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public int getNum_sala() {
+		return num_sala;
+	}
+
+	public void setNum_sala(int num_sala) {
+		this.num_sala = num_sala;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public ArrayList<Sala> getSalas() {
+		return salas;
+	}
+
+	public void setSalas(ArrayList<Sala> salas) {
+		this.salas = salas;
 	}
 
 }
