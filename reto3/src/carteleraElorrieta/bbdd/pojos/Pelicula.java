@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Pelicula implements Serializable {
 
 	private static final long serialVersionUID = 4825478076256101165L;
+	
 	private int cod_pelicula;
 	private int duracion;
 	private String genero;
@@ -70,5 +71,9 @@ public class Pelicula implements Serializable {
 	public void setEmisiones(ArrayList<Emision> emisiones) {
 		this.emisiones = emisiones;
 	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 
 }

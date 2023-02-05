@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class Entrada implements Serializable {
 
-	
 	private static final long serialVersionUID = 4196253156002190181L;
+
 	private int cod_entrada;
 	private Date fecha_compra;
 	Cliente cliente = null;
@@ -67,6 +67,10 @@ public class Entrada implements Serializable {
 
 	public void setEmision(Emision emision) {
 		this.emision = emision;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

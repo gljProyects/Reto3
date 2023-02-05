@@ -2,20 +2,56 @@ package testCarteleraElorrieta;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
 import carteleraElorrieta.bbdd.pojos.Cliente;
+import carteleraElorrieta.bbdd.pojos.Entrada;
 
 class testCliente {
 
 	@Test
-	public void testGettersAndSetters() {
+	public void testGettersAndSettersNombre() {
 		Cliente cliente = new Cliente();
-		String nombre= "Gonzalo";
-		cliente.setNombre("Gonzalo");
+		String nombre = "Gonzalo";
+		cliente.setNombre(nombre);
 		assertEquals(nombre, cliente.getNombre());
+	}
+
+	@Test
+	public void testGettersAndSettersDni() {
+		Cliente cliente = new Cliente();
+		String dni = "20982629M";
+		cliente.setDni(dni);
+		assertEquals(dni, cliente.getDni());
+	}
+
+	@Test
+	public void testGettersAndSettersApellidos() {
+		Cliente cliente = new Cliente();
+		String apellidos = "Barrasa, Almeida";
+		cliente.setApellidos(apellidos);
+		assertEquals(apellidos, cliente.getApellidos());
+	}
+
+	@Test
+	public void testGettersAndSettersContraseña() {
+		Cliente cliente = new Cliente();
+		String contraseña = "1234ABCD";
+		cliente.setContraseña(contraseña);
+		assertEquals(contraseña, cliente.getContraseña());
+	}
+
+	@Test
+	public void testGettersAndSettersEntradas() {
+		Cliente cliente = new Cliente();
+		ArrayList<Entrada> entradas = null;
+		cliente.setEntradas(entradas);
+		assertNull(cliente.getEntradas());
 	}
 
 	@Test

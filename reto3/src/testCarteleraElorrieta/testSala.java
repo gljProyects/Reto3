@@ -1,16 +1,24 @@
 package testCarteleraElorrieta;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
+
+import carteleraElorrieta.bbdd.pojos.Cine;
+
+import carteleraElorrieta.bbdd.pojos.Emision;
 
 import carteleraElorrieta.bbdd.pojos.Sala;
 
 class testSala {
 	@Test
-	public void testGettersAndSetters() {
+	public void testGettersAndSettersCodSala() {
 		Sala sala = new Sala();
 		int cod_sala = 1;
 		sala.setCod_sala(cod_sala);
@@ -18,11 +26,34 @@ class testSala {
 	}
 
 	@Test
+	public void testGettersAndSetterNombre() {
+		Sala sala = new Sala();
+		String nombre = "Gonzalo";
+		sala.setNombre(nombre);
+		assertEquals(nombre, sala.getNombre());
+	}
+
+	@Test
+	public void testGettersAndSettersCine() {
+		Sala sala = new Sala();
+		Cine cine = null;
+		sala.setCine(cine);
+		assertNull(sala.getCine());
+	}
+
+	@Test
+	public void testGettersAndSettersEmisiones() {
+		Sala sala = new Sala();
+		ArrayList<Emision> emisiones = null;
+		sala.setEmisiones(emisiones);
+		assertNull(sala.getEmisiones());
+	}
+
+	@Test
 	public void testToString() {
 		Sala sala = new Sala();
 
-		String expected = "Sala [cod_sala=" + 0 + ", nombre=" + null + ", cine=" + null + ", emisiones=" + null
-				+ "]";
+		String expected = "Sala [cod_sala=" + 0 + ", nombre=" + null + ", cine=" + null + ", emisiones=" + null + "]";
 		sala.toString();
 		assertEquals(expected, sala.toString());
 	}
@@ -51,5 +82,4 @@ class testSala {
 
 	}
 
-	
 }

@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Emision implements Serializable {
 
 	private static final long serialVersionUID = 5714538808800220227L;
+
 	private int cod_emision;
 	private Date fecha;
 	private Date horario;
@@ -97,6 +98,10 @@ public class Emision implements Serializable {
 
 	public void setPelicula(Pelicula pelicula) {
 		this.pelicula = pelicula;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

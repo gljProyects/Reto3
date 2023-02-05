@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Sala implements Serializable {
 
 	private static final long serialVersionUID = 5066114702351219436L;
+
 	private int cod_sala;
 	private String nombre;
 	Cine cine = null;
@@ -66,6 +67,10 @@ public class Sala implements Serializable {
 
 	public void setEmisiones(ArrayList<Emision> emisiones) {
 		this.emisiones = emisiones;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

@@ -3,17 +3,21 @@ package testCarteleraElorrieta;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
+import carteleraElorrieta.bbdd.pojos.Cliente;
+import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Entrada;
 
 class testEntrada {
 
 	@Test
-	public void testGettersAndSetters() {
+	public void testGettersAndSettersCodEntrada() {
 		Entrada entrada = new Entrada();
 		int cod_entrada = 1;
 		entrada.setCod_entrada(cod_entrada);
@@ -21,11 +25,35 @@ class testEntrada {
 	}
 
 	@Test
+	public void testGettersAndSettersFechaCompra() {
+		Entrada entrada = new Entrada();
+		Date fecha_compra = null;
+		entrada.setFecha_compra(fecha_compra);
+		assertEquals(fecha_compra, entrada.getFecha_compra());
+	}
+
+	@Test
+	public void testGettersAndSettersCliente() {
+		Entrada entrada = new Entrada();
+		Cliente cliente = null;
+		entrada.setCliente(cliente);
+		assertNull(entrada.getCliente());
+	}
+
+	@Test
+	public void testGettersAndSetterEmision() {
+		Entrada entrada = new Entrada();
+		Emision emision = null;
+		entrada.setEmision(emision);
+		assertNull(entrada.getEmision());
+	}
+
+	@Test
 	public void testToString() {
 		Entrada entrada = new Entrada();
 
-		String expected = "Entrada [cod_entrada=" + 0 + ", fecha_compra=" + null + ", cliente=" + null
-				+ ", emision=" + null + "]";
+		String expected = "Entrada [cod_entrada=" + 0 + ", fecha_compra=" + null + ", cliente=" + null + ", emision="
+				+ null + "]";
 		entrada.toString();
 		assertEquals(expected, entrada.toString());
 	}

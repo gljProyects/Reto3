@@ -6,14 +6,13 @@ import java.util.Objects;
 
 public class Cine implements Serializable {
 
-	
 	private static final long serialVersionUID = -3879462207701133525L;
+
 	private int cod_cine;
 	private String direccion;
 	private int num_sala;
 	private String nombre;
 	ArrayList<Sala> salas = null;
-	
 
 	@Override
 	public String toString() {
@@ -78,6 +77,10 @@ public class Cine implements Serializable {
 
 	public void setSalas(ArrayList<Sala> salas) {
 		this.salas = salas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

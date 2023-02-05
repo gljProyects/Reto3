@@ -2,18 +2,22 @@ package testCarteleraElorrieta;
 
 import static org.junit.Assert.assertEquals;
 
+
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 
 class testPelicula {
 
 	@Test
-	public void testGettersAndSetters() {
+	public void testGettersAndSettersCodPelicula() {
 		Pelicula pelicula = new Pelicula();
 		int cod_pelicula = 1;
 		pelicula.setCod_pelicula(cod_pelicula);
@@ -21,11 +25,35 @@ class testPelicula {
 	}
 
 	@Test
+	public void testGettersAndSettersDuracion() {
+		Pelicula pelicula = new Pelicula();
+		int duracion = 1;
+		pelicula.setDuracion(duracion);
+		assertEquals(duracion, pelicula.getDuracion());
+	}
+
+	@Test
+	public void testGettersAndSetterGenero() {
+		Pelicula pelicula = new Pelicula();
+		String genero = "Drama";
+		pelicula.setGenero(genero);
+		assertEquals(genero, pelicula.getGenero());
+	}
+
+	@Test
+	public void testGettersAndSettersEntradas() {
+		Pelicula pelicula = new Pelicula();
+		ArrayList<Emision> emisiones = null;
+		pelicula.setEmisiones(emisiones);
+		assertNull(pelicula.getEmisiones());
+	}
+
+	@Test
 	public void testToString() {
 		Pelicula pelicula = new Pelicula();
 
-		String expected = "Pelicula [cod_pelicula=" + 0 + ", duracion=" + 0 + ", genero=" + null
-				+ ", emisiones=" + null + "]";
+		String expected = "Pelicula [cod_pelicula=" + 0 + ", duracion=" + 0 + ", genero=" + null + ", emisiones=" + null
+				+ "]";
 		pelicula.toString();
 		assertEquals(expected, pelicula.toString());
 	}
