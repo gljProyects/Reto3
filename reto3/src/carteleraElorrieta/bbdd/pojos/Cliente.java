@@ -6,24 +6,23 @@ import java.util.Objects;
 
 public class Cliente implements Serializable {
 
-	private static final long serialVersionUID = -1759377009045401343L;
+	private static final long serialVersionUID = -6166347644685758408L;
 	private String dni;
 	private String nombre;
-	private String apellido1;
-	private String apellido2;
+	private String apellidos;
 	private String contraseña;
 
 	ArrayList<Entrada> entradas = null;
 
 	@Override
 	public String toString() {
-		return "Cliente [dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1 + ", apellido2=" + apellido2
-				+ ", contraseña=" + contraseña + ", entradas=" + entradas + "]";
+		return "Cliente [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", contraseña=" + contraseña
+				+ ", entradas=" + entradas + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellido1, apellido2, contraseña, dni, entradas, nombre);
+		return Objects.hash(apellidos, contraseña, dni, entradas, nombre);
 	}
 
 	@Override
@@ -35,9 +34,9 @@ public class Cliente implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return Objects.equals(apellido1, other.apellido1) && Objects.equals(apellido2, other.apellido2)
-				&& Objects.equals(contraseña, other.contraseña) && Objects.equals(dni, other.dni)
-				&& Objects.equals(entradas, other.entradas) && Objects.equals(nombre, other.nombre);
+		return Objects.equals(apellidos, other.apellidos) && Objects.equals(contraseña, other.contraseña)
+				&& Objects.equals(dni, other.dni) && Objects.equals(entradas, other.entradas)
+				&& Objects.equals(nombre, other.nombre);
 	}
 
 	public String getDni() {
@@ -56,20 +55,12 @@ public class Cliente implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getApellido1() {
-		return apellido1;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setApellido1(String apellido1) {
-		this.apellido1 = apellido1;
-	}
-
-	public String getApellido2() {
-		return apellido2;
-	}
-
-	public void setApellido2(String apellido2) {
-		this.apellido2 = apellido2;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getContraseña() {
@@ -86,6 +77,10 @@ public class Cliente implements Serializable {
 
 	public void setEntradas(ArrayList<Entrada> entradas) {
 		this.entradas = entradas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }
