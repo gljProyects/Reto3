@@ -8,7 +8,11 @@ public class CarteleraElorrieta {
 		VentanasCartelera ventanasCartelera= new VentanasCartelera();
 		
 		ventanasCartelera.iniciar();
+		
 
+		
+		
+		
 	}
 
 }
