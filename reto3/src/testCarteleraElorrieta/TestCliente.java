@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import carteleraElorrieta.bbdd.pojos.Cliente;
 import carteleraElorrieta.bbdd.pojos.Entrada;
 
-class testCliente {
+class TestCliente {
 
 	@Test
 	public void testGettersAndSettersNombre() {

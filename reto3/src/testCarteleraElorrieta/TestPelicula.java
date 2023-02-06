@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 
-class testPelicula {
+class TestPelicula {
 
 	@Test
 	public void testGettersAndSettersCodPelicula() {

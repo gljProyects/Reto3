@@ -15,7 +15,7 @@ import carteleraElorrieta.bbdd.pojos.Entrada;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 import carteleraElorrieta.bbdd.pojos.Sala;
 
-class testEmision {
+class TestEmision {
 
 	@Test
 	public void testGettersAndSettersCodEmision() {

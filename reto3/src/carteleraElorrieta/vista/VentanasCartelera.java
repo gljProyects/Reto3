@@ -3,12 +3,11 @@ package carteleraElorrieta.vista;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JComboBox;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JLabel;
 
-public class VentanasElorrieta {
+public class VentanasCartelera {
 
 	private JFrame frame;
 
@@ -19,7 +18,7 @@ public class VentanasElorrieta {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanasElorrieta window = new VentanasElorrieta();
+					VentanasCartelera window = new VentanasCartelera();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,7 +30,7 @@ public class VentanasElorrieta {
 	/**
 	 * Create the application.
 	 */
-	public VentanasElorrieta() {
+	public VentanasCartelera() {
 		initialize();
 	}
 
@@ -40,20 +39,16 @@ public class VentanasElorrieta {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 650, 400);
+		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel panelPeliculas = new JPanel();
-		panelPeliculas.setBounds(0, 0, 634, 361);
-		frame.getContentPane().add(panelPeliculas);
-		panelPeliculas.setLayout(null);
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
 		
-		JComboBox<String> comboBoxEleccionPelicula = new JComboBox<String>();
-		comboBoxEleccionPelicula.setBounds(122, 96, 404, 22);
-		panelPeliculas.add(comboBoxEleccionPelicula);
-		
-		
-		
+		JLabel lblNewLabel = new JLabel("");
+		panel.add(lblNewLabel, BorderLayout.EAST);
 	}
+
 }

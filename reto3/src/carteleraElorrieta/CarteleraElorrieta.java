@@ -1,11 +1,11 @@
 package carteleraElorrieta;
 
-import carteleraElorrieta.vista.VentanasElorrieta;
+import carteleraElorrieta.vista.VentanasCartelera;
 
 public class CarteleraElorrieta {
 
 	public static void main(String[] args) {
-		VentanasElorrieta ventanasCartelera= new VentanasElorrieta();
+		VentanasCartelera ventanasCartelera= new VentanasCartelera();
 		
 		ventanasCartelera.iniciar();
 		

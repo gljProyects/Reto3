@@ -12,7 +12,7 @@ import org.junit.Test;
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Sala;
 
-public class testCine {
+public class TestCine {
 
 	@Test
 	public void testGettersAndSettersCodCine() {

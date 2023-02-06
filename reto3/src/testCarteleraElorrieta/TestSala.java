@@ -16,7 +16,7 @@ import carteleraElorrieta.bbdd.pojos.Emision;
 
 import carteleraElorrieta.bbdd.pojos.Sala;
 
-class testSala {
+class TestSala {
 	@Test
 	public void testGettersAndSettersCodSala() {
 		Sala sala = new Sala();
