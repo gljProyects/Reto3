@@ -10,38 +10,15 @@ public class Pelicula implements Serializable {
 
 	private static final long serialVersionUID = 4825478076256101165L;
 
+	//clave primaria
 	private int cod_pelicula;
+	
 	private int duracion;
 	private String genero;
 	private String nombre;
 
-	ArrayList<Emision> emisiones = null;
+	private ArrayList<Emision> emisiones = null;
 
-	
-
-	@Override
-	public String toString() {
-		return "Pelicula [cod_pelicula=" + cod_pelicula + ", duracion=" + duracion + ", genero=" + genero + ", nombre="
-				+ nombre + ", emisiones=" + emisiones + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(cod_pelicula, duracion, emisiones, genero);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pelicula other = (Pelicula) obj;
-		return cod_pelicula == other.cod_pelicula && duracion == other.duracion
-				&& Objects.equals(emisiones, other.emisiones) && Objects.equals(genero, other.genero);
-	}
 
 	public int getCod_pelicula() {
 		return cod_pelicula;
@@ -85,6 +62,30 @@ public class Pelicula implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	@Override
+	public String toString() {
+		return "Pelicula [cod_pelicula=" + cod_pelicula + ", duracion=" + duracion + ", genero=" + genero + ", nombre="
+				+ nombre + ", emisiones=" + emisiones + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cod_pelicula, duracion, emisiones, genero);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pelicula other = (Pelicula) obj;
+		return cod_pelicula == other.cod_pelicula && duracion == other.duracion
+				&& Objects.equals(emisiones, other.emisiones) && Objects.equals(genero, other.genero);
 	}
 
 }

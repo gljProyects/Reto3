@@ -1,14 +1,17 @@
 package carteleraElorrieta.bbdd.pojos;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.Objects;
 
 public class Entrada implements Serializable {
 
 	private static final long serialVersionUID = 4196253156002190181L;
-
+	
+	//clave primaria
 	private int cod_entrada;
+	
 	private Date fecha_compra;
 	Cliente cliente = null;
 	Emision emision = null;

@@ -9,14 +9,17 @@ import java.util.Objects;
 public class Emision implements Serializable {
 
 	private static final long serialVersionUID = 5714538808800220227L;
-
+	
+	//clave primaria
 	private int cod_emision;
+	
 	private Date fecha;
 	private Date horario;
 	private int precio;
-	ArrayList<Entrada> entradas = null;
-	Sala sala = null;
-	Pelicula pelicula = null;
+	
+	private ArrayList<Entrada> entradas = null;
+	private Sala sala = null;
+	private Pelicula pelicula = null;
 
 	@Override
 	public String toString() {

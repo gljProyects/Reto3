@@ -1,5 +1,7 @@
 package carteleraElorrieta;
 
+
+
 import carteleraElorrieta.vista.VentanasCartelera;
 
 public class CarteleraElorrieta {
@@ -9,8 +11,6 @@ public class CarteleraElorrieta {
 		
 		ventanasCartelera.iniciar();
 		
-		
-
 			
 		
 	}

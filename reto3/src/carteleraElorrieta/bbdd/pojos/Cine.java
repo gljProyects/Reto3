@@ -4,40 +4,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
 public class Cine implements Serializable {
 
 	private static final long serialVersionUID = -3879462207701133525L;
 
+	// clave primaria
 	private int cod_cine;
+
+	// atributos
 	private String direccion;
 	private int num_sala;
 	private String nombre;
+	
+	// relacion 1:N con sala
 	ArrayList<Sala> salas = null;
 
-	@Override
-	public String toString() {
-		return "Cine [cod_cine=" + cod_cine + ", direccion=" + direccion + ", num_sala=" + num_sala + ", nombre="
-				+ nombre + ", salas=" + salas + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(cod_cine, direccion, nombre, num_sala, salas);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cine other = (Cine) obj;
-		return cod_cine == other.cod_cine && Objects.equals(direccion, other.direccion)
-				&& Objects.equals(nombre, other.nombre) && num_sala == other.num_sala
-				&& Objects.equals(salas, other.salas);
-	}
+	
 
 	public int getCod_cine() {
 		return cod_cine;
@@ -81,6 +64,31 @@ public class Cine implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	@Override
+	public String toString() {
+		return "Cine [cod_cine=" + cod_cine + ", direccion=" + direccion + ", num_sala=" + num_sala + ", nombre="
+				+ nombre + ", salas=" + salas + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cod_cine, direccion, nombre, num_sala, salas);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cine other = (Cine) obj;
+		return cod_cine == other.cod_cine && Objects.equals(direccion, other.direccion)
+				&& Objects.equals(nombre, other.nombre) && num_sala == other.num_sala
+				&& Objects.equals(salas, other.salas);
 	}
 
 }

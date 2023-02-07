@@ -12,23 +12,14 @@ import carteleraElorrieta.bbdd.utils.DBUtils;
 
 // Clase para trabajar con la tabla alumno
 public class GestorBBDD {
-	GestorBBDD dBAccessExample = new GestorBBDD();
-	ArrayList<Pelicula> peliculas = dBAccessExample.getAllEjemplos();
-	{
-
-		for (int i = 0; i < peliculas.size(); i++) {
-			mostrarAlumno((peliculas.get(i)));
-		}
-
-	}
 
 	// Retorna todas las filas de la tabla alumno
 	// Si no hay nada, retorna NULL
-	private ArrayList<Pelicula> getAllEjemplos() {
+	public ArrayList<Pelicula> sacarTodasLasPeliculas() {
 		ArrayList<Pelicula> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * from pelicula";
+		String sql = "select * from  pelicula";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -55,24 +46,25 @@ public class GestorBBDD {
 
 				// Si es necesario, inicializamos la lista
 				if (null == ret)
-					ret = new <Pelicula>ArrayList();
+					ret = new ArrayList<Pelicula>();
 
 				Pelicula pelicula = new Pelicula();
 
 				// Sacamos las columnas del RS
 				int cod_pelicula = resultSet.getInt("cod_pelicula");
-				String duracion = resultSet.getString("duracion");
+				int duracion = resultSet.getInt("duracion");
 				String genero = resultSet.getString("genero");
-				int edad = resultSet.getInt("edad");
+				String nombre = resultSet.getString("nombre");
 
 				// Metemos los datos a Ejemplo
-				// alumno.setId(id);
-				// alumno.setNombre(nombre);
-				// alumno.setApellidos(apellidos);
-				// alumno.setEdad(edad);
-
+				pelicula.setCod_pelicula(cod_pelicula);
+				pelicula.setDuracion(duracion);
+				pelicula.setGenero(genero);
+				pelicula.setNombre(nombre);
 				// Lo guardamos en ret
-				// ret.add(alumno);
+				 ret.add(pelicula);
+				
+				
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Error con la BBDD - " + sqle.getMessage());
@@ -105,12 +97,5 @@ public class GestorBBDD {
 		return ret;
 	}
 
-	public void mostrarAlumno(Pelicula ejemplo) {
-		System.out.println("-------------------------------------");
-		System.out.println("Id - " + ejemplo.getCod_pelicula());
-		System.out.println("Nombre - " + ejemplo.getDuracion());
-		System.out.println("Apellidos - " + ejemplo.getGenero());
-		System.out.println("Edad - " + ejemplo.getEmisiones());
-		System.out.println("-------------------------------------");
-	};
+
 }

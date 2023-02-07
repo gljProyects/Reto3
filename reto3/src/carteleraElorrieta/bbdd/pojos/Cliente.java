@@ -7,7 +7,10 @@ import java.util.Objects;
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = -6166347644685758408L;
+	
+	//clave primaria
 	private String dni;
+	
 	private String nombre;
 	private String apellidos;
 	private String contraseña;
