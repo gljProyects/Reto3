@@ -2,7 +2,6 @@ package testCarteleraElorrieta;
 
 import static org.junit.Assert.assertEquals;
 
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -41,6 +40,14 @@ class TestPelicula {
 	}
 
 	@Test
+	public void testGettersAndSetterNomrbe() {
+		Pelicula pelicula = new Pelicula();
+		String nombre = "Pepito";
+		pelicula.setGenero(nombre);
+		assertEquals(nombre, pelicula.getGenero());
+	}
+
+	@Test
 	public void testGettersAndSettersEntradas() {
 		Pelicula pelicula = new Pelicula();
 		ArrayList<Emision> emisiones = null;
@@ -52,8 +59,8 @@ class TestPelicula {
 	public void testToString() {
 		Pelicula pelicula = new Pelicula();
 
-		String expected = "Pelicula [cod_pelicula=" + 0 + ", duracion=" + 0 + ", genero=" + null + ", emisiones=" + null
-				+ "]";
+		String expected = "Pelicula [cod_pelicula=" + 0 + ", duracion=" + 0 + ", genero=" + null + ", nombre=" + null
+				+ ", emisiones=" + null + "]";
 		pelicula.toString();
 		assertEquals(expected, pelicula.toString());
 	}

@@ -9,17 +9,20 @@ import java.util.Objects;
 public class Pelicula implements Serializable {
 
 	private static final long serialVersionUID = 4825478076256101165L;
-	
+
 	private int cod_pelicula;
 	private int duracion;
 	private String genero;
+	private String nombre;
 
 	ArrayList<Emision> emisiones = null;
 
+	
+
 	@Override
 	public String toString() {
-		return "Pelicula [cod_pelicula=" + cod_pelicula + ", duracion=" + duracion + ", genero=" + genero
-				+ ", emisiones=" + emisiones + "]";
+		return "Pelicula [cod_pelicula=" + cod_pelicula + ", duracion=" + duracion + ", genero=" + genero + ", nombre="
+				+ nombre + ", emisiones=" + emisiones + "]";
 	}
 
 	@Override
@@ -68,12 +71,20 @@ public class Pelicula implements Serializable {
 		return emisiones;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public void setEmisiones(ArrayList<Emision> emisiones) {
 		this.emisiones = emisiones;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 
 }
