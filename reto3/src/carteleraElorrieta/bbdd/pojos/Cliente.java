@@ -11,13 +11,16 @@ public class Cliente implements Serializable {
 	private String nombre;
 	private String apellidos;
 	private String contraseña;
-
+	private String sexo;
+	
 	ArrayList<Entrada> entradas = null;
+
+	
 
 	@Override
 	public String toString() {
 		return "Cliente [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", contraseña=" + contraseña
-				+ ", entradas=" + entradas + "]";
+				+ ", sexo=" + sexo + ", entradas=" + entradas + "]";
 	}
 
 	@Override
@@ -82,5 +85,14 @@ public class Cliente implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+	
 
 }

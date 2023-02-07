@@ -46,7 +46,7 @@ public class VentanasCartelera {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(450, 200, 800, 550);
+		frame.setBounds(250, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -58,6 +58,7 @@ public class VentanasCartelera {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(143, 146, 432, 22);
 		panelEleccionPelicula.add(comboBox);
+		panelEleccionPelicula.setVisible(false);
 		
 		
 		
@@ -140,7 +141,7 @@ public class VentanasCartelera {
 			}
 		});
 		
-
+		
 
 	}
 

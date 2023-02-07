@@ -47,6 +47,14 @@ class TestCliente {
 	}
 
 	@Test
+	public void testGettersAndSettersSexo() {
+		Cliente cliente = new Cliente();
+		String sexo = "Mujer";
+		cliente.setContraseña(sexo);
+		assertEquals(sexo, cliente.getContraseña());
+	}
+
+	@Test
 	public void testGettersAndSettersEntradas() {
 		Cliente cliente = new Cliente();
 		ArrayList<Entrada> entradas = null;
@@ -59,7 +67,7 @@ class TestCliente {
 		Cliente cliente = new Cliente();
 
 		String expected = "Cliente [dni=" + null + ", nombre=" + null + ", apellidos=" + null + ", contraseña=" + null
-				+ ", entradas=" + null + "]";
+				+ ", sexo=" + null + ", entradas=" + null + "]";
 		cliente.toString();
 		assertEquals(expected, cliente.toString());
 	}
