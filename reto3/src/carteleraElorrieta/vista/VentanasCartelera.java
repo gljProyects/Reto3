@@ -64,6 +64,11 @@ public class VentanasCartelera {
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(143, 146, 432, 22);
 		panelEleccionPelicula.add(comboBox);
+		
+		JLabel lblNewLabel = new JLabel("SELECCIONA LA PELCULA QUE QUIERAS VER");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(156, 113, 510, 22);
+		panelEleccionPelicula.add(lblNewLabel);
 		panelEleccionPelicula.setVisible(false);
 
 		JPanel panelBienvenida = new JPanel();
