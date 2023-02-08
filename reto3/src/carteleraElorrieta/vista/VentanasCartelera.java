@@ -151,7 +151,7 @@ public class VentanasCartelera {
 
 			private void eleccionCines(JComboBox<String> comboBoxEleccionCine) {
 				GestorBBDD gestorBBDD = new GestorBBDD();
-				ArrayList<Cine> cines = gestorBBDD.sacarTodosLosCines();
+				ArrayList<Cine> cines = gestorBBDD.sacarTodosLosCiness();
 				for (int i = 0; i < cines.size(); i++) {
 					comboBoxEleccionCine.addItem(cines.get(i).getNombre());
 				}

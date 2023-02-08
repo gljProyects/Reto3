@@ -99,7 +99,7 @@ public class GestorBBDD {
 		return ret;
 	}
 
-	public ArrayList<Cine> sacarTodosLosCines() {
+	public ArrayList<Cine> sacarTodosLosCiness() {
 		ArrayList<Cine> ret = null;
 
 		// SQL que queremos lanzar
