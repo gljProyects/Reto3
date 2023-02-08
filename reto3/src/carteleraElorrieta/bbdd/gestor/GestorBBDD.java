@@ -1,6 +1,7 @@
 package carteleraElorrieta.bbdd.gestor;
 
 import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,30 +9,35 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 import carteleraElorrieta.bbdd.utils.DBUtils;
 
+import java.sql.PreparedStatement;
 // Clase para trabajar con la tabla alumno
 public class GestorBBDD {
-
+	
+	
 	// Retorna todas las filas de la tabla alumno
 	// Si no hay nada, retorna NULL
-	public ArrayList<Pelicula> sacarTodasLasPeliculas() {
+	public ArrayList<Pelicula> sacarPeliculasPorCine(String cineSeleccionado) {
+		
 		ArrayList<Pelicula> ret = null;
 
+		
 		// SQL que queremos lanzar
-		String sql = "select * from pelicula p join emision e on p.cod_pelicula=e.cod_pelicula join sala s on s.cod_sala=e.cod_sala where cod_cine=1";
-
+		String sql = "select * from pelicula p join emision e on p.cod_pelicula=e.cod_pelicula join sala s on s.cod_sala=e.cod_sala join cine c on s.cod_cine=c.cod_cine where c.nombre= ? group by p.nombre order by fecha and horario ";
+		
 		// La conexion con BBDD
 		Connection connection = null;
 
 		// Vamos a lanzar una sentencia SQL contra la BBDD
 		// Result set va a contener todo lo que devuelve la BBDD
-		Statement statement = null;
+		
 		ResultSet resultSet = null;
-
+		PreparedStatement preparedStatement = null;
 		try {
 			// El Driver que vamos a usar
 			Class.forName(DBUtils.DRIVER);
@@ -40,8 +46,9 @@ public class GestorBBDD {
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
 			// Vamos a lanzar la sentencia...
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1,cineSeleccionado);
+			resultSet = preparedStatement.executeQuery();
 
 			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
 			// Hay que ir 1 por 1 y guardandolo todo en su objeto Ejemplo correspondiente
@@ -82,8 +89,8 @@ public class GestorBBDD {
 			}
 			;
 			try {
-				if (statement != null)
-					statement.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
 			} catch (Exception e) {
 				// No hace falta
 			}
