@@ -30,13 +30,7 @@ public class TestCine {
 		assertEquals(direccion, cine.getDireccion());
 	}
 
-	@Test
-	public void testGettersAndSettersNumSala() {
-		Cine cine = new Cine();
-		int num_sala = 1;
-		cine.setNum_sala(num_sala);
-		assertEquals(num_sala, cine.getNum_sala());
-	}
+
 
 	@Test
 	public void testGettersAndSettersNombre() {
@@ -58,8 +52,8 @@ public class TestCine {
 	public void testToString() {
 		Cine cine = new Cine();
 
-		String expected = "Cine [cod_cine=" + 0 + ", direccion=" + null + ", num_sala=" + 0 + ", nombre=" + null
-				+ ", salas=" + null + "]";
+		String expected = "Cine [cod_cine=" + 0 + ", direccion=" + null + ", nombre=" + null + ", salas=" + null
+				+ "]";
 		cine.toString();
 		assertEquals(expected, cine.toString());
 	}

@@ -1,7 +1,6 @@
 package carteleraElorrieta.bbdd.pojos;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;

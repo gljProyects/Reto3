@@ -2,6 +2,7 @@ package carteleraElorrieta.bbdd.gestor;
 
 import java.sql.Connection;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -143,13 +144,11 @@ public class GestorBBDD {
 
 				// Sacamos las columnas del RS
 				int cod_cine = resultSet.getInt("cod_cine");
-				int num_sala = resultSet.getInt("num_sala");
 				String direccion = resultSet.getString("direccion");
 				String nombre = resultSet.getString("nombre");
 
 				// Metemos los datos a Ejemplo
 				cine.setCod_cine(cod_cine);
-				cine.setNum_sala(num_sala);
 				cine.setDireccion(direccion);
 				cine.setNombre(nombre);
 				// Lo guardamos en ret
@@ -187,19 +186,20 @@ public class GestorBBDD {
 		return ret;
 	}
 
-	public ArrayList<Emision> sacarTodosLasEmisiones() {
+	public ArrayList<Emision> sacarEmisionesPorPeliculas(String peliculaSeleccionada) {
 		ArrayList<Emision> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * from emision";
+		String sql = "select * from emision e join pelicula p on e.cod_pelicula=p.cod_pelicula where p.nombre=?";
 
 		// La conexion con BBDD
 		Connection connection = null;
 
 		// Vamos a lanzar una sentencia SQL contra la BBDD
 		// Result set va a contener todo lo que devuelve la BBDD
-		Statement statement = null;
+		
 		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
 
 		try {
 			// El Driver que vamos a usar
@@ -209,8 +209,9 @@ public class GestorBBDD {
 			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
 
 			// Vamos a lanzar la sentencia...
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1,peliculaSeleccionada);
+			resultSet = preparedStatement.executeQuery();
 
 			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
 			// Hay que ir 1 por 1 y guardandolo todo en su objeto Ejemplo correspondiente
@@ -251,8 +252,8 @@ public class GestorBBDD {
 			}
 			;
 			try {
-				if (statement != null)
-					statement.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
 			} catch (Exception e) {
 				// No hace falta
 			}

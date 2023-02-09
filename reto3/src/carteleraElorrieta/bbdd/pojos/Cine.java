@@ -14,13 +14,18 @@ public class Cine implements Serializable {
 
 	// atributos
 	private String direccion;
-	private int num_sala;
 	private String nombre;
 	
 	// relacion 1:N con sala
 	ArrayList<Sala> salas = null;
 
 	
+
+	@Override
+	public String toString() {
+		return "Cine [cod_cine=" + cod_cine + ", direccion=" + direccion + ", nombre=" + nombre + ", salas=" + salas
+				+ "]";
+	}
 
 	public int getCod_cine() {
 		return cod_cine;
@@ -38,13 +43,6 @@ public class Cine implements Serializable {
 		this.direccion = direccion;
 	}
 
-	public int getNum_sala() {
-		return num_sala;
-	}
-
-	public void setNum_sala(int num_sala) {
-		this.num_sala = num_sala;
-	}
 
 	public String getNombre() {
 		return nombre;
@@ -66,15 +64,10 @@ public class Cine implements Serializable {
 		return serialVersionUID;
 	}
 	
-	@Override
-	public String toString() {
-		return "Cine [cod_cine=" + cod_cine + ", direccion=" + direccion + ", num_sala=" + num_sala + ", nombre="
-				+ nombre + ", salas=" + salas + "]";
-	}
-
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(cod_cine, direccion, nombre, num_sala, salas);
+		return Objects.hash(cod_cine, direccion, nombre, salas);
 	}
 
 	@Override
@@ -87,7 +80,7 @@ public class Cine implements Serializable {
 			return false;
 		Cine other = (Cine) obj;
 		return cod_cine == other.cod_cine && Objects.equals(direccion, other.direccion)
-				&& Objects.equals(nombre, other.nombre) && num_sala == other.num_sala
+				&& Objects.equals(nombre, other.nombre)
 				&& Objects.equals(salas, other.salas);
 	}
 
