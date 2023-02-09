@@ -92,11 +92,16 @@ public class VentanasCartelera {
 		panelSeleccionCine.setLayout(null);
 		panelSeleccionCine.setVisible(false);
 
+		
+		JComboBox<Date> comboBoxEmision = new JComboBox<Date>();
+		comboBoxEmision.setBounds(74, 139, 306, 29);
+		panelSeleccionEmision.add(comboBoxEmision);
 		JButton botonAceptarEleccionPeliculas = new JButton("Aceptar");
 		botonAceptarEleccionPeliculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				mostrarPantallaElecionEmision(panelEleccionPelicula, panelSeleccionEmision);
+				elegirPelicula(comboBoxEmision,comboBoxPeliculas);
 			}
 
 		});
@@ -190,9 +195,7 @@ public class VentanasCartelera {
 		lblNewLabelEmision.setBounds(74, 80, 445, 29);
 		panelSeleccionEmision.add(lblNewLabelEmision);
 
-		JComboBox<Date> comboBoxEmision = new JComboBox<Date>();
-		comboBoxEmision.setBounds(74, 139, 306, 29);
-		panelSeleccionEmision.add(comboBoxEmision);
+		
 
 		JButton ButtonCancelarEmision = new JButton("Cancelar");
 		ButtonCancelarEmision.addActionListener(new ActionListener() {
@@ -209,8 +212,8 @@ public class VentanasCartelera {
 		ButtonSeleccionarEmision.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				elegirPelicula(comboBoxEmision,comboBoxPeliculas );
-
+				
+				
 			}
 
 		});
@@ -262,6 +265,7 @@ public class VentanasCartelera {
 	private void mostrarPantallaElecionEmision(JPanel panelEleccionPelicula, JPanel panelSeleccionEmision) {
 		panelEleccionPelicula.setVisible(false);
 		panelSeleccionEmision.setVisible(true);
+		
 
 	}
 
