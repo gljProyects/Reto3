@@ -28,8 +28,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 public class VentanasCartelera {
-	private String[] imagePaths = { "img/logocine.png", "img/cineBilbao.png", "img/cineMadrid.png",
-			"img/cinePamplona.png", "img/imagenSalir.png" };
+	
 	private JFrame frame;
 
 	/**
@@ -64,16 +63,6 @@ public class VentanasCartelera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel panelFinalizar = new JPanel();
-		panelFinalizar.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelFinalizar);
-		panelFinalizar.setLayout(null);
-		panelFinalizar.setVisible(false);
-		JLabel labelPantallaFin = new JLabel("SE HA FINALIZADO LA SESION");
-		labelPantallaFin.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelPantallaFin.setBounds(145, 23, 349, 50);
-		panelFinalizar.add(labelPantallaFin);
-		
 		JPanel panelEleccionPelicula = new JPanel();
 		panelEleccionPelicula.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelEleccionPelicula);
@@ -93,23 +82,48 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelSeleccionEmision);
 		panelSeleccionEmision.setLayout(null);
 		panelSeleccionEmision.setVisible(false);
+		
+		JPanel panelSeleccionCine = new JPanel();
+		panelSeleccionCine.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelSeleccionCine);
+		panelSeleccionCine.setLayout(null);
+		panelSeleccionCine.setVisible(false);
 
 		JButton botonAceptarEleccionPeliculas = new JButton("Aceptar");
 		botonAceptarEleccionPeliculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				mostrarPantallaElecionEmision();
+				mostrarPantallaElecionEmision(panelEleccionPelicula,panelSeleccionEmision);
 			}
 
-			private void mostrarPantallaElecionEmision() {
-				panelEleccionPelicula.setVisible(false);
-				panelSeleccionEmision.setVisible(true);
-
-			}
+			
 		});
 		botonAceptarEleccionPeliculas.setBounds(437, 268, 138, 23);
 		panelEleccionPelicula.add(botonAceptarEleccionPeliculas);
+		
+		JButton botonVolverAEleccionCine = new JButton("Atras");
+		botonVolverAEleccionCine.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				volverAEleccionCine(panelEleccionPelicula,panelSeleccionCine);
+			}
+
+			
+		});
+		botonVolverAEleccionCine.setBounds(143, 295, 101, 23);
+		panelEleccionPelicula.add(botonVolverAEleccionCine);
 		panelEleccionPelicula.setVisible(false);
+		
+		JPanel panelFinalizar = new JPanel();
+		panelFinalizar.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelFinalizar);
+		panelFinalizar.setLayout(null);
+		panelFinalizar.setVisible(false);
+		JLabel labelPantallaFin = new JLabel("SE HA FINALIZADO LA SESION");
+		labelPantallaFin.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		labelPantallaFin.setBounds(145, 23, 349, 50);
+		panelFinalizar.add(labelPantallaFin);
+		
+		
 
 		JPanel panelBienvenida = new JPanel();
 		panelBienvenida.setBounds(0, 0, 784, 511);
@@ -120,11 +134,7 @@ public class VentanasCartelera {
 		panelBienvenida.add(LabelFotoBienvenida, BorderLayout.CENTER);
 		addImage(panelBienvenida, LabelFotoBienvenida, 0);
 
-		JPanel panelSeleccionCine = new JPanel();
-		panelSeleccionCine.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelSeleccionCine);
-		panelSeleccionCine.setLayout(null);
-		panelSeleccionCine.setVisible(false);
+		
 
 		JComboBox<String> comboBoxEleccionCine = new JComboBox<String>();
 		comboBoxEleccionCine.setBounds(334, 95, 299, 22);
@@ -177,7 +187,8 @@ public class VentanasCartelera {
 
 			}
 		});
-
+		
+		
 		JLabel lblNewLabelEmision = new JLabel("SELECCIONA LA SESION A LA QUE QUIERES IR");
 		lblNewLabelEmision.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabelEmision.setBounds(74, 80, 445, 29);
@@ -233,6 +244,8 @@ public class VentanasCartelera {
 	}
 
 	private void addImage(JPanel panel, JLabel label, int i) {
+		 String[] imagePaths = { "img/logocine.png", "img/cineBilbao.png", "img/cineMadrid.png",
+				"img/cinePamplona.png", "img/imagenSalir.png" };
 		ImageIcon icon = new ImageIcon(imagePaths[i]);
 		Image img = icon.getImage();
 		Image resizedImg = img.getScaledInstance(panel.getWidth(), panel.getHeight(), Image.SCALE_SMOOTH);
@@ -253,5 +266,15 @@ public class VentanasCartelera {
 			comboBoxPeliculas.addItem(peliculas.get(i).getNombre());
 		}
 
+	}
+	private void mostrarPantallaElecionEmision(JPanel panelEleccionPelicula,JPanel panelSeleccionEmision) {
+		panelEleccionPelicula.setVisible(false);
+		panelSeleccionEmision.setVisible(true);
+
+	}
+	private void volverAEleccionCine(JPanel panelEleccionPelicula,JPanel panelSeleccionCine) {
+		panelEleccionPelicula.setVisible(false);
+		panelSeleccionCine.setVisible(true);
+		
 	}
 }
