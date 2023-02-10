@@ -15,6 +15,8 @@ import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -27,10 +29,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class VentanasCartelera {
 
 	private JFrame frame;
+
 	/**
 	 * Launch the application.
 	 */
@@ -89,6 +93,19 @@ public class VentanasCartelera {
 		panelSeleccionCine.setLayout(null);
 		panelSeleccionCine.setVisible(false);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(523, 102, 217, 231);
+		panelSeleccionEmision.add(scrollPane);
+
+		JTable tablaEmisionesCompletas = new JTable();
+		tablaEmisionesCompletas.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
+		scrollPane.setViewportView(tablaEmisionesCompletas);
+		Object[] columnasTablaEmisiones = { "Horario", "Precio", "Sala" };
+
+		DefaultTableModel eModel = new DefaultTableModel();
+		eModel.setColumnIdentifiers(columnasTablaEmisiones);
+		tablaEmisionesCompletas.setModel(eModel);
+
 		JComboBox<Date> comboBoxEmision = new JComboBox<Date>();
 		comboBoxEmision.setBounds(74, 139, 306, 29);
 		panelSeleccionEmision.add(comboBoxEmision);
@@ -98,6 +115,8 @@ public class VentanasCartelera {
 
 				mostrarPantallaElecionEmision(panelEleccionPelicula, panelSeleccionEmision);
 				elegirPelicula(comboBoxEmision, comboBoxPeliculas);
+				tablaEmisionesCompletas.removeAll();
+				eModel.setRowCount(0);
 			}
 
 		});
@@ -193,29 +212,37 @@ public class VentanasCartelera {
 		ButtonCancelarEmision.setBounds(243, 297, 89, 23);
 		panelSeleccionEmision.add(ButtonCancelarEmision);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(523, 102, 217, 231);
-		panelSeleccionEmision.add(scrollPane);
-
-		JTable tablaEmisionesCompletas = new JTable();
-		tablaEmisionesCompletas.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
-		scrollPane.setViewportView(tablaEmisionesCompletas);
 		JButton ButtonSeleccionarEmision = new JButton("Seleccionar");
 		ButtonSeleccionarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		ButtonSeleccionarEmision.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				elegirFecha(tablaEmisionesCompletas, comboBoxEmision);
-			}
 
+				elegirFecha(comboBoxEmision, tablaEmisionesCompletas, eModel);
+			}
 		});
 		ButtonSeleccionarEmision.setBounds(80, 245, 115, 23);
 		panelSeleccionEmision.add(ButtonSeleccionarEmision);
 
 		JButton botonAceptarEmisionCompleta = new JButton("Aceptar");
+		botonAceptarEmisionCompleta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				emisionElegida();
+			}
+
+			private void emisionElegida() {
+				JFrame frame = new JFrame();
+				String[] options = new String[3];
+				options[0] = "Cancelar";
+				options[1] = "Domingo";
+				options[2] = "S\u00E1bado";
+				
+				int fechaSeleccionada = tablaEmisionesCompletas.getSelectedRow();
+				
+				JOptionPane.showOptionDialog(frame.getContentPane(),
+						"La pelicula ha sido añadida", "Selecci\u00F3n d\u00EDa", 0,
+						JOptionPane.INFORMATION_MESSAGE, null, options, null);
+				
+			}
+		});
 		botonAceptarEmisionCompleta.setBounds(500, 359, 89, 23);
 		panelSeleccionEmision.add(botonAceptarEmisionCompleta);
 
@@ -307,20 +334,22 @@ public class VentanasCartelera {
 
 	private void añadirEmisionCompletaTabla(JTable tablaEmisionesCompletas, String fechaSeleccionada,
 			DefaultTableModel eModel) {
-		GestorBBDD gestorBBDD = new GestorBBDD();
-		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada);
-		tablaEmisionesCompletas.removeAll();
 
-		DefaultTableModel model = (DefaultTableModel) tablaEmisionesCompletas.getModel();
-		model.setRowCount(0);
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		Emision emision = new Emision();
+
+		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada);
+
+		tablaEmisionesCompletas.removeAll();
+		eModel.setRowCount(0);
 
 		for (int i = 0; i < emisiones.size(); i++) {
-			String[] partes = emisiones.toString().split(",");
-			String hora = partes[0];
-			String precio = partes[1];
-			String sala = partes[2];
+			emision = emisiones.get(i);
+			String hora = emision.getHorario().toString();
+			String precio = "" + emision.getPrecio();
+			String sala = emision.getSala().getNombre();
 
-			model.addRow(new Object[] { emisiones, precio , sala });
+			eModel.addRow(new String[] { hora, precio, sala });
 		}
 
 	}
