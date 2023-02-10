@@ -2,7 +2,6 @@ package carteleraElorrieta.vista;
 
 import java.awt.EventQueue;
 
-
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -25,13 +24,13 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanasCartelera {
 
 	private JFrame frame;
-
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +68,7 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelSeleccionEmision);
 		panelSeleccionEmision.setLayout(null);
 		panelSeleccionEmision.setVisible(false);
-		
+
 		JPanel panelEleccionPelicula = new JPanel();
 		panelEleccionPelicula.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelEleccionPelicula);
@@ -84,15 +83,12 @@ public class VentanasCartelera {
 		lblNewLabelPelicula.setBounds(156, 113, 510, 22);
 		panelEleccionPelicula.add(lblNewLabelPelicula);
 
-		
-
 		JPanel panelSeleccionCine = new JPanel();
 		panelSeleccionCine.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelSeleccionCine);
 		panelSeleccionCine.setLayout(null);
 		panelSeleccionCine.setVisible(false);
 
-		
 		JComboBox<Date> comboBoxEmision = new JComboBox<Date>();
 		comboBoxEmision.setBounds(74, 139, 306, 29);
 		panelSeleccionEmision.add(comboBoxEmision);
@@ -101,7 +97,7 @@ public class VentanasCartelera {
 			public void actionPerformed(ActionEvent e) {
 
 				mostrarPantallaElecionEmision(panelEleccionPelicula, panelSeleccionEmision);
-				elegirPelicula(comboBoxEmision,comboBoxPeliculas);
+				elegirPelicula(comboBoxEmision, comboBoxPeliculas);
 			}
 
 		});
@@ -180,14 +176,6 @@ public class VentanasCartelera {
 
 			}
 
-			private void añadirCinesComboBox(JComboBox<String> comboBoxEleccionCine) {
-				GestorBBDD gestorBBDD = new GestorBBDD();
-				ArrayList<Cine> cines = gestorBBDD.sacarTodosLosCiness();
-				for (int i = 0; i < cines.size(); i++) {
-					comboBoxEleccionCine.addItem(cines.get(i).getNombre());
-				}
-
-			}
 		});
 
 		JLabel lblNewLabelEmision = new JLabel("SELECCIONA LA SESION A LA QUE QUIERES IR");
@@ -195,37 +183,41 @@ public class VentanasCartelera {
 		lblNewLabelEmision.setBounds(74, 80, 445, 29);
 		panelSeleccionEmision.add(lblNewLabelEmision);
 
-		
-
 		JButton ButtonCancelarEmision = new JButton("Cancelar");
 		ButtonCancelarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				volverAEleccionPeliculas(panelEleccionPelicula,panelSeleccionEmision);
+				volverAEleccionPeliculas(panelEleccionPelicula, panelSeleccionEmision);
 			}
 
-			
 		});
 		ButtonCancelarEmision.setBounds(243, 297, 89, 23);
 		panelSeleccionEmision.add(ButtonCancelarEmision);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(523, 102, 217, 231);
+		panelSeleccionEmision.add(scrollPane);
+
+		JTable tablaEmisionesCompletas = new JTable();
+		tablaEmisionesCompletas.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
+		scrollPane.setViewportView(tablaEmisionesCompletas);
 		JButton ButtonSeleccionarEmision = new JButton("Seleccionar");
+		ButtonSeleccionarEmision.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		ButtonSeleccionarEmision.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				
+				elegirFecha(tablaEmisionesCompletas, comboBoxEmision);
 			}
 
 		});
-		ButtonSeleccionarEmision.setBounds(80, 245, 89, 23);
+		ButtonSeleccionarEmision.setBounds(80, 245, 115, 23);
 		panelSeleccionEmision.add(ButtonSeleccionarEmision);
 
-		JScrollPane scrollPaneSeleccionEmision = new JScrollPane();
-		scrollPaneSeleccionEmision.setBounds(581, 96, 193, 297);
-		panelSeleccionEmision.add(scrollPaneSeleccionEmision);
-
-		JTable tableSeleccionEmision = new JTable();
-		scrollPaneSeleccionEmision.setViewportView(tableSeleccionEmision);
+		JButton botonAceptarEmisionCompleta = new JButton("Aceptar");
+		botonAceptarEmisionCompleta.setBounds(500, 359, 89, 23);
+		panelSeleccionEmision.add(botonAceptarEmisionCompleta);
 
 	}
 
@@ -253,6 +245,11 @@ public class VentanasCartelera {
 
 	}
 
+	public void elegirFecha(JComboBox<Date> comboBoxEmision, JTable tablaEmisionesCompletas, DefaultTableModel model) {
+		String fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
+		añadirEmisionCompletaTabla(tablaEmisionesCompletas, fechaSeleccionada, model);
+	}
+
 	private void añadirPeliculasComboBox(JComboBox<String> comboBoxPeliculas, String cineSeleccionado) {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Pelicula> peliculas = gestorBBDD.sacarPeliculasPorCine(cineSeleccionado);
@@ -265,7 +262,6 @@ public class VentanasCartelera {
 	private void mostrarPantallaElecionEmision(JPanel panelEleccionPelicula, JPanel panelSeleccionEmision) {
 		panelEleccionPelicula.setVisible(false);
 		panelSeleccionEmision.setVisible(true);
-		
 
 	}
 
@@ -274,27 +270,63 @@ public class VentanasCartelera {
 		panelSeleccionCine.setVisible(true);
 
 	}
+
 	private void volverAEleccionPeliculas(JPanel panelEleccionPelicula, JPanel panelSeleccionEmision) {
-		
+
 		panelSeleccionEmision.setVisible(false);
 		panelEleccionPelicula.setVisible(true);
-		
+
 	}
 
 	private void resetComboPeliculas(JComboBox<String> comboBoxPeliculas) {
 		comboBoxPeliculas.removeAllItems();
 	}
+
 	private void resetComboEmisiones(JComboBox<Date> comboBoxEmision) {
 		comboBoxEmision.removeAllItems();
-		//quitar salir fechas por boton,tienen que salir de forma automatica
+
 	}
 
-	private void añadirEmisionesComboBox(JComboBox<Date> comboBoxEmision,String peliculaSeleccionada) {
+	private void añadirEmisionesComboBox(JComboBox<Date> comboBoxEmision, String peliculaSeleccionada) {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorPeliculas(peliculaSeleccionada);
 		for (int i = 0; i < emisiones.size(); i++) {
 			comboBoxEmision.addItem(emisiones.get(i).getFecha());
 		}
 
+	}
+
+	private void añadirCinesComboBox(JComboBox<String> comboBoxEleccionCine) {
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		ArrayList<Cine> cines = gestorBBDD.sacarTodosLosCiness();
+		for (int i = 0; i < cines.size(); i++) {
+			comboBoxEleccionCine.addItem(cines.get(i).getNombre());
+		}
+
+	}
+
+	private void añadirEmisionCompletaTabla(JTable tablaEmisionesCompletas, String fechaSeleccionada,
+			DefaultTableModel eModel) {
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada);
+		tablaEmisionesCompletas.removeAll();
+
+		DefaultTableModel model = (DefaultTableModel) tablaEmisionesCompletas.getModel();
+		model.setRowCount(0);
+
+		for (int i = 0; i < emisiones.size(); i++) {
+			String[] partes = emisiones.toString().split(",");
+			String hora = partes[0];
+			String precio = partes[1];
+			String sala = partes[2];
+
+			model.addRow(new Object[] { emisiones, precio , sala });
+		}
+
+	}
+
+	public String convertirEmisionAString() {
+		Emision emision = new Emision();
+		return "horario=" + emision.getHorario() + ", precio=" + emision.getPrecio() + ", sala=" + emision.getSala();
 	}
 }

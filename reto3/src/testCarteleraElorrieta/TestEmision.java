@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -36,7 +37,7 @@ class TestEmision {
 	@Test
 	public void testGettersAndSettersHorario() {
 		Emision emision = new Emision();
-		Date horario = null;
+		LocalTime horario = null;
 		emision.setHorario(horario);
 		assertEquals(horario, emision.getHorario());
 	}

@@ -1,6 +1,7 @@
 package carteleraElorrieta.bbdd.pojos;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -8,14 +9,14 @@ import java.util.Objects;
 public class Emision implements Serializable {
 
 	private static final long serialVersionUID = 5714538808800220227L;
-	
-	//clave primaria
+
+	// clave primaria
 	private int cod_emision;
-	
+
 	private Date fecha;
-	private Date horario;
+	private LocalTime horario;
 	private int precio;
-	
+
 	private ArrayList<Entrada> entradas = null;
 	private Sala sala = null;
 	private Pelicula pelicula = null;
@@ -25,6 +26,9 @@ public class Emision implements Serializable {
 		return "Emision [cod_emision=" + cod_emision + ", fecha=" + fecha + ", horario=" + horario + ", precio="
 				+ precio + ", entradas=" + entradas + ", sala=" + sala + ", pelicula=" + pelicula + "]";
 	}
+	
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -62,11 +66,11 @@ public class Emision implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public Date getHorario() {
+	public LocalTime getHorario() {
 		return horario;
 	}
 
-	public void setHorario(Date horario) {
+	public void setHorario(LocalTime horario) {
 		this.horario = horario;
 	}
 
@@ -105,5 +109,6 @@ public class Emision implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 
 }

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalTime;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
+import carteleraElorrieta.bbdd.pojos.Sala;
 import carteleraElorrieta.bbdd.utils.DBUtils;
 
 import java.sql.PreparedStatement;
@@ -226,7 +228,8 @@ public class GestorBBDD {
 				// Sacamos las columnas del RS
 				int cod_emision = resultSet.getInt("cod_emision");
 				Date fecha = resultSet.getDate("fecha");
-				Date horario = resultSet.getDate("horario");
+				java.sql.Time horarioSql = resultSet.getTime("horario");
+				LocalTime horario = horarioSql.toLocalTime();
 				int precio = resultSet.getInt("precio");
 
 				// Metemos los datos a Ejemplo
@@ -234,6 +237,91 @@ public class GestorBBDD {
 				emision.setFecha(fecha);
 				emision.setHorario(horario);
 				emision.setPrecio(precio);
+				// Lo guardamos en ret
+				ret.add(emision);
+
+			}
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+			// Cerramos al reves de como las abrimos
+			try {
+				if (resultSet != null)
+					resultSet.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+		}
+		return ret;
+	}
+	public ArrayList<Emision> sacarEmisionesPorFecha(String fechaSeleccionada) {
+		ArrayList<Emision> ret = null;
+
+		// SQL que queremos lanzar
+		String sql = "select * from emision e join sala s on e.cod_sala=s.cod_sala where fecha=?";
+
+		// La conexion con BBDD
+		Connection connection = null;
+
+		// Vamos a lanzar una sentencia SQL contra la BBDD
+		// Result set va a contener todo lo que devuelve la BBDD
+		
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			// El Driver que vamos a usar
+			Class.forName(DBUtils.DRIVER);
+
+			// Abrimos la conexion con BBDD
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			// Vamos a lanzar la sentencia...
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1,fechaSeleccionada);
+			resultSet = preparedStatement.executeQuery();
+
+			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
+			// Hay que ir 1 por 1 y guardandolo todo en su objeto Ejemplo correspondiente
+			while (resultSet.next()) {
+
+				// Si es necesario, inicializamos la lista
+				if (null == ret)
+					ret = new ArrayList<Emision>();
+
+				Emision emision = new Emision();
+				
+				// Sacamos las columnas del RS
+				int cod_emision = resultSet.getInt("cod_emision");
+				Date fecha = resultSet.getDate("fecha");
+				java.sql.Time horarioSql = resultSet.getTime("horario");
+				LocalTime horario = horarioSql.toLocalTime();
+				int precio = resultSet.getInt("precio");
+				Sala sala = new Sala();			
+				sala.setNombre(resultSet.getString("Nombre")); 
+				// Metemos los datos a Ejemplo
+				emision.setCod_emision(cod_emision);
+				emision.setFecha(fecha);
+				emision.setHorario(horario);
+				emision.setPrecio(precio);
+				emision.setSala(sala);
 				// Lo guardamos en ret
 				ret.add(emision);
 
