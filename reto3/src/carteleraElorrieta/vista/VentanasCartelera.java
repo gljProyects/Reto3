@@ -29,7 +29,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 public class VentanasCartelera {
 
@@ -63,53 +64,63 @@ public class VentanasCartelera {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setBackground(Color.WHITE);
 		frame.setBounds(250, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		JPanel panelSeleccionCine = new JPanel();
+		panelSeleccionCine.setBackground(UIManager.getColor("Button.highlight"));
+		panelSeleccionCine.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelSeleccionCine);
+		panelSeleccionCine.setLayout(null);
+		panelSeleccionCine.setVisible(false);
+		
+		JPanel panelEleccionPelicula = new JPanel();
+		panelEleccionPelicula.setBackground(Color.WHITE);
+		panelEleccionPelicula.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelEleccionPelicula);
+		panelEleccionPelicula.setLayout(null);
+		
 		JPanel panelSeleccionEmision = new JPanel();
+		panelSeleccionEmision.setBackground(Color.WHITE);
 		panelSeleccionEmision.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelSeleccionEmision);
 		panelSeleccionEmision.setLayout(null);
 		panelSeleccionEmision.setVisible(false);
 
-		JPanel panelEleccionPelicula = new JPanel();
-		panelEleccionPelicula.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelEleccionPelicula);
-		panelEleccionPelicula.setLayout(null);
+		
 
 		JComboBox<String> comboBoxPeliculas = new JComboBox<String>();
-		comboBoxPeliculas.setBounds(143, 146, 432, 22);
+		comboBoxPeliculas.setBounds(174, 122, 432, 22);
 		panelEleccionPelicula.add(comboBoxPeliculas);
 
 		JLabel lblNewLabelPelicula = new JLabel("SELECCIONA LA PELICULA QUE QUIERAS VER");
 		lblNewLabelPelicula.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabelPelicula.setBounds(156, 113, 510, 22);
+		lblNewLabelPelicula.setBounds(163, 44, 510, 22);
 		panelEleccionPelicula.add(lblNewLabelPelicula);
 
-		JPanel panelSeleccionCine = new JPanel();
-		panelSeleccionCine.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelSeleccionCine);
-		panelSeleccionCine.setLayout(null);
-		panelSeleccionCine.setVisible(false);
+		
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(523, 102, 217, 231);
+		scrollPane.setBounds(78, 189, 640, 231);
 		panelSeleccionEmision.add(scrollPane);
 
 		JTable tablaEmisionesCompletas = new JTable();
+		tablaEmisionesCompletas.setDefaultEditor(Object.class, null); 
 		tablaEmisionesCompletas.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
 		scrollPane.setViewportView(tablaEmisionesCompletas);
-		Object[] columnasTablaEmisiones = { "Horario", "Precio", "Sala" };
+		Object[] columnasTablaEmisiones = { "Horario", "Precio", "Sala", "Pelicula" };
 
 		DefaultTableModel eModel = new DefaultTableModel();
 		eModel.setColumnIdentifiers(columnasTablaEmisiones);
 		tablaEmisionesCompletas.setModel(eModel);
 
 		JComboBox<Date> comboBoxEmision = new JComboBox<Date>();
-		comboBoxEmision.setBounds(74, 139, 306, 29);
+		comboBoxEmision.setBounds(215, 80, 306, 29);
 		panelSeleccionEmision.add(comboBoxEmision);
 		JButton botonAceptarEleccionPeliculas = new JButton("Aceptar");
+		
 		botonAceptarEleccionPeliculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -120,17 +131,17 @@ public class VentanasCartelera {
 			}
 
 		});
-		botonAceptarEleccionPeliculas.setBounds(437, 268, 138, 23);
+		botonAceptarEleccionPeliculas.setBounds(442, 222, 138, 23);
 		panelEleccionPelicula.add(botonAceptarEleccionPeliculas);
 
 		JButton botonVolverAEleccionCine = new JButton("Atras");
 		botonVolverAEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine);
+				volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine,panelSeleccionEmision);
 			}
 
 		});
-		botonVolverAEleccionCine.setBounds(143, 295, 101, 23);
+		botonVolverAEleccionCine.setBounds(171, 222, 101, 23);
 		panelEleccionPelicula.add(botonVolverAEleccionCine);
 		panelEleccionPelicula.setVisible(false);
 
@@ -154,7 +165,7 @@ public class VentanasCartelera {
 		addImage(panelBienvenida, LabelFotoBienvenida, 0);
 
 		JComboBox<String> comboBoxEleccionCine = new JComboBox<String>();
-		comboBoxEleccionCine.setBounds(334, 95, 299, 22);
+		comboBoxEleccionCine.setBounds(233, 100, 299, 22);
 		panelSeleccionCine.add(comboBoxEleccionCine);
 
 		JButton ButtonSalirEleccionCine = new JButton("Salir");
@@ -164,7 +175,7 @@ public class VentanasCartelera {
 				panelFinalizar.setVisible(true);
 			}
 		});
-		ButtonSalirEleccionCine.setBounds(292, 285, 89, 23);
+		ButtonSalirEleccionCine.setBounds(244, 223, 89, 23);
 		panelSeleccionCine.add(ButtonSalirEleccionCine);
 
 		JButton ButtonContinuarEleccionCine = new JButton("Continuar");
@@ -179,7 +190,7 @@ public class VentanasCartelera {
 
 		});
 
-		ButtonContinuarEleccionCine.setBounds(575, 285, 89, 23);
+		ButtonContinuarEleccionCine.setBounds(443, 223, 89, 23);
 		panelSeleccionCine.add(ButtonContinuarEleccionCine);
 
 		panelBienvenida.addMouseListener(new MouseAdapter() {
@@ -199,7 +210,7 @@ public class VentanasCartelera {
 
 		JLabel lblNewLabelEmision = new JLabel("SELECCIONA LA SESION A LA QUE QUIERES IR");
 		lblNewLabelEmision.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabelEmision.setBounds(74, 80, 445, 29);
+		lblNewLabelEmision.setBounds(181, 22, 445, 29);
 		panelSeleccionEmision.add(lblNewLabelEmision);
 
 		JButton ButtonCancelarEmision = new JButton("Cancelar");
@@ -209,41 +220,60 @@ public class VentanasCartelera {
 			}
 
 		});
-		ButtonCancelarEmision.setBounds(243, 297, 89, 23);
+		ButtonCancelarEmision.setBounds(215, 141, 89, 23);
 		panelSeleccionEmision.add(ButtonCancelarEmision);
 
 		JButton ButtonSeleccionarEmision = new JButton("Seleccionar");
 		ButtonSeleccionarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				elegirFecha(comboBoxEmision, tablaEmisionesCompletas, eModel);
+				elegirFecha(comboBoxEmision, tablaEmisionesCompletas, eModel, comboBoxPeliculas.getSelectedItem().toString());
 			}
 		});
-		ButtonSeleccionarEmision.setBounds(80, 245, 115, 23);
+		ButtonSeleccionarEmision.setBounds(388, 141, 115, 23);
 		panelSeleccionEmision.add(ButtonSeleccionarEmision);
 
 		JButton botonAceptarEmisionCompleta = new JButton("Aceptar");
 		botonAceptarEmisionCompleta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				emisionElegida();
+				emisionElegidaPopUp(eModel, tablaEmisionesCompletas,panelSeleccionEmision);
 			}
 
-			private void emisionElegida() {
+			
+
+			private int emisionElegida(DefaultTableModel eModel, JTable tablaEmisionesCompletas) {
+
 				JFrame frame = new JFrame();
-				String[] options = new String[3];
+				String[] options = new String[2];
 				options[0] = "Cancelar";
-				options[1] = "Domingo";
-				options[2] = "S\u00E1bado";
-				
-				int fechaSeleccionada = tablaEmisionesCompletas.getSelectedRow();
-				
-				JOptionPane.showOptionDialog(frame.getContentPane(),
-						"La pelicula ha sido añadida", "Selecci\u00F3n d\u00EDa", 0,
-						JOptionPane.INFORMATION_MESSAGE, null, options, null);
-				
+				options[1] = "Confirmar";
+				String[] datosSeleccionados = new String[4];
+				String fechaSeleccionada = null;
+				for (int i = 0; i < 4; i++) {
+					fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i);
+					datosSeleccionados[i] = fechaSeleccionada;
+				}
+
+				int ret = JOptionPane.showOptionDialog(frame.getContentPane(), datosSeleccionados,
+						"Esta es la emision que usted ha elegido", 0, JOptionPane.INFORMATION_MESSAGE, null, options,
+						null);
+
+				return ret;
+
+			}
+			
+			private void emisionElegidaPopUp(DefaultTableModel eModel, JTable tablaEmisionesCompletas,JPanel panelSeleccionEmision) {
+
+				int ret = emisionElegida(eModel, tablaEmisionesCompletas);
+
+				if (ret == 1) {
+					volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine,panelSeleccionEmision);
+				} else {
+					volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine,panelSeleccionEmision);
+				}
 			}
 		});
-		botonAceptarEmisionCompleta.setBounds(500, 359, 89, 23);
+		botonAceptarEmisionCompleta.setBounds(341, 447, 89, 23);
 		panelSeleccionEmision.add(botonAceptarEmisionCompleta);
 
 	}
@@ -272,9 +302,10 @@ public class VentanasCartelera {
 
 	}
 
-	public void elegirFecha(JComboBox<Date> comboBoxEmision, JTable tablaEmisionesCompletas, DefaultTableModel model) {
+	public void elegirFecha(JComboBox<Date> comboBoxEmision, JTable tablaEmisionesCompletas, DefaultTableModel model,
+			String peliculaSeleccionada) {
 		String fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
-		añadirEmisionCompletaTabla(tablaEmisionesCompletas, fechaSeleccionada, model);
+		añadirEmisionCompletaTabla(tablaEmisionesCompletas, model, fechaSeleccionada, peliculaSeleccionada);
 	}
 
 	private void añadirPeliculasComboBox(JComboBox<String> comboBoxPeliculas, String cineSeleccionado) {
@@ -292,8 +323,9 @@ public class VentanasCartelera {
 
 	}
 
-	private void volverAEleccionCine(JPanel panelEleccionPelicula, JPanel panelSeleccionCine) {
+	private void volverAEleccionCine(JPanel panelEleccionPelicula, JPanel panelSeleccionCine,JPanel panelSeleccionEmision) {
 		panelEleccionPelicula.setVisible(false);
+		panelSeleccionEmision.setVisible(false);
 		panelSeleccionCine.setVisible(true);
 
 	}
@@ -332,8 +364,8 @@ public class VentanasCartelera {
 
 	}
 
-	private void añadirEmisionCompletaTabla(JTable tablaEmisionesCompletas, String fechaSeleccionada,
-			DefaultTableModel eModel) {
+	private void añadirEmisionCompletaTabla(JTable tablaEmisionesCompletas, DefaultTableModel eModel,
+			String fechaSeleccionada, String peliculaSeleccionada) {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		Emision emision = new Emision();
@@ -348,8 +380,8 @@ public class VentanasCartelera {
 			String hora = emision.getHorario().toString();
 			String precio = "" + emision.getPrecio();
 			String sala = emision.getSala().getNombre();
-
-			eModel.addRow(new String[] { hora, precio, sala });
+			String pelicula = peliculaSeleccionada;
+			eModel.addRow(new String[] { hora, precio, sala, pelicula });
 		}
 
 	}
