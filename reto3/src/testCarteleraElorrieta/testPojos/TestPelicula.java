@@ -1,4 +1,4 @@
-package testCarteleraElorrieta;
+package testCarteleraElorrieta.testPojos;
 
 import static org.junit.Assert.assertEquals;
 
