@@ -121,11 +121,15 @@ public class VentanasCartelera {
 		panelSeleccionEmision.add(comboBoxEmision);
 		JButton botonAceptarEleccionPeliculas = new JButton("Aceptar");
 		
+		JComboBox<String> comboBoxEleccionCine = new JComboBox<String>();
+		comboBoxEleccionCine.setBounds(233, 100, 299, 22);
+		panelSeleccionCine.add(comboBoxEleccionCine);
+		
 		botonAceptarEleccionPeliculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				mostrarPantallaElecionEmision(panelEleccionPelicula, panelSeleccionEmision);
-				elegirPelicula(comboBoxEmision, comboBoxPeliculas);
+				elegirPelicula(comboBoxEmision, comboBoxPeliculas,comboBoxEleccionCine.getSelectedItem().toString());
 				tablaEmisionesCompletas.removeAll();
 				eModel.setRowCount(0);
 			}
@@ -164,9 +168,7 @@ public class VentanasCartelera {
 		panelBienvenida.add(LabelFotoBienvenida, BorderLayout.CENTER);
 		addImage(panelBienvenida, LabelFotoBienvenida, 0);
 
-		JComboBox<String> comboBoxEleccionCine = new JComboBox<String>();
-		comboBoxEleccionCine.setBounds(233, 100, 299, 22);
-		panelSeleccionCine.add(comboBoxEleccionCine);
+		
 
 		JButton ButtonSalirEleccionCine = new JButton("Salir");
 		ButtonSalirEleccionCine.addActionListener(new ActionListener() {
@@ -222,12 +224,12 @@ public class VentanasCartelera {
 		});
 		ButtonCancelarEmision.setBounds(215, 141, 89, 23);
 		panelSeleccionEmision.add(ButtonCancelarEmision);
-
+		
 		JButton ButtonSeleccionarEmision = new JButton("Seleccionar");
 		ButtonSeleccionarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				elegirFecha(comboBoxEmision, tablaEmisionesCompletas, eModel, comboBoxPeliculas.getSelectedItem().toString());
+				elegirFecha(comboBoxEmision,tablaEmisionesCompletas, eModel, comboBoxPeliculas.getSelectedItem().toString(),comboBoxEleccionCine.getSelectedItem().toString());
 			}
 		});
 		ButtonSeleccionarEmision.setBounds(388, 141, 115, 23);
@@ -295,17 +297,17 @@ public class VentanasCartelera {
 
 	}
 
-	public void elegirPelicula(JComboBox<Date> comboBoxEmision, JComboBox<String> comboBoxPeliculas) {
+	public void elegirPelicula(JComboBox<Date> comboBoxEmision, JComboBox<String> comboBoxPeliculas,String cineSeleccionado) {
 		String peliculaSeleccionada = comboBoxPeliculas.getSelectedItem().toString();
 		resetComboEmisiones(comboBoxEmision);
-		añadirEmisionesComboBox(comboBoxEmision, peliculaSeleccionada);
+		añadirEmisionesComboBox(comboBoxEmision, peliculaSeleccionada,cineSeleccionado);
 
 	}
 
 	public void elegirFecha(JComboBox<Date> comboBoxEmision, JTable tablaEmisionesCompletas, DefaultTableModel model,
-			String peliculaSeleccionada) {
+			String peliculaSeleccionada,String cineSeleccionado) {
 		String fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
-		añadirEmisionCompletaTabla(tablaEmisionesCompletas, model, fechaSeleccionada, peliculaSeleccionada);
+		añadirEmisionCompletaTabla(tablaEmisionesCompletas, model, fechaSeleccionada, peliculaSeleccionada,cineSeleccionado);
 	}
 
 	private void añadirPeliculasComboBox(JComboBox<String> comboBoxPeliculas, String cineSeleccionado) {
@@ -346,9 +348,9 @@ public class VentanasCartelera {
 
 	}
 
-	private void añadirEmisionesComboBox(JComboBox<Date> comboBoxEmision, String peliculaSeleccionada) {
+	private void añadirEmisionesComboBox(JComboBox<Date> comboBoxEmision, String peliculaSeleccionada,String cineSeleccionado) {
 		GestorBBDD gestorBBDD = new GestorBBDD();
-		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorPeliculas(peliculaSeleccionada);
+		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorPeliculas(peliculaSeleccionada,cineSeleccionado);
 		for (int i = 0; i < emisiones.size(); i++) {
 			comboBoxEmision.addItem(emisiones.get(i).getFecha());
 		}
@@ -365,12 +367,12 @@ public class VentanasCartelera {
 	}
 
 	private void añadirEmisionCompletaTabla(JTable tablaEmisionesCompletas, DefaultTableModel eModel,
-			String fechaSeleccionada, String peliculaSeleccionada) {
+			String fechaSeleccionada, String peliculaSeleccionada,String cineSeleccionado) {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		Emision emision = new Emision();
 
-		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada);
+		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada,peliculaSeleccionada,cineSeleccionado);
 
 		tablaEmisionesCompletas.removeAll();
 		eModel.setRowCount(0);
@@ -386,8 +388,5 @@ public class VentanasCartelera {
 
 	}
 
-	public String convertirEmisionAString() {
-		Emision emision = new Emision();
-		return "horario=" + emision.getHorario() + ", precio=" + emision.getPrecio() + ", sala=" + emision.getSala();
-	}
+	
 }

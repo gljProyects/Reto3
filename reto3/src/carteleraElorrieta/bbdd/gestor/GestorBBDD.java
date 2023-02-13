@@ -188,11 +188,11 @@ public class GestorBBDD {
 		return ret;
 	}
 
-	public ArrayList<Emision> sacarEmisionesPorPeliculas(String peliculaSeleccionada) {
+	public ArrayList<Emision> sacarEmisionesPorPeliculas(String peliculaSeleccionada,String cineSeleccionado) {
 		ArrayList<Emision> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * from emision e join pelicula p on e.cod_pelicula=p.cod_pelicula where p.nombre=?";
+		String sql = "select * from emision e join pelicula p on e.cod_pelicula=p.cod_pelicula join sala s on e.cod_sala=s.cod_sala join cine c on s.cod_cine=c.cod_cine where p.nombre=? and c.nombre=?";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -213,6 +213,7 @@ public class GestorBBDD {
 			// Vamos a lanzar la sentencia...
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1,peliculaSeleccionada);
+			preparedStatement.setString(2,cineSeleccionado);
 			resultSet = preparedStatement.executeQuery();
 
 			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
@@ -271,11 +272,11 @@ public class GestorBBDD {
 		}
 		return ret;
 	}
-	public ArrayList<Emision> sacarEmisionesPorFecha(String fechaSeleccionada) {
+	public ArrayList<Emision> sacarEmisionesPorFecha(String fechaSeleccionada,String peliculaSeleccionada,String cineSeleccionado) {
 		ArrayList<Emision> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * from emision e join sala s on e.cod_sala=s.cod_sala where fecha=?";
+		String sql = "select * from emision e join sala s on e.cod_sala=s.cod_sala join pelicula p on e.cod_pelicula=p.cod_pelicula join cine c on s.cod_cine=c.cod_cine where fecha=? and p.nombre=? and c.nombre=?";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -296,6 +297,8 @@ public class GestorBBDD {
 			// Vamos a lanzar la sentencia...
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1,fechaSeleccionada);
+			preparedStatement.setString(2,peliculaSeleccionada);
+			preparedStatement.setString(3,cineSeleccionado);
 			resultSet = preparedStatement.executeQuery();
 
 			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
