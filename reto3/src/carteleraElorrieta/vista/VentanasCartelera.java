@@ -33,7 +33,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 public class VentanasCartelera {
-	private ArrayList<String> emisionesConfirmadas = new ArrayList<String>();
+	private ArrayList<String> emisionesConfirmadas = new ArrayList<>();
 	private JFrame frame;
 
 	/**
@@ -68,6 +68,30 @@ public class VentanasCartelera {
 		frame.setBounds(250, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+
+		JPanel panelResumenCompra = new JPanel();
+		panelResumenCompra.setBackground(Color.WHITE);
+		panelResumenCompra.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelResumenCompra);
+		panelResumenCompra.setVisible(false);
+		panelResumenCompra.setLayout(null);
+
+		JLabel labelResumenDeCompra = new JLabel("RESUMEN DE COMPRA");
+		labelResumenDeCompra.setBounds(248, 11, 260, 39);
+		labelResumenDeCompra.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		panelResumenCompra.add(labelResumenDeCompra);
+
+		JScrollPane scrollPaneResumenCompra = new JScrollPane();
+		scrollPaneResumenCompra.setBounds(10, 61, 764, 261);
+		panelResumenCompra.add(scrollPaneResumenCompra);
+
+		JTable tablaResumenCompra = new JTable();
+		scrollPaneResumenCompra.setViewportView(tablaResumenCompra);
+		Object[] columnasTablaResumenCompra = { "Horario", "Precio", "Sala", "Pelicula" };
+
+		DefaultTableModel modeloTablaResumen = new DefaultTableModel();
+		modeloTablaResumen.setColumnIdentifiers(columnasTablaResumenCompra);
+		tablaResumenCompra.setModel(modeloTablaResumen);
 
 		JPanel panelSeleccionEmision = new JPanel();
 		panelSeleccionEmision.setBackground(Color.WHITE);
@@ -154,15 +178,16 @@ public class VentanasCartelera {
 		panelBienvenida.add(LabelFotoBienvenida, BorderLayout.CENTER);
 		addImage(panelBienvenida, LabelFotoBienvenida, 0);
 
-		JButton ButtonSalirEleccionCine = new JButton("Salir");
-		ButtonSalirEleccionCine.addActionListener(new ActionListener() {
+		JButton buttonSalirEleccionCine = new JButton("Salir");
+		buttonSalirEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				comprobarFinalizarSesion();
+				comprobarFinalizarSesion(panelResumenCompra, panelSeleccionCine, tablaResumenCompra,
+						modeloTablaResumen, tablaEmisionesCompletas, eModel);
 			}
 
 		});
-		ButtonSalirEleccionCine.setBounds(244, 223, 89, 23);
-		panelSeleccionCine.add(ButtonSalirEleccionCine);
+		buttonSalirEleccionCine.setBounds(244, 223, 89, 23);
+		panelSeleccionCine.add(buttonSalirEleccionCine);
 
 		JButton ButtonContinuarEleccionCine = new JButton("Continuar");
 		ButtonContinuarEleccionCine.addActionListener(new ActionListener() {
@@ -234,18 +259,24 @@ public class VentanasCartelera {
 				options[0] = "Cancelar";
 				options[1] = "Confirmar";
 				String[] datosSeleccionados = new String[4];
-				String fechaSeleccionada = null;
+				volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine, panelSeleccionEmision);
+
+				String fechaSeleccionada = "";
 				for (int i = 0; i < 4; i++) {
-					fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i);
-					datosSeleccionados[i] = fechaSeleccionada;
+					fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i)
+							+ " " + fechaSeleccionada;
 
 				}
+				emisionesConfirmadas.add(fechaSeleccionada.substring(0, fechaSeleccionada.length() - 1));
 
-				int ret = JOptionPane.showOptionDialog(frame.getContentPane(), datosSeleccionados,
+			
+
+				int ret = JOptionPane.showOptionDialog(frame.getContentPane(), emisionesConfirmadas.get(0),
 						"Esta es la emision que usted ha elegido", 0, JOptionPane.INFORMATION_MESSAGE, null, options,
 						null);
 
 				return ret;
+
 
 			}
 
@@ -256,17 +287,15 @@ public class VentanasCartelera {
 
 				if (ret == 1) {
 					volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine, panelSeleccionEmision);
-
-					String fechaSeleccionada = "";
+					
 					for (int i = 0; i < 4; i++) {
-						fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i)
-								+ "," + fechaSeleccionada;
+						String hola= (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i);
+					emisionesConfirmadas.add(hola);
 
 					}
-					emisionesConfirmadas.add(fechaSeleccionada.substring(0, fechaSeleccionada.length() - 1));
-
-				} 
+				}
 			}
+
 		});
 
 		botonAceptarEmisionCompleta.setBounds(341, 447, 89, 23);
@@ -386,11 +415,30 @@ public class VentanasCartelera {
 
 	}
 
-	private void comprobarFinalizarSesion() {
+	private void añadirResumenCompraTabla(JTable tablaResumenCompra, DefaultTableModel modeloTablaResumen, JTable tablaEmisionesCompletas,DefaultTableModel eModel) {
+		
+		
+		tablaResumenCompra.removeAll();
+		modeloTablaResumen.setRowCount(0);
+		if(tablaEmisionesCompletas.getSelectedRow()> -1) {
+			String hora = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 0);
+			String precio = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 1);
+			String sala = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 2);
+			String pelicula = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 3);
+			modeloTablaResumen.addRow(new String[] { hora, precio, sala, pelicula });
+		}
+
+	}
+
+	private void comprobarFinalizarSesion(JPanel panelResumenCompra, JPanel panelSeleccionCine,
+			JTable tablaResumenCompra, DefaultTableModel modeloTablaResumen, JTable tablaEmisionesCompletas, DefaultTableModel eModel) {
 		if (emisionesConfirmadas.isEmpty()) {
 			frame.dispose();
 
+		} else {
+			panelSeleccionCine.setVisible(false);
+			panelResumenCompra.setVisible(true);
+			añadirResumenCompraTabla(tablaResumenCompra, modeloTablaResumen, tablaEmisionesCompletas, eModel);
 		}
 	}
-
 }
