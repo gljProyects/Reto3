@@ -154,15 +154,15 @@ public class VentanasCartelera {
 		panelBienvenida.add(LabelFotoBienvenida, BorderLayout.CENTER);
 		addImage(panelBienvenida, LabelFotoBienvenida, 0);
 
-		JButton ButtonSalirEleccionCine = new JButton("Salir");
-		ButtonSalirEleccionCine.addActionListener(new ActionListener() {
+		JButton ButtonFinzalizarSesionEleccionCine = new JButton("Finalizar sesion");
+		ButtonFinzalizarSesionEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				comprobarFinalizarSesion();
 			}
 
 		});
-		ButtonSalirEleccionCine.setBounds(244, 223, 89, 23);
-		panelSeleccionCine.add(ButtonSalirEleccionCine);
+		ButtonFinzalizarSesionEleccionCine.setBounds(244, 223, 154, 23);
+		panelSeleccionCine.add(ButtonFinzalizarSesionEleccionCine);
 
 		JButton ButtonContinuarEleccionCine = new JButton("Continuar");
 		ButtonContinuarEleccionCine.addActionListener(new ActionListener() {
@@ -233,15 +233,13 @@ public class VentanasCartelera {
 				String[] options = new String[2];
 				options[0] = "Cancelar";
 				options[1] = "Confirmar";
-<<<<<<< HEAD
-				//String[] datosSeleccionados = new String[4];
+
+				// String[] datosSeleccionados = new String[4];
 				volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine, panelSeleccionEmision);
 
-				String fechaSeleccionada = "";
-=======
 				String[] datosSeleccionados = new String[4];
-				String fechaSeleccionada = null;
->>>>>>> branch 'master' of https://github.com/gljProyects/Reto3.git
+				String fechaSeleccionada = "";
+
 				for (int i = 0; i < 4; i++) {
 					fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i);
 					datosSeleccionados[i] = fechaSeleccionada;
@@ -272,7 +270,7 @@ public class VentanasCartelera {
 					}
 					emisionesConfirmadas.add(fechaSeleccionada.substring(0, fechaSeleccionada.length() - 1));
 
-				} 
+				}
 			}
 		});
 
