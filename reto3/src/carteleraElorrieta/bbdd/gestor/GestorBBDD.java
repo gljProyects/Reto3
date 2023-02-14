@@ -31,7 +31,7 @@ public class GestorBBDD {
 
 		
 		// SQL que queremos lanzar
-		String sql = "select * from pelicula p join emision e on p.cod_pelicula=e.cod_pelicula join sala s on s.cod_sala=e.cod_sala join cine c on s.cod_cine=c.cod_cine where c.nombre= ? group by p.nombre order by fecha and horario ";
+		String sql = "select * from pelicula p join emision e on p.cod_pelicula=e.cod_pelicula join sala s on s.cod_sala=e.cod_sala join cine c on s.cod_cine=c.cod_cine where c.nombre= ? group by p.nombre order by fecha ";
 		
 		// La conexion con BBDD
 		Connection connection = null;

@@ -258,7 +258,7 @@ public class VentanasCartelera {
 				String[] options = new String[2];
 				options[0] = "Cancelar";
 				options[1] = "Confirmar";
-				String[] datosSeleccionados = new String[4];
+				//String[] datosSeleccionados = new String[4];
 				volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine, panelSeleccionEmision);
 
 				String fechaSeleccionada = "";
