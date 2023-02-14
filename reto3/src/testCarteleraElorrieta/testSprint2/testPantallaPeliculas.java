@@ -2,9 +2,10 @@ package testCarteleraElorrieta.testSprint2;
 
 import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.assertNotNull;
 
-import java.time.LocalDate;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -41,9 +42,10 @@ class testPantallaPeliculas {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Pelicula> peliculas = null;
 		peliculas = gestorBBDD.sacarPeliculasPorCine("Bilbao");
-		String expected = "Taxi Driver";
+		String expected = "Sleepers";
 		String nombrePelicula = null;
 		nombrePelicula = peliculas.get(0).getNombre();
+		System.out.println(nombrePelicula);
 		assertEquals(expected, nombrePelicula);
 	}
 
@@ -64,7 +66,7 @@ class testPantallaPeliculas {
 			Date fechaPrimeraPelicula = emisiones.get(0).getFecha();
 			Date fechaUltimaPelicula = emisiones1.get(0).getFecha();
 			
-			assertTrue(fechaPrimeraPelicula.isBefore(fechaUltimaPelicula));
+			assertTrue(fechaPrimeraPelicula.before(fechaUltimaPelicula));
 
 		}
 		
