@@ -76,7 +76,7 @@ class testPantallaFechaYSesion {
 		String expected = "18:30 5 Sala 4";
 		assertEquals(expected, sesion);
 	}
-	
+
 	@Test
 	public void testPrecioDeUnaPeliculaNotNull() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
@@ -84,9 +84,9 @@ class testPantallaFechaYSesion {
 		emisiones = gestorBBDD.sacarEmisionesPorFecha("2023-02-13", "Buscando a Nemo", "Bilbao");
 		assertNotNull(emisiones);
 	}
-	
+
 	@Test
-	public void precioDeUnaPeliculaSize() {
+	public void testPrecioDeUnaPeliculaSize() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Emision> emisiones = null;
 		emisiones = gestorBBDD.sacarEmisionesPorFecha("2023-02-13", "Buscando a Nemo", "Bilbao");
@@ -95,9 +95,9 @@ class testPantallaFechaYSesion {
 		int expected = 1;
 		assertEquals(expected, tamañoEmisiones);
 	}
-	
+
 	@Test
-	public void precioDeUnaPeliculaValue() {
+	public void testPrecioDeUnaPeliculaValue() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Emision> emisiones = null;
 		emisiones = gestorBBDD.sacarEmisionesPorFecha("2023-02-13", "Buscando a Nemo", "Bilbao");
@@ -105,6 +105,37 @@ class testPantallaFechaYSesion {
 		int precio = 0;
 		precio = emisiones.get(0).getPrecio();
 		assertEquals(expected, precio);
+	}
+
+	@Test
+	public void testSalasDeUnaPeliculaNotNull() {
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		ArrayList<Emision> emisiones = null;
+		emisiones = gestorBBDD.sacarEmisionesPorFecha("2023-02-13", "Buscando a Nemo", "Bilbao");
+		assertNotNull(emisiones);
+	}
+
+	@Test
+	public void testSalasDeUnaPeliculaSize() {
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		ArrayList<Emision> emisiones = null;
+		emisiones = gestorBBDD.sacarEmisionesPorFecha("2023-02-13", "Buscando a Nemo", "Bilbao");
+		int tamañoEmisiones = 0;
+		tamañoEmisiones = emisiones.size();
+		int expected = 1;
+		assertEquals(expected, tamañoEmisiones);
+	}
+
+	@Test
+	public void testSalasDeUnaPeliculaValue() {
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		ArrayList<Emision> emisiones = null;
+		emisiones = gestorBBDD.sacarEmisionesPorFecha("2023-02-13", "Buscando a Nemo", "Bilbao");
+		String expected = "Sala 4";
+		String salas = "";
+		salas = emisiones.get(0).getSala().getNombre();
+
+		assertEquals(expected, salas);
 	}
 
 }

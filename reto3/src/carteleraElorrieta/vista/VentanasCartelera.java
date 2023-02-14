@@ -33,7 +33,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 public class VentanasCartelera {
-
+	private ArrayList<String> emisionesConfirmadas = new ArrayList<String>();
 	private JFrame frame;
 
 	/**
@@ -145,16 +145,6 @@ public class VentanasCartelera {
 		panelEleccionPelicula.add(botonVolverAEleccionCine);
 		panelEleccionPelicula.setVisible(false);
 
-		JPanel panelFinalizar = new JPanel();
-		panelFinalizar.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelFinalizar);
-		panelFinalizar.setLayout(null);
-		panelFinalizar.setVisible(false);
-		JLabel labelPantallaFin = new JLabel("SE HA FINALIZADO LA SESION");
-		labelPantallaFin.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		labelPantallaFin.setBounds(145, 23, 349, 50);
-		panelFinalizar.add(labelPantallaFin);
-
 		JPanel panelBienvenida = new JPanel();
 		panelBienvenida.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelBienvenida);
@@ -167,9 +157,9 @@ public class VentanasCartelera {
 		JButton ButtonSalirEleccionCine = new JButton("Salir");
 		ButtonSalirEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panelSeleccionCine.setVisible(false);
-				panelFinalizar.setVisible(true);
+				comprobarFinalizarSesion();
 			}
+
 		});
 		ButtonSalirEleccionCine.setBounds(244, 223, 89, 23);
 		panelSeleccionCine.add(ButtonSalirEleccionCine);
@@ -248,6 +238,7 @@ public class VentanasCartelera {
 				for (int i = 0; i < 4; i++) {
 					fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i);
 					datosSeleccionados[i] = fechaSeleccionada;
+
 				}
 
 				int ret = JOptionPane.showOptionDialog(frame.getContentPane(), datosSeleccionados,
@@ -265,11 +256,19 @@ public class VentanasCartelera {
 
 				if (ret == 1) {
 					volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine, panelSeleccionEmision);
-				} else {
-					volverAEleccionCine(panelEleccionPelicula, panelSeleccionCine, panelSeleccionEmision);
-				}
+
+					String fechaSeleccionada = "";
+					for (int i = 0; i < 4; i++) {
+						fechaSeleccionada = (String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), i)
+								+ "," + fechaSeleccionada;
+
+					}
+					emisionesConfirmadas.add(fechaSeleccionada.substring(0, fechaSeleccionada.length() - 1));
+
+				} 
 			}
 		});
+
 		botonAceptarEmisionCompleta.setBounds(341, 447, 89, 23);
 		panelSeleccionEmision.add(botonAceptarEmisionCompleta);
 
@@ -369,16 +368,15 @@ public class VentanasCartelera {
 			String fechaSeleccionada, String peliculaSeleccionada, String cineSeleccionado) {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
-		Emision emision = new Emision();
 
 		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada, peliculaSeleccionada,
 				cineSeleccionado);
-		
+
 		tablaEmisionesCompletas.removeAll();
 		eModel.setRowCount(0);
 
 		for (int i = 0; i < emisiones.size(); i++) {
-			emision = emisiones.get(i);
+			Emision emision = emisiones.get(i);
 			String hora = emision.getHorario().toString();
 			String precio = "" + emision.getPrecio();
 			String sala = emision.getSala().getNombre();
@@ -386,6 +384,13 @@ public class VentanasCartelera {
 			eModel.addRow(new String[] { hora, precio, sala, pelicula });
 		}
 
+	}
+
+	private void comprobarFinalizarSesion() {
+		if (emisionesConfirmadas.isEmpty()) {
+			frame.dispose();
+
+		}
 	}
 
 }
