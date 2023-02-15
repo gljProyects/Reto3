@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import carteleraElorrieta.bbdd.gestor.GestorBBDD;
 import carteleraElorrieta.bbdd.pojos.Cine;
+import carteleraElorrieta.bbdd.pojos.Cliente;
 import carteleraElorrieta.bbdd.pojos.Emision;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 import carteleraElorrieta.bbdd.pojos.Sala;
@@ -305,6 +306,7 @@ public class VentanasCartelera {
 		botonAceptarEmisionCompleta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				emisionElegidaPopUp(eModel, tablaEmisionesCompletas, panelSeleccionEmision, modeloTablaResumenCompra);
+
 			}
 
 			private int emisionElegida(DefaultTableModel eModel, JTable tablaEmisionesCompletas) {
@@ -525,6 +527,17 @@ public class VentanasCartelera {
 		String precioFinalString = Double.toString(totalPrecio);
 		labelResumenCompraPrecio.setText("Precio:  " + precioFinalString + " €");
 
+	}
+	
+	private void anadirCliente(){
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		Cliente cliente =new Cliente();
+		cliente.setApellidos(null);
+		cliente.setContraseña(null);
+		cliente.setDni(null);
+		cliente.setNombre(null);
+		cliente.setSexo(null);
+		gestorBBDD.insertarNuevoCliente(cliente);
 	}
 
 	private void comprobarFinalizarSesion(JPanel panelResumenCompra, JPanel panelSeleccionCine) {
