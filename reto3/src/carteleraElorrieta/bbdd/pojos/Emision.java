@@ -8,7 +8,12 @@ import java.util.Objects;
 
 public class Emision implements Serializable {
 
-	private static final long serialVersionUID = 5714538808800220227L;
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4841339245413385962L;
 
 	// clave primaria
 	private int cod_emision;
