@@ -186,7 +186,7 @@ public class VentanasCartelera {
 		JButton ButtonFinzalizarSesionEleccionCine = new JButton("Finalizar sesion");
 		ButtonFinzalizarSesionEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				comprobarFinalizarSesion(panelResumenCompra);
+				comprobarFinalizarSesion(panelResumenCompra,panelSeleccionCine);
 			}
 
 		});
@@ -438,12 +438,12 @@ public class VentanasCartelera {
 
 	}
 
-	private void comprobarFinalizarSesion(JPanel panelResumenCompra) {
+	private void comprobarFinalizarSesion(JPanel panelResumenCompra,JPanel panelSeleccionCine) {
 		if (emisionesConfirmadas.isEmpty()) {
 			frame.dispose();
 
 		} else
-			
+		panelSeleccionCine.setVisible(false);
 		panelResumenCompra.setVisible(true);
 	}
 }
