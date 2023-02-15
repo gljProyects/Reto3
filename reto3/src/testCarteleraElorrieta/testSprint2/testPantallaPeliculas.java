@@ -2,10 +2,7 @@ package testCarteleraElorrieta.testSprint2;
 
 import static org.junit.Assert.assertEquals;
 
-
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,32 +42,24 @@ class testPantallaPeliculas {
 		String expected = "Sleepers";
 		String nombrePelicula = null;
 		nombrePelicula = peliculas.get(0).getNombre();
-		System.out.println(nombrePelicula);
+
 		assertEquals(expected, nombrePelicula);
 	}
 
 	@Test
 	public void testOrdenarPeliculas() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
-		ArrayList<Pelicula> peliculas = null;
-		peliculas = gestorBBDD.sacarPeliculasPorCine("Bilbao");
 
-		String primeraPelicula = peliculas.get(0).getNombre().toString();
-		String ultimaPelicula = peliculas.get(peliculas.size() - 1).getNombre().toString();
+		ArrayList<Emision> emisiones = null;
 
-		if (primeraPelicula.equals("Sleepers") && (ultimaPelicula.equals("Jungla de cristal"))) {
-			ArrayList<Emision> emisiones = null;
-			ArrayList<Emision> emisiones1 = null;
-			emisiones = gestorBBDD.sacarEmisionesPorPeliculas("Sleepers", "Bilbao");
-			emisiones1 = gestorBBDD.sacarEmisionesPorPeliculas("Jungla De Cristal", "Bilbao");
+		// comprobar orden de peliculas por horas
+		for (int i = 0; i < emisiones.size(); i++) {
+			emisiones = gestorBBDD.sacarEmisionesPorPeliculas("Los puentes de Madison", "Pamplona");
+			System.out.println(emisiones);
+			Date fechaUltimaPelicula = null;
 			Date fechaPrimeraPelicula = emisiones.get(0).getFecha();
-			Date fechaUltimaPelicula = emisiones1.get(0).getFecha();
-			
-			assertTrue(fechaPrimeraPelicula.before(fechaUltimaPelicula));
-
+			assertEquals(fechaPrimeraPelicula, fechaUltimaPelicula);
+			fechaUltimaPelicula = fechaPrimeraPelicula;
 		}
-		
-		
-
 	}
 }
