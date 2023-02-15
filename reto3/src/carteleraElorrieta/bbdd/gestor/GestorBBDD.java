@@ -192,7 +192,7 @@ public class GestorBBDD {
 		ArrayList<Emision> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * from emision e join pelicula p on e.cod_pelicula=p.cod_pelicula join sala s on e.cod_sala=s.cod_sala join cine c on s.cod_cine=c.cod_cine where p.nombre=? and c.nombre=?";
+		String sql = "select * from emision e join pelicula p on e.cod_pelicula=p.cod_pelicula join sala s on e.cod_sala=s.cod_sala join cine c on s.cod_cine=c.cod_cine where p.nombre=? and c.nombre=? group by fecha";
 
 		// La conexion con BBDD
 		Connection connection = null;
