@@ -423,7 +423,7 @@ public class GestorBBDD {
 			} catch (Exception e) {
 				// No hace falta
 			}
-			;
+			
 		}
 	}
 
