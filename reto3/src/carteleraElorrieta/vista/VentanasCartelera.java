@@ -42,6 +42,8 @@ import javax.swing.UIManager;
 public class VentanasCartelera {
 	private ArrayList<Emision> emisionesConfirmadas = new ArrayList<Emision>();
 	private JFrame frame;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -76,12 +78,45 @@ public class VentanasCartelera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		JPanel panelLogin = new JPanel();
+		panelLogin.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelLogin);
+		panelLogin.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("DNI");
+		lblNewLabel_1.setBounds(72, 50, 86, 14);
+		panelLogin.add(lblNewLabel_1);
+		
+		textField = new JTextField();
+		textField.setBounds(72, 86, 86, 20);
+		panelLogin.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Contraseña");
+		lblNewLabel_2.setBounds(72, 136, 86, 14);
+		panelLogin.add(lblNewLabel_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(72, 175, 86, 20);
+		panelLogin.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnNewButton_1 = new JButton("Aceptar");
+		btnNewButton_1.setBounds(72, 263, 89, 23);
+		panelLogin.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Cancelar");
+		btnNewButton_2.setBounds(239, 263, 89, 23);
+		panelLogin.add(btnNewButton_2);
+
 		JPanel panelResgistro = new JPanel();
 		panelResgistro.setBackground(Color.WHITE);
 		panelResgistro.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelResgistro);
 		panelResgistro.setLayout(null);
-
+		panelResgistro.setVisible(false);
+		
+		
 		JTextField jTextNombreRegistro = new JTextField();
 		jTextNombreRegistro.setBounds(185, 79, 86, 20);
 		panelResgistro.add(jTextNombreRegistro);
@@ -129,14 +164,6 @@ public class VentanasCartelera {
 		btnCancelar.setBounds(233, 374, 89, 23);
 		panelResgistro.add(btnCancelar);
 
-		JButton btnNoCuenta = new JButton("¿Iniciar sesión?");
-		btnNoCuenta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNoCuenta.setBounds(558, 20, 145, 23);
-		panelResgistro.add(btnNoCuenta);
-
 		JLabel jLabelPass_1_1 = new JLabel();
 		jLabelPass_1_1.setText("Sexo");
 		jLabelPass_1_1.setBounds(103, 266, 73, 20);
@@ -169,7 +196,8 @@ public class VentanasCartelera {
 		});
 		btnNewButton.setBounds(66, 374, 89, 23);
 		panelResgistro.add(btnNewButton);
-
+		
+		
 		JPanel panelResumenCompra = new JPanel();
 		panelResumenCompra.setBackground(Color.WHITE);
 		panelResumenCompra.setBounds(0, 0, 784, 511);
