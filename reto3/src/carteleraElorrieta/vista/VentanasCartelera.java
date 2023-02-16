@@ -78,10 +78,20 @@ public class VentanasCartelera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		JPanel panelResgistro = new JPanel();
+		panelResgistro.setBackground(Color.WHITE);
+		panelResgistro.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelResgistro);
+		panelResgistro.setLayout(null);
+		panelResgistro.setVisible(false);
+		
+		
 		JPanel panelLogin = new JPanel();
+		panelLogin.setBackground(Color.WHITE);
 		panelLogin.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelLogin);
 		panelLogin.setLayout(null);
+		panelLogin.setVisible(false);
 		
 		JLabel lblNewLabel_1 = new JLabel("DNI");
 		lblNewLabel_1.setBounds(72, 50, 86, 14);
@@ -108,13 +118,20 @@ public class VentanasCartelera {
 		JButton btnNewButton_2 = new JButton("Cancelar");
 		btnNewButton_2.setBounds(239, 263, 89, 23);
 		panelLogin.add(btnNewButton_2);
+		
+		
+		
+		JButton botonParaRegistrarteLogIn = new JButton("Si no tienes cuenta registrate aqui");
+		botonParaRegistrarteLogIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarVentanaRegistro( panelLogin, panelResgistro);
+			}
 
-		JPanel panelResgistro = new JPanel();
-		panelResgistro.setBackground(Color.WHITE);
-		panelResgistro.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelResgistro);
-		panelResgistro.setLayout(null);
-		panelResgistro.setVisible(false);
+			
+		});
+		botonParaRegistrarteLogIn.setBounds(453, 28, 234, 58);
+		panelLogin.add(botonParaRegistrarteLogIn);
+
 		
 		
 		JTextField jTextNombreRegistro = new JTextField();
@@ -197,13 +214,24 @@ public class VentanasCartelera {
 		btnNewButton.setBounds(66, 374, 89, 23);
 		panelResgistro.add(btnNewButton);
 		
-		
 		JPanel panelResumenCompra = new JPanel();
 		panelResumenCompra.setBackground(Color.WHITE);
 		panelResumenCompra.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelResumenCompra);
 		panelResumenCompra.setVisible(false);
 		panelResumenCompra.setLayout(null);
+		
+		JButton botonVolverALogInDesdeRegistro = new JButton("Volver al log in para finalziar la compra");
+		botonVolverALogInDesdeRegistro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 continuarALogin(panelResumenCompra,panelLogin,panelResgistro);
+			}
+		});
+		botonVolverALogInDesdeRegistro.setBounds(442, 11, 244, 64);
+		panelResgistro.add(botonVolverALogInDesdeRegistro);
+		
+		
+		
 
 		JLabel labelResumenCompra = new JLabel("RESUMEN DE LA COMPRA");
 		labelResumenCompra.setBounds(239, 30, 298, 35);
@@ -251,12 +279,10 @@ public class VentanasCartelera {
 		buttonContinuarResumenCompra.setBounds(550, 427, 95, 35);
 		buttonContinuarResumenCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				continuarALogin();
+				continuarALogin(panelResumenCompra, panelLogin,panelResgistro);
 			}
 
-			private void continuarALogin() {
-
-			}
+			
 		});
 		panelResumenCompra.add(buttonContinuarResumenCompra);
 
@@ -532,6 +558,19 @@ public class VentanasCartelera {
 		panelSeleccionEmision.setVisible(false);
 		panelEleccionPelicula.setVisible(true);
 
+	}
+	private void mostrarVentanaRegistro(JPanel panelLogin,JPanel panelResgistro) {
+		panelLogin.setVisible(false);
+		panelResgistro.setVisible(true);
+		
+	}
+	private void continuarALogin(JPanel panelResumenCompra,JPanel panelLogin,JPanel panelResgistro) {
+		
+		panelLogin.setVisible(true);
+		panelResumenCompra.setVisible(false);
+		panelResgistro.setVisible(false);
+		
+		
 	}
 
 	private void resetComboPeliculas(JComboBox<String> comboBoxPeliculas) {
