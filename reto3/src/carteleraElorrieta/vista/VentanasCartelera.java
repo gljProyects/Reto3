@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 
 import carteleraElorrieta.bbdd.gestor.GestorBBDD;
 import carteleraElorrieta.bbdd.pojos.Cine;
@@ -31,6 +33,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import javax.swing.UIManager;
@@ -72,28 +76,99 @@ public class VentanasCartelera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel panelLogin = new JPanel();
-		panelLogin.setBackground(Color.WHITE);
-		panelLogin.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelLogin);
-		panelLogin.setVisible(false);
-		panelLogin.setLayout(null);
+		JPanel panelResgistro = new JPanel();
+		panelResgistro.setBackground(Color.WHITE);
+		panelResgistro.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelResgistro);
+		panelResgistro.setLayout(null);
 
-		JLabel labelNombreLogin = new JLabel("Nombre");
-		labelNombreLogin.setBounds(66, 51, 46, 14);
-		panelLogin.add(labelNombreLogin);
-		
-		JLabel lblNewLabel = new JLabel("Apellidos");
-		lblNewLabel.setBounds(66, 100, 46, 14);
-		panelLogin.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("DNI");
-		lblNewLabel_1.setBounds(66, 145, 46, 14);
-		panelLogin.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(66, 186, 46, 14);
-		panelLogin.add(lblNewLabel_2);
+		JTextField jTextNombreRegistro = new JTextField();
+		jTextNombreRegistro.setBounds(185, 79, 86, 20);
+		panelResgistro.add(jTextNombreRegistro);
+		jTextNombreRegistro.setColumns(10);
+
+		JLabel jLabelLogin = new JLabel();
+		jLabelLogin.setText("Nombre");
+		jLabelLogin.setBounds(103, 79, 57, 20);
+		panelResgistro.add(jLabelLogin);
+
+		JLabel jLabelPass = new JLabel();
+		jLabelPass.setText("Apellidos");
+		jLabelPass.setBounds(103, 126, 73, 20);
+		panelResgistro.add(jLabelPass);
+
+		JTextField passwordRegistro = new JTextField();
+		passwordRegistro.setBounds(185, 217, 86, 20);
+		panelResgistro.add(passwordRegistro);
+
+		JLabel jLabelPass_1 = new JLabel();
+		jLabelPass_1.setText("Contraseña");
+		jLabelPass_1.setBounds(103, 217, 73, 20);
+		panelResgistro.add(jLabelPass_1);
+
+		JLabel jLabelLogin_1 = new JLabel();
+		jLabelLogin_1.setText("DNI");
+		jLabelLogin_1.setBounds(103, 170, 57, 20);
+		panelResgistro.add(jLabelLogin_1);
+
+		JTextField textFieldDniRegistro = new JTextField();
+		textFieldDniRegistro.setColumns(10);
+		textFieldDniRegistro.setBounds(185, 170, 86, 20);
+		panelResgistro.add(textFieldDniRegistro);
+
+		JTextField textFieldSexoRegistro = new JTextField();
+		textFieldSexoRegistro.setBounds(185, 264, 86, 20);
+		panelResgistro.add(textFieldSexoRegistro);
+
+		JLabel lblNewLabel = new JLabel("Registro");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(154, 11, 106, 40);
+		panelResgistro.add(lblNewLabel);
+
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(233, 374, 89, 23);
+		panelResgistro.add(btnCancelar);
+
+		JButton btnNoCuenta = new JButton("¿Iniciar sesión?");
+		btnNoCuenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNoCuenta.setBounds(558, 20, 145, 23);
+		panelResgistro.add(btnNoCuenta);
+
+		JLabel jLabelPass_1_1 = new JLabel();
+		jLabelPass_1_1.setText("Sexo");
+		jLabelPass_1_1.setBounds(103, 266, 73, 20);
+		panelResgistro.add(jLabelPass_1_1);
+
+		JTextField jTextApellidosRegistro = new JTextField();
+		jTextApellidosRegistro.setColumns(10);
+		jTextApellidosRegistro.setBounds(185, 126, 86, 20);
+		panelResgistro.add(jTextApellidosRegistro);
+
+		JButton btnNewButton = new JButton("Confirmar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String nombreCliente = jTextNombreRegistro.getText();
+				String apellidosCliente = jTextApellidosRegistro.getText();
+				String dniCliente = textFieldDniRegistro.getText();
+				String contraseñaCliente = passwordRegistro.getText();
+				String sexoCliente = textFieldSexoRegistro.getText();
+
+				Cliente clienteParaRegistrar = new Cliente();
+				clienteParaRegistrar.setNombre(nombreCliente);
+				clienteParaRegistrar.setApellidos(apellidosCliente);
+				clienteParaRegistrar.setDni(dniCliente);
+				clienteParaRegistrar.setContraseña(contraseñaCliente);
+				clienteParaRegistrar.setSexo(sexoCliente);
+
+				anadirCliente(clienteParaRegistrar);
+			}
+		});
+		btnNewButton.setBounds(66, 374, 89, 23);
+		panelResgistro.add(btnNewButton);
 
 		JPanel panelResumenCompra = new JPanel();
 		panelResumenCompra.setBackground(Color.WHITE);
@@ -306,7 +381,7 @@ public class VentanasCartelera {
 		botonAceptarEmisionCompleta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				emisionElegidaPopUp(eModel, tablaEmisionesCompletas, panelSeleccionEmision, modeloTablaResumenCompra);
-				
+
 			}
 
 			private int emisionElegida(DefaultTableModel eModel, JTable tablaEmisionesCompletas) {
@@ -358,7 +433,6 @@ public class VentanasCartelera {
 
 					añadirEmisionCompletaTablaResumen(tablaResumenCompra, modeloTablaResumenCompra);
 					añadirPrecioTablaResumen(labelResumenCompraPrecio);
-					
 
 				}
 			}
@@ -529,16 +603,12 @@ public class VentanasCartelera {
 		labelResumenCompraPrecio.setText("Precio:  " + precioFinalString + " €");
 
 	}
-	
-	private void anadirCliente(){
+
+	private void anadirCliente(Cliente clienteParaRegistrar) {
+
 		GestorBBDD gestorBBDD = new GestorBBDD();
-		Cliente cliente =new Cliente();
-		cliente.setApellidos("Barrasa Almeida");
-		cliente.setContraseña("123456a");
-		cliente.setDni("20982629M");
-		cliente.setNombre("Gonzalo");
-		cliente.setSexo("Nevera");
-		gestorBBDD.insertarNuevoCliente(cliente);
+		
+		gestorBBDD.insertarNuevoCliente(clienteParaRegistrar);
 	}
 
 	private void comprobarFinalizarSesion(JPanel panelResumenCompra, JPanel panelSeleccionCine) {
@@ -548,5 +618,9 @@ public class VentanasCartelera {
 		} else
 			panelSeleccionCine.setVisible(false);
 		panelResumenCompra.setVisible(true);
+	}
+
+	private void comprobarCliente() {
+
 	}
 }

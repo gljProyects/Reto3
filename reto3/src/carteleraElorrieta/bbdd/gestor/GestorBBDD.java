@@ -29,13 +29,9 @@ public class GestorBBDD {
 		ArrayList<Pelicula> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * "
-				+ "from pelicula p join emision e on p.cod_pelicula=e.cod_pelicula "
-				+ "join sala s on s.cod_sala=e.cod_sala "
-				+ "join cine c on s.cod_cine=c.cod_cine "
-				+ "where c.nombre= ? "
-				+ "group by p.nombre "
-				+ "order by fecha,horario ";
+		String sql = "select * " + "from pelicula p join emision e on p.cod_pelicula=e.cod_pelicula "
+				+ "join sala s on s.cod_sala=e.cod_sala " + "join cine c on s.cod_cine=c.cod_cine "
+				+ "where c.nombre= ? " + "group by p.nombre " + "order by fecha,horario ";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -117,8 +113,7 @@ public class GestorBBDD {
 		ArrayList<Cine> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * "
-				+ "from cine";
+		String sql = "select * " + "from cine";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -197,13 +192,9 @@ public class GestorBBDD {
 		ArrayList<Emision> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * "
-				+ "from emision e "
-				+ "join pelicula p on e.cod_pelicula=p.cod_pelicula "
-				+ "join sala s on e.cod_sala=s.cod_sala "
-				+ "join cine c on s.cod_cine=c.cod_cine "
-				+ "where p.nombre=? and c.nombre=? "
-				+ "group by fecha";
+		String sql = "select * " + "from emision e " + "join pelicula p on e.cod_pelicula=p.cod_pelicula "
+				+ "join sala s on e.cod_sala=s.cod_sala " + "join cine c on s.cod_cine=c.cod_cine "
+				+ "where p.nombre=? and c.nombre=? " + "group by fecha";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -289,11 +280,8 @@ public class GestorBBDD {
 		ArrayList<Emision> ret = null;
 
 		// SQL que queremos lanzar
-		String sql = "select * "
-				+ "from emision e "
-				+ "join sala s on e.cod_sala=s.cod_sala "
-				+ "join pelicula p on e.cod_pelicula=p.cod_pelicula "
-				+ "join cine c on s.cod_cine=c.cod_cine"
+		String sql = "select * " + "from emision e " + "join sala s on e.cod_sala=s.cod_sala "
+				+ "join pelicula p on e.cod_pelicula=p.cod_pelicula " + "join cine c on s.cod_cine=c.cod_cine"
 				+ " where fecha=? and p.nombre=? and c.nombre=?";
 
 		// La conexion con BBDD
@@ -379,7 +367,7 @@ public class GestorBBDD {
 	}
 
 	// Inserta un alumno
-	public void insertarNuevoCliente(Cliente cliente) {
+	public void insertarNuevoCliente(Cliente clienteParaRegistrar) {
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -398,8 +386,9 @@ public class GestorBBDD {
 			statement = connection.createStatement();
 
 			// Montamos la SQL
-			String sql = "insert into cliente (nombre, apellidos, contraseña,dni,sexo) VALUES ('" + cliente.getNombre() + "', '"
-					+ cliente.getApellidos() + "', '" + cliente.getContraseña() + "', '" + cliente.getDni() + "', '" + cliente.getSexo()+"' )";
+			String sql = "insert into cliente (nombre, apellidos, contraseña,dni,sexo) VALUES ('" + clienteParaRegistrar.getNombre()
+					+ "', '" + clienteParaRegistrar.getApellidos() + "', '" + clienteParaRegistrar.getContraseña() + "', '" + clienteParaRegistrar.getDni()
+					+ "', '" + clienteParaRegistrar.getSexo() + "' )";
 
 			// La ejecutamos...
 			statement.executeUpdate(sql);
@@ -423,10 +412,89 @@ public class GestorBBDD {
 			} catch (Exception e) {
 				// No hace falta
 			}
-			
+
 		}
 	}
 
+	public ArrayList<Cliente> comprobarCliente() {
+		ArrayList<Cliente> ret = null;
 
+		// SQL que queremos lanzar
+		String sql = "select * from cliente";
+
+		// La conexion con BBDD
+		Connection connection = null;
+
+		// Vamos a lanzar una sentencia SQL contra la BBDD
+		// Result set va a contener todo lo que devuelve la BBDD
+
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			// El Driver que vamos a usar
+			Class.forName(DBUtils.DRIVER);
+
+			// Abrimos la conexion con BBDD
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			// Vamos a lanzar la sentencia...
+			preparedStatement = connection.prepareStatement(sql);
+			//preparedStatement.setString(1, dni_cliente);
+			//preparedStatement.setString(2, contrasena);
+			resultSet = preparedStatement.executeQuery();
+
+			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
+			// Hay que ir 1 por 1 y guardandolo todo en su objeto Ejemplo correspondiente
+			while (resultSet.next()) {
+
+				// Si es necesario, inicializamos la lista
+				if (null == ret)
+					ret = new ArrayList<Cliente>();
+
+				Cliente cliente = new Cliente();
+
+				// Sacamos las columnas del RS
+				String dni = resultSet.getString("dni");
+				String contrasena = resultSet.getString("contraseña");
+
+				// Metemos los datos a Ejemplo
+				cliente.setDni(dni);
+				cliente.setContraseña(contrasena);
+
+				// Lo guardamos en ret
+				ret.add(cliente);
+
+			}
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+			// Cerramos al reves de como las abrimos
+			try {
+				if (resultSet != null)
+					resultSet.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+		}
+		return ret;
+	}
 
 }
