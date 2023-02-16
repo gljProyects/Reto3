@@ -379,7 +379,7 @@ public class GestorBBDD {
 	}
 
 	// Inserta un alumno
-	private void insertarNuevoCliente(Cliente cliente) {
+	public void insertarNuevoCliente(Cliente cliente) {
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -398,7 +398,7 @@ public class GestorBBDD {
 			statement = connection.createStatement();
 
 			// Montamos la SQL
-			String sql = "insert into t_alumno (nombre, apellidos, edad) VALUES ('" + cliente.getNombre() + "', '"
+			String sql = "insert into cliente (nombre, apellidos, contraseña,dni,sexo) VALUES ('" + cliente.getNombre() + "', '"
 					+ cliente.getApellidos() + "', '" + cliente.getContraseña() + "', '" + cliente.getDni() + "', '" + cliente.getSexo()+"' )";
 
 			// La ejecutamos...
