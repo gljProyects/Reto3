@@ -386,9 +386,10 @@ public class GestorBBDD {
 			statement = connection.createStatement();
 
 			// Montamos la SQL
-			String sql = "insert into cliente (nombre, apellidos, contraseña,dni,sexo) VALUES ('" + clienteParaRegistrar.getNombre()
-					+ "', '" + clienteParaRegistrar.getApellidos() + "', '" + clienteParaRegistrar.getContraseña() + "', '" + clienteParaRegistrar.getDni()
-					+ "', '" + clienteParaRegistrar.getSexo() + "' )";
+			String sql = "insert into cliente (nombre, apellidos, contraseña,dni,sexo) VALUES ('"
+					+ clienteParaRegistrar.getNombre() + "', '" + clienteParaRegistrar.getApellidos() + "', '"
+					+ clienteParaRegistrar.getContraseña() + "', '" + clienteParaRegistrar.getDni() + "', '"
+					+ clienteParaRegistrar.getSexo() + "' )";
 
 			// La ejecutamos...
 			statement.executeUpdate(sql);
@@ -416,11 +417,10 @@ public class GestorBBDD {
 		}
 	}
 
-	public ArrayList<Cliente> comprobarCliente() {
-		ArrayList<Cliente> ret = null;
+	public boolean comprobarCliente(String dniLogin,String contraseñaLogin) {
 
 		// SQL que queremos lanzar
-		String sql = "select * from cliente";
+		String sql = "select * from cliente where dni=? and contraseña=?";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -440,30 +440,15 @@ public class GestorBBDD {
 
 			// Vamos a lanzar la sentencia...
 			preparedStatement = connection.prepareStatement(sql);
-			//preparedStatement.setString(1, dni_cliente);
-			//preparedStatement.setString(2, contrasena);
+			preparedStatement.setString(1, dniLogin);
+			preparedStatement.setString(2, contraseñaLogin);
 			resultSet = preparedStatement.executeQuery();
 
 			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
 			// Hay que ir 1 por 1 y guardandolo todo en su objeto Ejemplo correspondiente
-			while (resultSet.next()) {
+			if (resultSet.next()) {
 
-				// Si es necesario, inicializamos la lista
-				if (null == ret)
-					ret = new ArrayList<Cliente>();
-
-				Cliente cliente = new Cliente();
-
-				// Sacamos las columnas del RS
-				String dni = resultSet.getString("dni");
-				String contrasena = resultSet.getString("contraseña");
-
-				// Metemos los datos a Ejemplo
-				cliente.setDni(dni);
-				cliente.setContraseña(contrasena);
-
-				// Lo guardamos en ret
-				ret.add(cliente);
+				return true;
 
 			}
 		} catch (SQLException sqle) {
@@ -494,7 +479,7 @@ public class GestorBBDD {
 			}
 			;
 		}
-		return ret;
+		return false;
 	}
 
 }

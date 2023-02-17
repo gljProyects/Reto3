@@ -2,14 +2,14 @@ package carteleraElorrieta.vista;
 
 import java.awt.EventQueue;
 
+
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
+
 
 import carteleraElorrieta.bbdd.gestor.GestorBBDD;
 import carteleraElorrieta.bbdd.pojos.Cine;
@@ -42,8 +42,6 @@ import javax.swing.UIManager;
 public class VentanasCartelera {
 	private ArrayList<Emision> emisionesConfirmadas = new ArrayList<Emision>();
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -77,14 +75,28 @@ public class VentanasCartelera {
 		frame.setBounds(250, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
-		JPanel panelResgistro = new JPanel();
-		panelResgistro.setBackground(Color.WHITE);
-		panelResgistro.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelResgistro);
-		panelResgistro.setLayout(null);
-		panelResgistro.setVisible(false);
 		
+		JPanel panelFichero = new JPanel();
+		panelFichero.setBackground(Color.WHITE);
+		panelFichero.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelFichero);
+		panelFichero.setLayout(null);
+		panelFichero.setVisible(false);
+		
+		JLabel labelFactura = new JLabel("FACTURA DE COMPRA");
+		labelFactura.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		labelFactura.setBounds(224, 11, 354, 52);
+		panelFichero.add(labelFactura);
+		
+		JButton botonGenerarFactura = new JButton("GENERAR FACTURA");
+		botonGenerarFactura.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		botonGenerarFactura.setBounds(74, 151, 258, 219);
+		panelFichero.add(botonGenerarFactura);
+		
+		JButton botonVolverAlMenuFactura = new JButton("Volver al menu");
+		botonVolverAlMenuFactura.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		botonVolverAlMenuFactura.setBounds(452, 151, 267, 219);
+		panelFichero.add(botonVolverAlMenuFactura);
 		
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBackground(Color.WHITE);
@@ -92,48 +104,64 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelLogin);
 		panelLogin.setLayout(null);
 		panelLogin.setVisible(false);
-		
+
+		JPanel panelResgistro = new JPanel();
+		panelResgistro.setBackground(Color.WHITE);
+		panelResgistro.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelResgistro);
+		panelResgistro.setLayout(null);
+		panelResgistro.setVisible(false);
+
 		JLabel lblNewLabel_1 = new JLabel("DNI");
 		lblNewLabel_1.setBounds(72, 50, 86, 14);
 		panelLogin.add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		textField.setBounds(72, 86, 86, 20);
-		panelLogin.add(textField);
-		textField.setColumns(10);
-		
+
+		JTextField textFieldDniLogin = new JTextField();
+		textFieldDniLogin.setBounds(72, 86, 86, 20);
+		panelLogin.add(textFieldDniLogin);
+		textFieldDniLogin.setColumns(10);
+
 		JLabel lblNewLabel_2 = new JLabel("Contraseña");
 		lblNewLabel_2.setBounds(72, 136, 86, 14);
 		panelLogin.add(lblNewLabel_2);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(72, 175, 86, 20);
-		panelLogin.add(textField_1);
-		textField_1.setColumns(10);
+
+		JTextField textFieldContraseñaLogin = new JTextField();
+		textFieldContraseñaLogin.setBounds(72, 175, 86, 20);
+		panelLogin.add(textFieldContraseñaLogin);
+		textFieldContraseñaLogin.setColumns(10);
+
+		JPanel panelSeleccionCine = new JPanel();
+		panelSeleccionCine.setBackground(UIManager.getColor("Button.highlight"));
+		panelSeleccionCine.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelSeleccionCine);
+		panelSeleccionCine.setLayout(null);
+		panelSeleccionCine.setVisible(false);
 		
 		JButton btnNewButton_1 = new JButton("Aceptar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comprobarLoginCliente(textFieldDniLogin, textFieldContraseñaLogin,panelSeleccionCine,panelLogin,panelFichero);
+			}
+		});
 		btnNewButton_1.setBounds(72, 263, 89, 23);
 		panelLogin.add(btnNewButton_1);
-		
+
 		JButton btnNewButton_2 = new JButton("Cancelar");
 		btnNewButton_2.setBounds(239, 263, 89, 23);
 		panelLogin.add(btnNewButton_2);
-		
-		
-		
+
 		JButton botonParaRegistrarteLogIn = new JButton("Si no tienes cuenta registrate aqui");
 		botonParaRegistrarteLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mostrarVentanaRegistro( panelLogin, panelResgistro);
+				mostrarVentanaRegistro(panelLogin, panelResgistro);
 			}
 
-			
 		});
-		botonParaRegistrarteLogIn.setBounds(453, 28, 234, 58);
+		botonParaRegistrarteLogIn.setBounds(453, 28, 294, 58);
 		panelLogin.add(botonParaRegistrarteLogIn);
+		
+		
 
-		
-		
 		JTextField jTextNombreRegistro = new JTextField();
 		jTextNombreRegistro.setBounds(185, 79, 86, 20);
 		panelResgistro.add(jTextNombreRegistro);
@@ -213,25 +241,22 @@ public class VentanasCartelera {
 		});
 		btnNewButton.setBounds(66, 374, 89, 23);
 		panelResgistro.add(btnNewButton);
-		
+
 		JPanel panelResumenCompra = new JPanel();
 		panelResumenCompra.setBackground(Color.WHITE);
 		panelResumenCompra.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelResumenCompra);
 		panelResumenCompra.setVisible(false);
 		panelResumenCompra.setLayout(null);
-		
+
 		JButton botonVolverALogInDesdeRegistro = new JButton("Volver al log in para finalziar la compra");
 		botonVolverALogInDesdeRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 continuarALogin(panelResumenCompra,panelLogin,panelResgistro);
+				continuarALogin(panelResumenCompra, panelLogin, panelResgistro);
 			}
 		});
-		botonVolverALogInDesdeRegistro.setBounds(442, 11, 244, 64);
+		botonVolverALogInDesdeRegistro.setBounds(442, 11, 321, 64);
 		panelResgistro.add(botonVolverALogInDesdeRegistro);
-		
-		
-		
 
 		JLabel labelResumenCompra = new JLabel("RESUMEN DE LA COMPRA");
 		labelResumenCompra.setBounds(239, 30, 298, 35);
@@ -279,10 +304,9 @@ public class VentanasCartelera {
 		buttonContinuarResumenCompra.setBounds(550, 427, 95, 35);
 		buttonContinuarResumenCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				continuarALogin(panelResumenCompra, panelLogin,panelResgistro);
+				continuarALogin(panelResumenCompra, panelLogin, panelResgistro);
 			}
 
-			
 		});
 		panelResumenCompra.add(buttonContinuarResumenCompra);
 
@@ -292,12 +316,7 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelEleccionPelicula);
 		panelEleccionPelicula.setLayout(null);
 
-		JPanel panelSeleccionCine = new JPanel();
-		panelSeleccionCine.setBackground(UIManager.getColor("Button.highlight"));
-		panelSeleccionCine.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelSeleccionCine);
-		panelSeleccionCine.setLayout(null);
-		panelSeleccionCine.setVisible(false);
+		
 
 		JComboBox<String> comboBoxPeliculas = new JComboBox<String>();
 		comboBoxPeliculas.setBounds(174, 122, 432, 22);
@@ -440,7 +459,7 @@ public class VentanasCartelera {
 
 			private int emisionElegida(DefaultTableModel eModel, JTable tablaEmisionesCompletas) {
 
-				JFrame frame = new JFrame();
+				JFrame frameEmision = new JFrame();
 				String[] options = new String[2];
 				options[0] = "Cancelar";
 				options[1] = "Confirmar";
@@ -454,7 +473,7 @@ public class VentanasCartelera {
 
 				}
 
-				int ret = JOptionPane.showOptionDialog(frame.getContentPane(), datosSeleccionados,
+				int ret = JOptionPane.showOptionDialog(frameEmision.getContentPane(), datosSeleccionados,
 						"Esta es la emision que usted ha elegido", 0, JOptionPane.INFORMATION_MESSAGE, null, options,
 						null);
 
@@ -559,18 +578,19 @@ public class VentanasCartelera {
 		panelEleccionPelicula.setVisible(true);
 
 	}
-	private void mostrarVentanaRegistro(JPanel panelLogin,JPanel panelResgistro) {
+
+	private void mostrarVentanaRegistro(JPanel panelLogin, JPanel panelResgistro) {
 		panelLogin.setVisible(false);
 		panelResgistro.setVisible(true);
-		
+
 	}
-	private void continuarALogin(JPanel panelResumenCompra,JPanel panelLogin,JPanel panelResgistro) {
-		
+
+	private void continuarALogin(JPanel panelResumenCompra, JPanel panelLogin, JPanel panelResgistro) {
+
 		panelLogin.setVisible(true);
 		panelResumenCompra.setVisible(false);
 		panelResgistro.setVisible(false);
-		
-		
+
 	}
 
 	private void resetComboPeliculas(JComboBox<String> comboBoxPeliculas) {
@@ -674,7 +694,7 @@ public class VentanasCartelera {
 	private void anadirCliente(Cliente clienteParaRegistrar) {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
-		
+
 		gestorBBDD.insertarNuevoCliente(clienteParaRegistrar);
 	}
 
@@ -687,7 +707,35 @@ public class VentanasCartelera {
 		panelResumenCompra.setVisible(true);
 	}
 
-	private void comprobarCliente() {
+	private void eleccionFrameLoginPopUp(int eleccionFrameLogin,JPanel panelSeleccionCine,JPanel panelLogin,JPanel panelFichero) {
+		if(eleccionFrameLogin==1) {
+			panelLogin.setVisible(false);
+			panelFichero.setVisible(true);
+	}	
+		else {
+			panelLogin.setVisible(false);
+			panelSeleccionCine.setVisible(true);
+			emisionesConfirmadas.clear();
+		}
+	}
 
+	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContraseñaLogin,JPanel panelSeleccionCine,JPanel panelLogin,JPanel panelFichero) {
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		String dniLogin = textFieldDniLogin.getText();
+		String contraseñaLogin = textFieldContraseñaLogin.getText();
+		boolean logInCorrecto = gestorBBDD.comprobarCliente(dniLogin, contraseñaLogin);
+		if (logInCorrecto) {
+			JFrame frameLogin = new JFrame();
+			String[] options = new String[2];
+			options[0] = "Cancelar";
+			options[1] = "Confirmar";
+
+			int eleccionFrameLogin = JOptionPane.showOptionDialog(frameLogin.getContentPane(),
+					"Quieres finalizar la compra e impimir el ticket?", "Esta es la emision que usted ha elegido", 0,
+					JOptionPane.INFORMATION_MESSAGE, null, options, null);
+			eleccionFrameLoginPopUp(eleccionFrameLogin,panelSeleccionCine,panelLogin,panelFichero);
+		} else {
+			System.out.println("Login incorrecto");
+		}
 	}
 }

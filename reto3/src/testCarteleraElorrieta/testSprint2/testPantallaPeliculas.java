@@ -40,9 +40,9 @@ class testPantallaPeliculas {
 	public void testPeliculasDeUnCineValue() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Pelicula> peliculas = null;
-		peliculas = gestorBBDD.sacarPeliculasPorCine("Bilbao");
+		peliculas = gestorBBDD.sacarPeliculasPorCine("Madrid");
 
-		String expected = "Ciudad de dios";
+		String expected = "Sleepers";
 		String nombrePelicula = null;
 		nombrePelicula = peliculas.get(0).getNombre();
 
