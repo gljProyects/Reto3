@@ -13,6 +13,7 @@ import java.util.Date;
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Cliente;
 import carteleraElorrieta.bbdd.pojos.Emision;
+import carteleraElorrieta.bbdd.pojos.Entrada;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 import carteleraElorrieta.bbdd.pojos.Sala;
 import carteleraElorrieta.bbdd.utils.DBUtils;
@@ -417,7 +418,7 @@ public class GestorBBDD {
 		}
 	}
 
-	public boolean comprobarCliente(String dniLogin,String contraseñaLogin) {
+	public boolean comprobarCliente(String dniLogin, String contraseñaLogin) {
 
 		// SQL que queremos lanzar
 		String sql = "select * from cliente where dni=? and contraseña=?";
@@ -482,4 +483,52 @@ public class GestorBBDD {
 		return false;
 	}
 
+	public void insertarEntradaCliente(Entrada entradaParaRegistrar) {
+
+		// La conexion con BBDD
+		Connection connection = null;
+
+		// Vamos a lanzar una sentencia SQL contra la BBDD
+		Statement statement = null;
+
+		try {
+			// El Driver que vamos a usar
+			Class.forName(DBUtils.DRIVER);
+
+			// Abrimos la conexion con BBDD
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			// Vamos a lanzar la sentencia...
+			statement = connection.createStatement();
+
+			// Montamos la SQL
+			String sql = "insert into entrada (fecha_compra, dni_cliente, cod_emision) VALUES ('"
+					+ entradaParaRegistrar.getFecha_compra() + "', '" + entradaParaRegistrar.getCliente().getDni()
+					+ "', '" + entradaParaRegistrar.getEmision().getCod_emision() + "' )";
+
+			// La ejecutamos...
+			statement.executeUpdate(sql);
+
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+			// Cerramos al reves de como las abrimos
+			try {
+				if (statement != null)
+					statement.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+
+		}
+	}
 }

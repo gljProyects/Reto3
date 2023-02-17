@@ -2,7 +2,6 @@ package carteleraElorrieta.vista;
 
 import java.awt.EventQueue;
 
-
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -10,11 +9,11 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-
 import carteleraElorrieta.bbdd.gestor.GestorBBDD;
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Cliente;
 import carteleraElorrieta.bbdd.pojos.Emision;
+import carteleraElorrieta.bbdd.pojos.Entrada;
 import carteleraElorrieta.bbdd.pojos.Pelicula;
 import carteleraElorrieta.bbdd.pojos.Sala;
 
@@ -75,29 +74,73 @@ public class VentanasCartelera {
 		frame.setBounds(250, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+
+		JPanel panelFacturaEntrada = new JPanel();
+		panelFacturaEntrada.setBackground(Color.WHITE);
+		panelFacturaEntrada.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelFacturaEntrada);
+		panelFacturaEntrada.setLayout(null);
 		
+		JButton botonVolverBienvenida = new JButton("Volver Pagina Principal");
+		botonVolverBienvenida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		botonVolverBienvenida.setBounds(127, 422, 159, 23);
+		panelFacturaEntrada.add(botonVolverBienvenida);
+		panelFacturaEntrada.setVisible(false);
+
 		JPanel panelFichero = new JPanel();
 		panelFichero.setBackground(Color.WHITE);
 		panelFichero.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelFichero);
 		panelFichero.setLayout(null);
 		panelFichero.setVisible(false);
-		
+
 		JLabel labelFactura = new JLabel("FACTURA DE COMPRA");
 		labelFactura.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		labelFactura.setBounds(224, 11, 354, 52);
 		panelFichero.add(labelFactura);
-		
+
 		JButton botonGenerarFactura = new JButton("GENERAR FACTURA");
+		botonGenerarFactura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				 
+				
+				//Date fechaCompra  = 
+				//String CodEmision = 
+				//String dniCliente = 
+				
+				Entrada entradaParaRegistrar = new Entrada();
+				entradaParaRegistrar.setCod_entrada(0);
+				entradaParaRegistrar.getEmision().setCod_emision(0);
+				entradaParaRegistrar.setFecha_compra(null);
+				entradaParaRegistrar.getCliente().setDni(null);
+
+				añadirEntradaBBDD(entradaParaRegistrar);
+				panelFichero.setVisible(false);
+				panelFacturaEntrada.setVisible(true);
+
+			}
+
+			private void añadirEntradaBBDD(Entrada entradaParaRegistrar) {
+
+				GestorBBDD gestorBBDD = new GestorBBDD();
+
+				gestorBBDD.insertarEntradaCliente(entradaParaRegistrar);
+
+			}
+		});
 		botonGenerarFactura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonGenerarFactura.setBounds(74, 151, 258, 219);
 		panelFichero.add(botonGenerarFactura);
-		
+
 		JButton botonVolverAlMenuFactura = new JButton("Volver al menu");
 		botonVolverAlMenuFactura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonVolverAlMenuFactura.setBounds(452, 151, 267, 219);
 		panelFichero.add(botonVolverAlMenuFactura);
-		
+
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBackground(Color.WHITE);
 		panelLogin.setBounds(0, 0, 784, 511);
@@ -136,11 +179,12 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelSeleccionCine);
 		panelSeleccionCine.setLayout(null);
 		panelSeleccionCine.setVisible(false);
-		
+
 		JButton btnNewButton_1 = new JButton("Aceptar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				comprobarLoginCliente(textFieldDniLogin, textFieldContraseñaLogin,panelSeleccionCine,panelLogin,panelFichero);
+				comprobarLoginCliente(textFieldDniLogin, textFieldContraseñaLogin, panelSeleccionCine, panelLogin,
+						panelFichero);
 			}
 		});
 		btnNewButton_1.setBounds(72, 263, 89, 23);
@@ -159,8 +203,6 @@ public class VentanasCartelera {
 		});
 		botonParaRegistrarteLogIn.setBounds(453, 28, 294, 58);
 		panelLogin.add(botonParaRegistrarteLogIn);
-		
-		
 
 		JTextField jTextNombreRegistro = new JTextField();
 		jTextNombreRegistro.setBounds(185, 79, 86, 20);
@@ -315,8 +357,6 @@ public class VentanasCartelera {
 		panelEleccionPelicula.setBounds(0, 0, 784, 511);
 		frame.getContentPane().add(panelEleccionPelicula);
 		panelEleccionPelicula.setLayout(null);
-
-		
 
 		JComboBox<String> comboBoxPeliculas = new JComboBox<String>();
 		comboBoxPeliculas.setBounds(174, 122, 432, 22);
@@ -707,19 +747,20 @@ public class VentanasCartelera {
 		panelResumenCompra.setVisible(true);
 	}
 
-	private void eleccionFrameLoginPopUp(int eleccionFrameLogin,JPanel panelSeleccionCine,JPanel panelLogin,JPanel panelFichero) {
-		if(eleccionFrameLogin==1) {
+	private void eleccionFrameLoginPopUp(int eleccionFrameLogin, JPanel panelSeleccionCine, JPanel panelLogin,
+			JPanel panelFichero) {
+		if (eleccionFrameLogin == 1) {
 			panelLogin.setVisible(false);
 			panelFichero.setVisible(true);
-	}	
-		else {
+		} else {
 			panelLogin.setVisible(false);
 			panelSeleccionCine.setVisible(true);
 			emisionesConfirmadas.clear();
 		}
 	}
 
-	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContraseñaLogin,JPanel panelSeleccionCine,JPanel panelLogin,JPanel panelFichero) {
+	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContraseñaLogin,
+			JPanel panelSeleccionCine, JPanel panelLogin, JPanel panelFichero) {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		String dniLogin = textFieldDniLogin.getText();
 		String contraseñaLogin = textFieldContraseñaLogin.getText();
@@ -733,7 +774,7 @@ public class VentanasCartelera {
 			int eleccionFrameLogin = JOptionPane.showOptionDialog(frameLogin.getContentPane(),
 					"Quieres finalizar la compra e impimir el ticket?", "Esta es la emision que usted ha elegido", 0,
 					JOptionPane.INFORMATION_MESSAGE, null, options, null);
-			eleccionFrameLoginPopUp(eleccionFrameLogin,panelSeleccionCine,panelLogin,panelFichero);
+			eleccionFrameLoginPopUp(eleccionFrameLogin, panelSeleccionCine, panelLogin, panelFichero);
 		} else {
 			System.out.println("Login incorrecto");
 		}
