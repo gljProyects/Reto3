@@ -22,7 +22,9 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.awt.Font;
@@ -56,6 +58,11 @@ public class VentanasCartelera {
 	JComboBox<String> comboBoxPeliculas = null;
 	JComboBox<Date> comboBoxEmision = null;
 	JComboBox<String> comboBoxEleccionCine = null;
+
+	JTable tablaResumenCompra = null;
+	JTable tablaEmisionesCompletas = null;
+
+	JTextField textFieldDniRegistro = null;
 
 	/**
 	 * Launch the application.
@@ -121,15 +128,18 @@ public class VentanasCartelera {
 		botonGenerarFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// Date fechaCompra =
-				// String CodEmision =
-				// String dniCliente =
+				Emision emision = new Emision();
+
+				Date date = new Date();
+				// falta cliente
+				String dniCliente = textFieldDniRegistro.getText();
+				// String cod_emision = ;
 
 				Entrada entradaParaRegistrar = new Entrada();
-				entradaParaRegistrar.setCod_entrada(0);
-				entradaParaRegistrar.getEmision().setCod_emision(0);
-				entradaParaRegistrar.setFecha_compra(null);
-				entradaParaRegistrar.getCliente().setDni(null);
+
+				//entradaParaRegistrar.getEmision().setCod_emision(0);
+				entradaParaRegistrar.setFecha_compra(date);
+				//entradaParaRegistrar.setCliente();
 
 				añadirEntradaBBDD(entradaParaRegistrar);
 				panelFichero.setVisible(false);
@@ -245,7 +255,7 @@ public class VentanasCartelera {
 		jLabelLogin_1.setBounds(103, 170, 57, 20);
 		panelResgistro.add(jLabelLogin_1);
 
-		JTextField textFieldDniRegistro = new JTextField();
+		textFieldDniRegistro = new JTextField();
 		textFieldDniRegistro.setColumns(10);
 		textFieldDniRegistro.setBounds(185, 170, 86, 20);
 		panelResgistro.add(textFieldDniRegistro);
@@ -321,7 +331,7 @@ public class VentanasCartelera {
 		scrollPaneResumenCompra.setBounds(10, 93, 764, 237);
 		panelResumenCompra.add(scrollPaneResumenCompra);
 
-		JTable tablaResumenCompra = new JTable();
+		tablaResumenCompra = new JTable();
 		tablaResumenCompra.setDefaultEditor(Object.class, null);
 		scrollPaneResumenCompra.setViewportView(tablaResumenCompra);
 		tablaResumenCompra.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
@@ -383,7 +393,7 @@ public class VentanasCartelera {
 		scrollPane.setBounds(26, 189, 736, 231);
 		panelSeleccionEmision.add(scrollPane);
 
-		JTable tablaEmisionesCompletas = new JTable();
+		tablaEmisionesCompletas = new JTable();
 		tablaEmisionesCompletas.setDefaultEditor(Object.class, null);
 		tablaEmisionesCompletas.setFont(new Font("Trebuchet MS", Font.PLAIN, 14));
 		scrollPane.setViewportView(tablaEmisionesCompletas);
@@ -704,6 +714,7 @@ public class VentanasCartelera {
 
 		for (int i = 0; i < emisionesConfirmadas.size(); i++) {
 			Emision emisionAñadida = emisionesConfirmadas.get(i);
+
 			String hora = emisionAñadida.getHorario().toString();
 			String precio = "" + emisionAñadida.getPrecio();
 			String sala = emisionAñadida.getSala().getNombre();

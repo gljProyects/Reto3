@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.JTable;
+
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Cliente;
 import carteleraElorrieta.bbdd.pojos.Emision;
@@ -504,7 +506,7 @@ public class GestorBBDD {
 			// Montamos la SQL
 			String sql = "insert into entrada (fecha_compra, dni_cliente, cod_emision) VALUES ('"
 					+ entradaParaRegistrar.getFecha_compra() + "', '" + entradaParaRegistrar.getCliente().getDni()
-					+ "', '" + entradaParaRegistrar.getEmision().getCod_emision() + "' )";
+					+ "' )";
 
 			// La ejecutamos...
 			statement.executeUpdate(sql);
