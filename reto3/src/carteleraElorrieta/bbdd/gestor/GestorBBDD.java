@@ -2,15 +2,17 @@ package carteleraElorrieta.bbdd.gestor;
 
 import java.sql.Connection;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JTable;
+
 
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Cliente;
@@ -327,8 +329,12 @@ public class GestorBBDD {
 				LocalTime horario = horarioSql.toLocalTime();
 				int precio = resultSet.getInt("precio");
 				Sala sala = new Sala();
+				sala.setCod_sala(resultSet.getInt("cod_sala"));
 				sala.setNombre(resultSet.getString("Nombre"));
+				
+
 				// Metemos los datos a Ejemplo
+				
 				emision.setCod_emision(cod_emision);
 				emision.setFecha(fecha);
 				emision.setHorario(horario);
@@ -492,7 +498,9 @@ public class GestorBBDD {
 
 		// Vamos a lanzar una sentencia SQL contra la BBDD
 		Statement statement = null;
-
+		
+		LocalDate fecha = LocalDate.now();		
+		
 		try {
 			// El Driver que vamos a usar
 			Class.forName(DBUtils.DRIVER);
@@ -502,12 +510,17 @@ public class GestorBBDD {
 
 			// Vamos a lanzar la sentencia...
 			statement = connection.createStatement();
-
+			
+			
+			
+			
 			// Montamos la SQL
-			String sql = "insert into entrada (fecha_compra, dni_cliente, cod_emision) VALUES ('"
-					+ entradaParaRegistrar.getFecha_compra() + "', '" + entradaParaRegistrar.getCliente().getDni()
-					+ "' )";
-
+			
+			String sql = "insert into entrada (dni_cliente,cod_emision,fecha_compra) VALUES ('"
+					+ entradaParaRegistrar.getCliente().getDni() + "', '" + entradaParaRegistrar.getEmision().getCod_emision()  + "', '"
+					+ fecha.toString() +  "' )";
+			
+			
 			// La ejecutamos...
 			statement.executeUpdate(sql);
 

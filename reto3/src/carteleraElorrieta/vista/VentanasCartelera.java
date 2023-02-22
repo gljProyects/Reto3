@@ -61,8 +61,12 @@ public class VentanasCartelera {
 
 	JTable tablaResumenCompra = null;
 	JTable tablaEmisionesCompletas = null;
-
+	DefaultTableModel eModel=null;
 	JTextField textFieldDniRegistro = null;
+	JTextField textFieldDniLogin=null;
+	String fechaSeleccionada = null;
+	String peliculaSeleccionada = null;
+	String cineSeleccionado = null;
 
 	/**
 	 * Launch the application.
@@ -127,21 +131,23 @@ public class VentanasCartelera {
 		JButton botonGenerarFactura = new JButton("GENERAR FACTURA");
 		botonGenerarFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				Emision emision = new Emision();
-
-				Date date = new Date();
-				// falta cliente
-				String dniCliente = textFieldDniRegistro.getText();
-				// String cod_emision = ;
-
+				
+				Cliente cliente=new Cliente();
 				Entrada entradaParaRegistrar = new Entrada();
+				for (int i = 0; i < emisionesConfirmadas.size(); i++) {
+					Emision emision =emisionesConfirmadas.get(i);
+					cliente.setDni( textFieldDniLogin.getText());
+					entradaParaRegistrar.setEmision(emision);
+					entradaParaRegistrar.setCliente(cliente);
+					añadirEntradaBBDD(entradaParaRegistrar);
+				}
 
-				//entradaParaRegistrar.getEmision().setCod_emision(0);
-				entradaParaRegistrar.setFecha_compra(date);
-				//entradaParaRegistrar.setCliente();
 
-				añadirEntradaBBDD(entradaParaRegistrar);
+				
+
+				
+
+				
 				panelFichero.setVisible(false);
 				panelFacturaEntrada.setVisible(true);
 
@@ -182,7 +188,7 @@ public class VentanasCartelera {
 		lblNewLabel_1.setBounds(72, 50, 86, 14);
 		panelLogin.add(lblNewLabel_1);
 
-		JTextField textFieldDniLogin = new JTextField();
+	 textFieldDniLogin = new JTextField();
 		textFieldDniLogin.setBounds(72, 86, 86, 20);
 		panelLogin.add(textFieldDniLogin);
 		textFieldDniLogin.setColumns(10);
@@ -399,7 +405,7 @@ public class VentanasCartelera {
 		scrollPane.setViewportView(tablaEmisionesCompletas);
 		Object[] columnasTablaEmisiones = { "Horario", "Precio", "Sala", "Pelicula" };
 
-		DefaultTableModel eModel = new DefaultTableModel();
+		 eModel = new DefaultTableModel();
 		eModel.setColumnIdentifiers(columnasTablaEmisiones);
 		tablaEmisionesCompletas.setModel(eModel);
 
@@ -414,9 +420,9 @@ public class VentanasCartelera {
 
 		botonAceptarEleccionPeliculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				cineSeleccionado = comboBoxEleccionCine.getSelectedItem().toString();
 				mostrarPantallaElecionEmision();
-				elegirPelicula(comboBoxEleccionCine.getSelectedItem().toString());
+				elegirPelicula();
 				tablaEmisionesCompletas.removeAll();
 				eModel.setRowCount(0);
 			}
@@ -504,7 +510,7 @@ public class VentanasCartelera {
 		ButtonSeleccionarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				elegirFecha(tablaEmisionesCompletas, eModel, comboBoxPeliculas.getSelectedItem().toString(),
+				elegirFecha(eModel, comboBoxPeliculas.getSelectedItem().toString(),
 						comboBoxEleccionCine.getSelectedItem().toString());
 			}
 		});
@@ -549,22 +555,7 @@ public class VentanasCartelera {
 
 				if (ret == 1) {
 					volverAEleccionCine();
-
-					Emision emisionConfirmada = new Emision();
-					Pelicula peliculaSeleccionada = new Pelicula();
-					Sala salaSeleccionada = new Sala();
-					emisionConfirmada.setHorario(
-							LocalTime.parse((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 0)));
-					emisionConfirmada.setPrecio(
-							Integer.parseInt((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 1)));
-					emisionConfirmada.setSala(salaSeleccionada);
-					emisionConfirmada.getSala()
-							.setNombre((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 2));
-					peliculaSeleccionada
-							.setNombre((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 3));
-					emisionConfirmada.setPelicula(peliculaSeleccionada);
-					emisionesConfirmadas.add(emisionConfirmada);
-
+					anadirDatosFactura();
 					añadirEmisionCompletaTablaResumen(tablaResumenCompra, modeloTablaResumenCompra);
 					añadirPrecioTablaResumen(labelResumenCompraPrecio);
 
@@ -595,18 +586,16 @@ public class VentanasCartelera {
 
 	}
 
-	public void elegirPelicula(String cineSeleccionado) {
-		String peliculaSeleccionada = comboBoxPeliculas.getSelectedItem().toString();
+	public void elegirPelicula() {
+	 peliculaSeleccionada = comboBoxPeliculas.getSelectedItem().toString();
 		resetComboEmisiones();
 		añadirEmisionesComboBox(peliculaSeleccionada, cineSeleccionado);
 
 	}
 
-	public void elegirFecha(JTable tablaEmisionesCompletas, DefaultTableModel model, String peliculaSeleccionada,
-			String cineSeleccionado) {
-		String fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
-		añadirEmisionCompletaTabla(tablaEmisionesCompletas, model, fechaSeleccionada, peliculaSeleccionada,
-				cineSeleccionado);
+	public void elegirFecha(DefaultTableModel model, String peliculaSeleccionada, String cineSeleccionado) {
+		 fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
+		añadirEmisionCompletaTabla(model, fechaSeleccionada, peliculaSeleccionada, cineSeleccionado);
 	}
 
 	private void añadirPeliculasComboBox(String cineSeleccionado) {
@@ -684,8 +673,8 @@ public class VentanasCartelera {
 
 	}
 
-	private void añadirEmisionCompletaTabla(JTable tablaEmisionesCompletas, DefaultTableModel eModel,
-			String fechaSeleccionada, String peliculaSeleccionada, String cineSeleccionado) {
+	private void añadirEmisionCompletaTabla(DefaultTableModel eModel, String fechaSeleccionada,
+			String peliculaSeleccionada, String cineSeleccionado) {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
 
@@ -706,6 +695,39 @@ public class VentanasCartelera {
 
 	}
 
+	private void anadirDatosFactura() {
+
+		GestorBBDD gestorBBDD = new GestorBBDD();
+		
+		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada, peliculaSeleccionada,
+				cineSeleccionado);
+		Emision emisionConfirmada = new Emision();
+		Pelicula peliculaSeleccionadaFactura = new Pelicula();
+		Sala salaSeleccionada = new Sala();
+		emisionConfirmada
+				.setHorario(LocalTime.parse((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 0)));
+		emisionConfirmada
+				.setPrecio(Integer.parseInt((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 1)));
+		emisionConfirmada.setSala(salaSeleccionada);
+		emisionConfirmada.getSala().setNombre((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 2));
+		peliculaSeleccionadaFactura.setNombre((String) eModel.getValueAt(tablaEmisionesCompletas.getSelectedRow(), 3));
+		emisionConfirmada.setPelicula(peliculaSeleccionadaFactura);
+
+		for (int i = 0; i < emisiones.size(); i++) {
+			Emision emision = emisiones.get(i);
+			String horaElegida = emision.getHorario().toString();
+			int cod_salaElegida = emision.getSala().getCod_sala();
+
+			if (emisiones.get(i).getHorario().toString().equals(horaElegida)
+					&& emisiones.get(i).getSala().getCod_sala() == cod_salaElegida) {
+
+				emisionConfirmada.setCod_emision(emision.getCod_emision());
+				emisionesConfirmadas.add(emisionConfirmada);
+			}
+
+		}
+	}
+
 	private void añadirEmisionCompletaTablaResumen(JTable tablaResumenCompra,
 			DefaultTableModel modeloTablaResumenCompra) {
 
@@ -714,7 +736,6 @@ public class VentanasCartelera {
 
 		for (int i = 0; i < emisionesConfirmadas.size(); i++) {
 			Emision emisionAñadida = emisionesConfirmadas.get(i);
-
 			String hora = emisionAñadida.getHorario().toString();
 			String precio = "" + emisionAñadida.getPrecio();
 			String sala = emisionAñadida.getSala().getNombre();
