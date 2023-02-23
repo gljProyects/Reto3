@@ -166,6 +166,13 @@ public class VentanasCartelera {
 		panelFichero.add(botonGenerarFactura);
 
 		JButton botonVolverAlMenuFactura = new JButton("Volver al menu");
+		botonVolverAlMenuFactura.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelFichero.setVisible(false);
+				panelSeleccionCine.setVisible(true);
+				emisionesConfirmadas.clear();
+			}
+		});
 		botonVolverAlMenuFactura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		botonVolverAlMenuFactura.setBounds(452, 151, 267, 219);
 		panelFichero.add(botonVolverAlMenuFactura);
@@ -219,6 +226,13 @@ public class VentanasCartelera {
 		panelLogin.add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("Cancelar");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelLogin.setVisible(false);
+				panelSeleccionCine.setVisible(true);
+				emisionesConfirmadas.clear();
+			}
+		});
 		btnNewButton_2.setBounds(239, 263, 89, 23);
 		panelLogin.add(btnNewButton_2);
 
@@ -364,13 +378,13 @@ public class VentanasCartelera {
 		buttonVolverResumenCompra.setBounds(368, 427, 95, 35);
 		buttonVolverResumenCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				volverAEmision();
+				volverAEleccionCine();
 			}
 
 		});
 		panelResumenCompra.add(buttonVolverResumenCompra);
 
-		JButton buttonContinuarResumenCompra = new JButton("Continuar");
+		JButton buttonContinuarResumenCompra = new JButton("Finalizar compra");
 		buttonContinuarResumenCompra.setBounds(550, 427, 95, 35);
 		buttonContinuarResumenCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -617,7 +631,7 @@ public class VentanasCartelera {
 		panelEleccionPelicula.setVisible(false);
 		panelSeleccionEmision.setVisible(false);
 		panelSeleccionCine.setVisible(true);
-
+		panelResumenCompra.setVisible(false);
 	}
 
 	private void volverAEleccionPeliculas() {
@@ -659,10 +673,7 @@ public class VentanasCartelera {
 
 	}
 
-	private void volverAEmision() {
-		panelResumenCompra.setVisible(false);
-		panelSeleccionEmision.setVisible(true);
-	}
+
 
 	private void añadirCinesComboBox() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
@@ -788,14 +799,9 @@ public class VentanasCartelera {
 	}
 
 	private void eleccionFrameLoginPopUp(int eleccionFrameLogin) {
-		if (eleccionFrameLogin == 1) {
-			panelLogin.setVisible(false);
-			panelFichero.setVisible(true);
-		} else {
-			panelLogin.setVisible(false);
-			panelSeleccionCine.setVisible(true);
-			emisionesConfirmadas.clear();
-		}
+
+		
+		 
 	}
 
 	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContraseñaLogin) {
@@ -803,18 +809,18 @@ public class VentanasCartelera {
 		String dniLogin = textFieldDniLogin.getText();
 		String contraseñaLogin = textFieldContraseñaLogin.getText();
 		boolean logInCorrecto = gestorBBDD.comprobarCliente(dniLogin, contraseñaLogin);
-		if (logInCorrecto) {
+		if (logInCorrecto==false) {
 			JFrame frameLogin = new JFrame();
-			String[] options = new String[2];
-			options[0] = "Cancelar";
-			options[1] = "Confirmar";
+			String[] options = new String[1];
+			options[0] = "Confirmar";
 
 			int eleccionFrameLogin = JOptionPane.showOptionDialog(frameLogin.getContentPane(),
-					"Quieres finalizar la compra e impimir el ticket?", "Esta es la emision que usted ha elegido", 0,
+					"Su login incorrecto", "", 0,
 					JOptionPane.INFORMATION_MESSAGE, null, options, null);
 			eleccionFrameLoginPopUp(eleccionFrameLogin);
 		} else {
-			System.out.println("Login incorrecto");
+		 panelLogin.setVisible(false);
+		 panelFichero.setVisible(true);
 		}
 	}
 }
