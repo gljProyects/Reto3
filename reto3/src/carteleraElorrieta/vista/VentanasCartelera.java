@@ -22,7 +22,10 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalTime;
 
 import java.util.ArrayList;
@@ -61,9 +64,9 @@ public class VentanasCartelera {
 
 	JTable tablaResumenCompra = null;
 	JTable tablaEmisionesCompletas = null;
-	DefaultTableModel eModel=null;
+	DefaultTableModel eModel = null;
 	JTextField textFieldDniRegistro = null;
-	JTextField textFieldDniLogin=null;
+	JTextField textFieldDniLogin = null;
 	String fechaSeleccionada = null;
 	String peliculaSeleccionada = null;
 	String cineSeleccionado = null;
@@ -131,23 +134,19 @@ public class VentanasCartelera {
 		JButton botonGenerarFactura = new JButton("GENERAR FACTURA");
 		botonGenerarFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Cliente cliente=new Cliente();
+
+				Cliente cliente = new Cliente();
 				Entrada entradaParaRegistrar = new Entrada();
 				for (int i = 0; i < emisionesConfirmadas.size(); i++) {
-					Emision emision =emisionesConfirmadas.get(i);
-					cliente.setDni( textFieldDniLogin.getText());
+					Emision emision = emisionesConfirmadas.get(i);
+					cliente.setDni(textFieldDniLogin.getText());
 					entradaParaRegistrar.setEmision(emision);
 					entradaParaRegistrar.setCliente(cliente);
 					añadirEntradaBBDD(entradaParaRegistrar);
 				}
 
+				crearTicket(entradaParaRegistrar);
 
-				
-
-				
-
-				
 				panelFichero.setVisible(false);
 				panelFacturaEntrada.setVisible(true);
 
@@ -195,7 +194,7 @@ public class VentanasCartelera {
 		lblNewLabel_1.setBounds(72, 50, 86, 14);
 		panelLogin.add(lblNewLabel_1);
 
-	 textFieldDniLogin = new JTextField();
+		textFieldDniLogin = new JTextField();
 		textFieldDniLogin.setBounds(72, 86, 86, 20);
 		panelLogin.add(textFieldDniLogin);
 		textFieldDniLogin.setColumns(10);
@@ -419,7 +418,7 @@ public class VentanasCartelera {
 		scrollPane.setViewportView(tablaEmisionesCompletas);
 		Object[] columnasTablaEmisiones = { "Horario", "Precio", "Sala", "Pelicula" };
 
-		 eModel = new DefaultTableModel();
+		eModel = new DefaultTableModel();
 		eModel.setColumnIdentifiers(columnasTablaEmisiones);
 		tablaEmisionesCompletas.setModel(eModel);
 
@@ -601,14 +600,14 @@ public class VentanasCartelera {
 	}
 
 	public void elegirPelicula() {
-	 peliculaSeleccionada = comboBoxPeliculas.getSelectedItem().toString();
+		peliculaSeleccionada = comboBoxPeliculas.getSelectedItem().toString();
 		resetComboEmisiones();
 		añadirEmisionesComboBox(peliculaSeleccionada, cineSeleccionado);
 
 	}
 
 	public void elegirFecha(DefaultTableModel model, String peliculaSeleccionada, String cineSeleccionado) {
-		 fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
+		fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
 		añadirEmisionCompletaTabla(model, fechaSeleccionada, peliculaSeleccionada, cineSeleccionado);
 	}
 
@@ -673,8 +672,6 @@ public class VentanasCartelera {
 
 	}
 
-
-
 	private void añadirCinesComboBox() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Cine> cines = gestorBBDD.sacarTodosLosCiness();
@@ -709,7 +706,7 @@ public class VentanasCartelera {
 	private void anadirDatosFactura() {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
-		
+
 		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorFecha(fechaSeleccionada, peliculaSeleccionada,
 				cineSeleccionado);
 		Emision emisionConfirmada = new Emision();
@@ -800,8 +797,6 @@ public class VentanasCartelera {
 
 	private void eleccionFrameLoginPopUp(int eleccionFrameLogin) {
 
-		
-		 
 	}
 
 	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContraseñaLogin) {
@@ -809,18 +804,80 @@ public class VentanasCartelera {
 		String dniLogin = textFieldDniLogin.getText();
 		String contraseñaLogin = textFieldContraseñaLogin.getText();
 		boolean logInCorrecto = gestorBBDD.comprobarCliente(dniLogin, contraseñaLogin);
-		if (logInCorrecto==false) {
+		if (logInCorrecto == false) {
 			JFrame frameLogin = new JFrame();
 			String[] options = new String[1];
 			options[0] = "Confirmar";
 
-			int eleccionFrameLogin = JOptionPane.showOptionDialog(frameLogin.getContentPane(),
-					"Su login incorrecto", "", 0,
-					JOptionPane.INFORMATION_MESSAGE, null, options, null);
+			int eleccionFrameLogin = JOptionPane.showOptionDialog(frameLogin.getContentPane(), "Su login incorrecto",
+					"", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 			eleccionFrameLoginPopUp(eleccionFrameLogin);
 		} else {
-		 panelLogin.setVisible(false);
-		 panelFichero.setVisible(true);
+			panelLogin.setVisible(false);
+			panelFichero.setVisible(true);
 		}
 	}
+
+	private void crearTicket(Entrada entradaParaRegistrar) {
+
+		final String NOMBRE_FICHERO = "fichero.txt";
+		final String RUTA_FICHERO = "C:\\Users\\asier\\Desktop\\workspace_2\\Reto3\\reto3\\src\\carteleraElorrieta\\tickets\\";
+		GestorBBDD gestor = new GestorBBDD();
+		ArrayList<Entrada> entradas = gestor.sacarTodosLosDatosParaTicket(entradaParaRegistrar);
+		File fichero = new File(RUTA_FICHERO + NOMBRE_FICHERO);
+
+		try {
+			// A partir del objeto File creamos el fichero físicamente
+			if (fichero.createNewFile())
+				System.out.println("El fichero se ha creado correctamente");
+			else
+				System.out.println("No ha podido ser creado el fichero");
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+
+		
+
+		// Preparamos las clases necesarias para escribir un fichero
+		FileWriter fileWriter = null;
+		PrintWriter printWriter = null;
+
+		try {
+			// Asignamos el fichero que vamos a escribir
+			fileWriter = new FileWriter(RUTA_FICHERO + NOMBRE_FICHERO);
+
+			// Si preferimos que el fichero se actualice a final...
+			// fileWriter = new FileWriter(RUTA_FICHERO + NOMBRE_FICHERO, true);
+
+			printWriter = new PrintWriter(fileWriter);
+
+			// Pedimos por teclado
+			for (int i = 0; i < entradas.size(); i++) {
+				Entrada entrada = entradas.get(i);
+				String nombreCine=entrada.getEmision().getSala().getCine().getNombre();
+				int codCine =entrada.getEmision().getSala().getCine().getCod_cine();
+				String direccionCine=entrada.getEmision().getSala().getCine().getDireccion();
+				String peliculaElegida=entrada.getEmision().getPelicula().getNombre();
+				String nombreSala=entrada.getEmision().getSala().getNombre();
+				int precio =entrada.getEmision().getPrecio();
+				String texto = nombreCine + "/n"  + codCine + "/n" + direccionCine + "/n" + peliculaElegida + "/n" + nombreSala + "/n" + precio;
+				printWriter.println(texto);
+			}
+			
+
+			// Lo mandamos al fichero
+			
+
+		} catch (IOException e) {
+			System.out.println("IOException - Error de escritura en el fichero " + RUTA_FICHERO + NOMBRE_FICHERO);
+		} finally {
+			printWriter.close();
+			try {
+				fileWriter.close();
+			} catch (IOException e) {
+				// Nos da igual
+			}
+		}
+	}
+
 }

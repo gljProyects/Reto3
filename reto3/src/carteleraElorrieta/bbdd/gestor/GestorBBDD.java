@@ -2,7 +2,6 @@ package carteleraElorrieta.bbdd.gestor;
 
 import java.sql.Connection;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,8 +10,6 @@ import java.time.LocalTime;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
-
-
 
 import carteleraElorrieta.bbdd.pojos.Cine;
 import carteleraElorrieta.bbdd.pojos.Cliente;
@@ -331,10 +328,9 @@ public class GestorBBDD {
 				Sala sala = new Sala();
 				sala.setCod_sala(resultSet.getInt("cod_sala"));
 				sala.setNombre(resultSet.getString("Nombre"));
-				
 
 				// Metemos los datos a Ejemplo
-				
+
 				emision.setCod_emision(cod_emision);
 				emision.setFecha(fecha);
 				emision.setHorario(horario);
@@ -498,9 +494,9 @@ public class GestorBBDD {
 
 		// Vamos a lanzar una sentencia SQL contra la BBDD
 		Statement statement = null;
-		
-		LocalDate fecha = LocalDate.now();		
-		
+
+		LocalDate fecha = LocalDate.now();
+
 		try {
 			// El Driver que vamos a usar
 			Class.forName(DBUtils.DRIVER);
@@ -510,17 +506,13 @@ public class GestorBBDD {
 
 			// Vamos a lanzar la sentencia...
 			statement = connection.createStatement();
-			
-			
-			
-			
+
 			// Montamos la SQL
-			
+
 			String sql = "insert into entrada (dni_cliente,cod_emision,fecha_compra) VALUES ('"
-					+ entradaParaRegistrar.getCliente().getDni() + "', '" + entradaParaRegistrar.getEmision().getCod_emision()  + "', '"
-					+ fecha.toString() +  "' )";
-			
-			
+					+ entradaParaRegistrar.getCliente().getDni() + "', '"
+					+ entradaParaRegistrar.getEmision().getCod_emision() + "', '" + fecha.toString() + "' )";
+
 			// La ejecutamos...
 			statement.executeUpdate(sql);
 
@@ -545,5 +537,117 @@ public class GestorBBDD {
 			}
 
 		}
+	}
+
+	public ArrayList<Entrada> sacarTodosLosDatosParaTicket(Entrada entradaParaRegistrar) {
+		ArrayList<Entrada> ret = null;
+		
+		LocalDate fecha = LocalDate.now();
+
+		// SQL que queremos lanzar
+		String sql = "select * from emision emi join sala sal on emi.cod_sala=sal.cod_sala join pelicula pel on emi.cod_pelicula=pel.cod_pelicula join cine cin on sal.cod_cine=cin.cod_cine join entrada ent on ent.cod_emision=emi.cod_emision join cliente cli on ent.dni_cliente=cli.dni where cli.dni=? and ent.fecha_compra=?";
+
+		// La conexion con BBDD
+		Connection connection = null;
+
+		// Vamos a lanzar una sentencia SQL contra la BBDD
+		// Result set va a contener todo lo que devuelve la BBDD
+
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			// El Driver que vamos a usar
+			Class.forName(DBUtils.DRIVER);
+
+			// Abrimos la conexion con BBDD
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			// Vamos a lanzar la sentencia...
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, entradaParaRegistrar.getCliente().getDni());
+			preparedStatement.setString(2, fecha.toString());
+			resultSet = preparedStatement.executeQuery();
+			
+			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
+			// Hay que ir 1 por 1 y guardandolo todo en su objeto Ejemplo correspondiente
+			while (resultSet.next()) {
+
+				// Si es necesario, inicializamos la lista
+				if (null == ret)
+					ret = new ArrayList<Entrada>();
+
+				Entrada entrada = new Entrada();
+				entrada.setCod_entrada(resultSet.getInt("cod_entrada"));
+				entrada.setFecha_compra(resultSet.getDate("fecha_compra"));
+
+				Cliente cliente = new Cliente();
+				cliente.setDni(resultSet.getString("dni"));
+				cliente.setNombre(resultSet.getString("nombre"));
+				cliente.setApellidos(resultSet.getString("apellidos"));
+				cliente.setSexo(resultSet.getString("sexo"));
+				cliente.setContraseña(resultSet.getString("contraseña"));
+				entrada.setCliente(cliente);
+
+				Emision emision = new Emision();
+				emision.setCod_emision(resultSet.getInt("cod_emision"));
+				emision.setFecha(resultSet.getDate("fecha"));
+				java.sql.Time horarioSql = resultSet.getTime("horario");
+				LocalTime horario = horarioSql.toLocalTime();
+				emision.setHorario(horario);
+				emision.setPrecio(resultSet.getInt("precio"));
+
+				Pelicula pelicula = new Pelicula();
+				pelicula.setCod_pelicula(resultSet.getInt("cod_pelicula"));
+				pelicula.setDuracion(resultSet.getInt("duracion"));
+				pelicula.setNombre(resultSet.getString("nombre"));
+				pelicula.setGenero(resultSet.getString("genero"));
+				emision.setPelicula(pelicula);
+
+				Sala sala = new Sala();
+				sala.setCod_sala(resultSet.getInt("cod_sala"));
+				sala.setNombre(resultSet.getString("nombre"));
+
+				Cine cine = new Cine();
+				cine.setCod_cine(resultSet.getInt("cod_cine"));
+				cine.setDireccion(resultSet.getString("direccion"));
+				cine.setNombre(resultSet.getString("nombre"));
+				sala.setCine(cine);
+				emision.setSala(sala);
+				entrada.setEmision(emision);
+
+				// Lo guardamos en ret
+				ret.add(entrada);
+
+			}
+		} catch (SQLException sqle) {
+			System.out.println("Error con la BBDD - " + sqle.getMessage());
+		} catch (Exception e) {
+			System.out.println("Error generico - " + e.getMessage());
+		} finally {
+			// Cerramos al reves de como las abrimos
+			try {
+				if (resultSet != null)
+					resultSet.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (Exception e) {
+				// No hace falta
+			}
+			;
+		}
+		return ret;
 	}
 }
