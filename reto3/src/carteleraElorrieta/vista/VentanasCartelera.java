@@ -26,6 +26,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import java.time.LocalTime;
 
 import java.util.ArrayList;
@@ -44,7 +47,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 public class VentanasCartelera {
-	private ArrayList<Emision> emisionesConfirmadas = new ArrayList<Emision>();
+	
 	// frame principal
 	private JFrame frame;
 	// paneles
@@ -61,16 +64,20 @@ public class VentanasCartelera {
 	JComboBox<String> comboBoxPeliculas = null;
 	JComboBox<Date> comboBoxEmision = null;
 	JComboBox<String> comboBoxEleccionCine = null;
-
+	// tablas y modelos
 	JTable tablaResumenCompra = null;
 	JTable tablaEmisionesCompletas = null;
 	DefaultTableModel eModel = null;
+	// textfields
 	JTextField textFieldDniRegistro = null;
 	JTextField textFieldDniLogin = null;
+	//variables que el cliente ha seleccionado
 	String fechaSeleccionada = null;
 	String peliculaSeleccionada = null;
 	String cineSeleccionado = null;
-
+	String precioFinalString = null;
+	//arraylist emisiones que se han elegido
+	private ArrayList<Emision> emisionesConfirmadas = new ArrayList<>();
 	/**
 	 * Launch the application.
 	 */
@@ -104,21 +111,6 @@ public class VentanasCartelera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		panelFacturaEntrada = new JPanel();
-		panelFacturaEntrada.setBackground(Color.WHITE);
-		panelFacturaEntrada.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelFacturaEntrada);
-		panelFacturaEntrada.setLayout(null);
-
-		JButton botonVolverBienvenida = new JButton("Volver Pagina Principal");
-		botonVolverBienvenida.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		botonVolverBienvenida.setBounds(127, 422, 159, 23);
-		panelFacturaEntrada.add(botonVolverBienvenida);
-		panelFacturaEntrada.setVisible(false);
-
 		panelFichero = new JPanel();
 		panelFichero.setBackground(Color.WHITE);
 		panelFichero.setBounds(0, 0, 784, 511);
@@ -142,17 +134,18 @@ public class VentanasCartelera {
 					cliente.setDni(textFieldDniLogin.getText());
 					entradaParaRegistrar.setEmision(emision);
 					entradaParaRegistrar.setCliente(cliente);
-					añadirEntradaBBDD(entradaParaRegistrar);
+					anadirEntradaBBDD(entradaParaRegistrar);
 				}
 
 				crearTicket(entradaParaRegistrar);
 
-				panelFichero.setVisible(false);
-				panelFacturaEntrada.setVisible(true);
+				JFrame jFrame = new JFrame();
+				JOptionPane.showMessageDialog(jFrame, "Factura creada");
+
 
 			}
 
-			private void añadirEntradaBBDD(Entrada entradaParaRegistrar) {
+			private void anadirEntradaBBDD(Entrada entradaParaRegistrar) {
 
 				GestorBBDD gestorBBDD = new GestorBBDD();
 
@@ -190,23 +183,23 @@ public class VentanasCartelera {
 		panelResgistro.setLayout(null);
 		panelResgistro.setVisible(false);
 
-		JLabel lblNewLabel_1 = new JLabel("DNI");
-		lblNewLabel_1.setBounds(72, 50, 86, 14);
-		panelLogin.add(lblNewLabel_1);
+		JLabel labelDniResgitro = new JLabel("DNI");
+		labelDniResgitro.setBounds(72, 50, 86, 14);
+		panelLogin.add(labelDniResgitro);
 
 		textFieldDniLogin = new JTextField();
 		textFieldDniLogin.setBounds(72, 86, 86, 20);
 		panelLogin.add(textFieldDniLogin);
 		textFieldDniLogin.setColumns(10);
 
-		JLabel lblNewLabel_2 = new JLabel("Contraseña");
-		lblNewLabel_2.setBounds(72, 136, 86, 14);
-		panelLogin.add(lblNewLabel_2);
+		JLabel labelContrasenaLogin = new JLabel("Contraseña");
+		labelContrasenaLogin.setBounds(72, 136, 86, 14);
+		panelLogin.add(labelContrasenaLogin);
 
-		JTextField textFieldContraseñaLogin = new JTextField();
-		textFieldContraseñaLogin.setBounds(72, 175, 86, 20);
-		panelLogin.add(textFieldContraseñaLogin);
-		textFieldContraseñaLogin.setColumns(10);
+		JTextField textFieldContrasenaLogin = new JTextField();
+		textFieldContrasenaLogin.setBounds(72, 175, 86, 20);
+		panelLogin.add(textFieldContrasenaLogin);
+		textFieldContrasenaLogin.setColumns(10);
 
 		panelSeleccionCine = new JPanel();
 		panelSeleccionCine.setBackground(UIManager.getColor("Button.highlight"));
@@ -215,25 +208,25 @@ public class VentanasCartelera {
 		panelSeleccionCine.setLayout(null);
 		panelSeleccionCine.setVisible(false);
 
-		JButton btnNewButton_1 = new JButton("Aceptar");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton botonComprobarLogin = new JButton("Aceptar");
+		botonComprobarLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				comprobarLoginCliente(textFieldDniLogin, textFieldContraseñaLogin);
+				comprobarLoginCliente(textFieldDniLogin, textFieldContrasenaLogin);
 			}
 		});
-		btnNewButton_1.setBounds(72, 263, 89, 23);
-		panelLogin.add(btnNewButton_1);
+		botonComprobarLogin.setBounds(72, 263, 89, 23);
+		panelLogin.add(botonComprobarLogin);
 
-		JButton btnNewButton_2 = new JButton("Cancelar");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton panelCancelarLogin = new JButton("Cancelar");
+		panelCancelarLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelLogin.setVisible(false);
 				panelSeleccionCine.setVisible(true);
 				emisionesConfirmadas.clear();
 			}
 		});
-		btnNewButton_2.setBounds(239, 263, 89, 23);
-		panelLogin.add(btnNewButton_2);
+		panelCancelarLogin.setBounds(239, 263, 89, 23);
+		panelLogin.add(panelCancelarLogin);
 
 		JButton botonParaRegistrarteLogIn = new JButton("Si no tienes cuenta registrate aqui");
 		botonParaRegistrarteLogIn.addActionListener(new ActionListener() {
@@ -264,10 +257,10 @@ public class VentanasCartelera {
 		passwordRegistro.setBounds(185, 217, 86, 20);
 		panelResgistro.add(passwordRegistro);
 
-		JLabel jLabelPass_1 = new JLabel();
-		jLabelPass_1.setText("Contraseña");
-		jLabelPass_1.setBounds(103, 217, 73, 20);
-		panelResgistro.add(jLabelPass_1);
+		JLabel labelContrasenaRegistro = new JLabel();
+		labelContrasenaRegistro.setText("Contraseña");
+		labelContrasenaRegistro.setBounds(103, 217, 73, 20);
+		panelResgistro.add(labelContrasenaRegistro);
 
 		JLabel jLabelLogin_1 = new JLabel();
 		jLabelLogin_1.setText("DNI");
@@ -288,14 +281,10 @@ public class VentanasCartelera {
 		lblNewLabel.setBounds(154, 11, 106, 40);
 		panelResgistro.add(lblNewLabel);
 
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(233, 374, 89, 23);
-		panelResgistro.add(btnCancelar);
-
-		JLabel jLabelPass_1_1 = new JLabel();
-		jLabelPass_1_1.setText("Sexo");
-		jLabelPass_1_1.setBounds(103, 266, 73, 20);
-		panelResgistro.add(jLabelPass_1_1);
+		JLabel labelSexoRegistro = new JLabel();
+		labelSexoRegistro.setText("Sexo");
+		labelSexoRegistro.setBounds(103, 266, 73, 20);
+		panelResgistro.add(labelSexoRegistro);
 
 		JTextField jTextApellidosRegistro = new JTextField();
 		jTextApellidosRegistro.setColumns(10);
@@ -309,18 +298,22 @@ public class VentanasCartelera {
 				String nombreCliente = jTextNombreRegistro.getText();
 				String apellidosCliente = jTextApellidosRegistro.getText();
 				String dniCliente = textFieldDniRegistro.getText();
-				String contraseñaCliente = passwordRegistro.getText();
+				String contrasenaCliente = passwordRegistro.getText();
 				String sexoCliente = textFieldSexoRegistro.getText();
 
 				Cliente clienteParaRegistrar = new Cliente();
 				clienteParaRegistrar.setNombre(nombreCliente);
 				clienteParaRegistrar.setApellidos(apellidosCliente);
 				clienteParaRegistrar.setDni(dniCliente);
-				clienteParaRegistrar.setContraseña(contraseñaCliente);
+				clienteParaRegistrar.setContraseña(contrasenaCliente);
 				clienteParaRegistrar.setSexo(sexoCliente);
 
 				anadirCliente(clienteParaRegistrar);
-			}
+				
+				JFrame jFrame = new JFrame();
+				JOptionPane.showMessageDialog(jFrame, "Usuario registrado");
+				
+				}
 		});
 		btnNewButton.setBounds(66, 374, 89, 23);
 		panelResgistro.add(btnNewButton);
@@ -384,7 +377,7 @@ public class VentanasCartelera {
 		panelResumenCompra.add(buttonVolverResumenCompra);
 
 		JButton buttonContinuarResumenCompra = new JButton("Finalizar compra");
-		buttonContinuarResumenCompra.setBounds(550, 427, 95, 35);
+		buttonContinuarResumenCompra.setBounds(550, 427, 145, 35);
 		buttonContinuarResumenCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				continuarALogin();
@@ -399,7 +392,7 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelEleccionPelicula);
 		panelEleccionPelicula.setLayout(null);
 
-		comboBoxPeliculas = new JComboBox<String>();
+		comboBoxPeliculas = new JComboBox<>();
 		comboBoxPeliculas.setBounds(174, 122, 432, 22);
 		panelEleccionPelicula.add(comboBoxPeliculas);
 
@@ -422,12 +415,12 @@ public class VentanasCartelera {
 		eModel.setColumnIdentifiers(columnasTablaEmisiones);
 		tablaEmisionesCompletas.setModel(eModel);
 
-		comboBoxEmision = new JComboBox<Date>();
+		comboBoxEmision = new JComboBox<>();
 		comboBoxEmision.setBounds(215, 80, 306, 29);
 		panelSeleccionEmision.add(comboBoxEmision);
 		JButton botonAceptarEleccionPeliculas = new JButton("Aceptar");
 
-		comboBoxEleccionCine = new JComboBox<String>();
+		comboBoxEleccionCine = new JComboBox<>();
 		comboBoxEleccionCine.setBounds(233, 100, 299, 22);
 		panelSeleccionCine.add(comboBoxEleccionCine);
 
@@ -460,22 +453,22 @@ public class VentanasCartelera {
 		frame.getContentPane().add(panelBienvenida);
 		panelBienvenida.setLayout(new BorderLayout(0, 0));
 
-		JLabel LabelFotoBienvenida = new JLabel("");
-		panelBienvenida.add(LabelFotoBienvenida, BorderLayout.CENTER);
-		addImage(panelBienvenida, LabelFotoBienvenida, 0);
+		JLabel labelFotoBienvenida = new JLabel("");
+		panelBienvenida.add(labelFotoBienvenida, BorderLayout.CENTER);
+		addImage(panelBienvenida, labelFotoBienvenida, 0);
 
-		JButton ButtonFinzalizarSesionEleccionCine = new JButton("Finalizar sesion");
-		ButtonFinzalizarSesionEleccionCine.addActionListener(new ActionListener() {
+		JButton buttonFinzalizarSesionEleccionCine = new JButton("Finalizar sesion");
+		buttonFinzalizarSesionEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				comprobarFinalizarSesion();
 			}
 
 		});
-		ButtonFinzalizarSesionEleccionCine.setBounds(244, 223, 154, 23);
-		panelSeleccionCine.add(ButtonFinzalizarSesionEleccionCine);
+		buttonFinzalizarSesionEleccionCine.setBounds(244, 223, 154, 23);
+		panelSeleccionCine.add(buttonFinzalizarSesionEleccionCine);
 
-		JButton ButtonContinuarEleccionCine = new JButton("Continuar");
-		ButtonContinuarEleccionCine.addActionListener(new ActionListener() {
+		JButton buttonContinuarEleccionCine = new JButton("Continuar");
+		buttonContinuarEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelSeleccionCine.setVisible(false);
 				panelEleccionPelicula.setVisible(true);
@@ -486,8 +479,8 @@ public class VentanasCartelera {
 
 		});
 
-		ButtonContinuarEleccionCine.setBounds(443, 223, 89, 23);
-		panelSeleccionCine.add(ButtonContinuarEleccionCine);
+		buttonContinuarEleccionCine.setBounds(443, 223, 89, 23);
+		panelSeleccionCine.add(buttonContinuarEleccionCine);
 
 		panelBienvenida.addMouseListener(new MouseAdapter() {
 			@Override
@@ -498,7 +491,7 @@ public class VentanasCartelera {
 			private void mostrarEleccionCine() {
 				panelBienvenida.setVisible(false);
 				panelSeleccionCine.setVisible(true);
-				añadirCinesComboBox();
+				anadirCinesComboBox();
 
 			}
 
@@ -509,26 +502,26 @@ public class VentanasCartelera {
 		lblNewLabelEmision.setBounds(181, 22, 445, 29);
 		panelSeleccionEmision.add(lblNewLabelEmision);
 
-		JButton ButtonCancelarEmision = new JButton("Cancelar");
-		ButtonCancelarEmision.addActionListener(new ActionListener() {
+		JButton buttonCancelarEmision = new JButton("Cancelar");
+		buttonCancelarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				volverAEleccionPeliculas();
 			}
 
 		});
-		ButtonCancelarEmision.setBounds(215, 141, 89, 23);
-		panelSeleccionEmision.add(ButtonCancelarEmision);
+		buttonCancelarEmision.setBounds(215, 141, 89, 23);
+		panelSeleccionEmision.add(buttonCancelarEmision);
 
-		JButton ButtonSeleccionarEmision = new JButton("Seleccionar");
-		ButtonSeleccionarEmision.addActionListener(new ActionListener() {
+		JButton buttonSeleccionarEmision = new JButton("Seleccionar");
+		buttonSeleccionarEmision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				elegirFecha(eModel, comboBoxPeliculas.getSelectedItem().toString(),
 						comboBoxEleccionCine.getSelectedItem().toString());
 			}
 		});
-		ButtonSeleccionarEmision.setBounds(388, 141, 115, 23);
-		panelSeleccionEmision.add(ButtonSeleccionarEmision);
+		buttonSeleccionarEmision.setBounds(388, 141, 115, 23);
+		panelSeleccionEmision.add(buttonSeleccionarEmision);
 
 		JButton botonAceptarEmisionCompleta = new JButton("Aceptar");
 		botonAceptarEmisionCompleta.addActionListener(new ActionListener() {
@@ -553,11 +546,9 @@ public class VentanasCartelera {
 
 				}
 
-				int ret = JOptionPane.showOptionDialog(frameEmision.getContentPane(), datosSeleccionados,
+				return JOptionPane.showOptionDialog(frameEmision.getContentPane(), datosSeleccionados,
 						"Esta es la emision que usted ha elegido", 0, JOptionPane.INFORMATION_MESSAGE, null, options,
 						null);
-
-				return ret;
 
 			}
 
@@ -569,8 +560,8 @@ public class VentanasCartelera {
 				if (ret == 1) {
 					volverAEleccionCine();
 					anadirDatosFactura();
-					añadirEmisionCompletaTablaResumen(tablaResumenCompra, modeloTablaResumenCompra);
-					añadirPrecioTablaResumen(labelResumenCompraPrecio);
+					anadirEmisionCompletaTablaResumen(tablaResumenCompra, modeloTablaResumenCompra);
+					anadirPrecioTablaResumen(labelResumenCompraPrecio);
 
 				}
 			}
@@ -602,13 +593,13 @@ public class VentanasCartelera {
 	public void elegirPelicula() {
 		peliculaSeleccionada = comboBoxPeliculas.getSelectedItem().toString();
 		resetComboEmisiones();
-		añadirEmisionesComboBox(peliculaSeleccionada, cineSeleccionado);
+		anadirEmisionesComboBox(peliculaSeleccionada, cineSeleccionado);
 
 	}
 
 	public void elegirFecha(DefaultTableModel model, String peliculaSeleccionada, String cineSeleccionado) {
 		fechaSeleccionada = comboBoxEmision.getSelectedItem().toString();
-		añadirEmisionCompletaTabla(model, fechaSeleccionada, peliculaSeleccionada, cineSeleccionado);
+		anadirEmisionCompletaTabla(model, fechaSeleccionada, peliculaSeleccionada, cineSeleccionado);
 	}
 
 	private void añadirPeliculasComboBox(String cineSeleccionado) {
@@ -663,7 +654,7 @@ public class VentanasCartelera {
 
 	}
 
-	private void añadirEmisionesComboBox(String peliculaSeleccionada, String cineSeleccionado) {
+	private void anadirEmisionesComboBox(String peliculaSeleccionada, String cineSeleccionado) {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Emision> emisiones = gestorBBDD.sacarEmisionesPorPeliculas(peliculaSeleccionada, cineSeleccionado);
 		for (int i = 0; i < emisiones.size(); i++) {
@@ -672,7 +663,7 @@ public class VentanasCartelera {
 
 	}
 
-	private void añadirCinesComboBox() {
+	private void anadirCinesComboBox() {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		ArrayList<Cine> cines = gestorBBDD.sacarTodosLosCiness();
 		for (int i = 0; i < cines.size(); i++) {
@@ -681,7 +672,7 @@ public class VentanasCartelera {
 
 	}
 
-	private void añadirEmisionCompletaTabla(DefaultTableModel eModel, String fechaSeleccionada,
+	private void anadirEmisionCompletaTabla(DefaultTableModel eModel, String fechaSeleccionada,
 			String peliculaSeleccionada, String cineSeleccionado) {
 
 		GestorBBDD gestorBBDD = new GestorBBDD();
@@ -736,24 +727,24 @@ public class VentanasCartelera {
 		}
 	}
 
-	private void añadirEmisionCompletaTablaResumen(JTable tablaResumenCompra,
+	private void anadirEmisionCompletaTablaResumen(JTable tablaResumenCompra,
 			DefaultTableModel modeloTablaResumenCompra) {
 
 		tablaResumenCompra.removeAll();
 		modeloTablaResumenCompra.setRowCount(0);
 
 		for (int i = 0; i < emisionesConfirmadas.size(); i++) {
-			Emision emisionAñadida = emisionesConfirmadas.get(i);
-			String hora = emisionAñadida.getHorario().toString();
-			String precio = "" + emisionAñadida.getPrecio();
-			String sala = emisionAñadida.getSala().getNombre();
-			String pelicula = emisionAñadida.getPelicula().getNombre();
+			Emision emisionAnadida = emisionesConfirmadas.get(i);
+			String hora = emisionAnadida.getHorario().toString();
+			String precio = "" + emisionAnadida.getPrecio();
+			String sala = emisionAnadida.getSala().getNombre();
+			String pelicula = emisionAnadida.getPelicula().getNombre();
 			modeloTablaResumenCompra.addRow(new String[] { hora, precio, sala, pelicula });
 		}
 
 	}
 
-	private void añadirPrecioTablaResumen(JLabel labelResumenCompraPrecio) {
+	private void anadirPrecioTablaResumen(JLabel labelResumenCompraPrecio) {
 		double totalPrecio = 0;
 		int i = 0;
 
@@ -774,7 +765,7 @@ public class VentanasCartelera {
 		if (i >= 5) {
 			totalPrecio = totalPrecio * 0.5;
 		}
-		String precioFinalString = Double.toString(totalPrecio);
+		precioFinalString = Double.toString(totalPrecio);
 		labelResumenCompraPrecio.setText("Precio:  " + precioFinalString + " €");
 
 	}
@@ -795,23 +786,16 @@ public class VentanasCartelera {
 		panelResumenCompra.setVisible(true);
 	}
 
-	private void eleccionFrameLoginPopUp(int eleccionFrameLogin) {
-
-	}
-
-	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContraseñaLogin) {
+	private void comprobarLoginCliente(JTextField textFieldDniLogin, JTextField textFieldContrasenaLogin) {
 		GestorBBDD gestorBBDD = new GestorBBDD();
 		String dniLogin = textFieldDniLogin.getText();
-		String contraseñaLogin = textFieldContraseñaLogin.getText();
-		boolean logInCorrecto = gestorBBDD.comprobarCliente(dniLogin, contraseñaLogin);
-		if (logInCorrecto == false) {
-			JFrame frameLogin = new JFrame();
-			String[] options = new String[1];
-			options[0] = "Confirmar";
-
-			int eleccionFrameLogin = JOptionPane.showOptionDialog(frameLogin.getContentPane(), "Su login incorrecto",
-					"", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-			eleccionFrameLoginPopUp(eleccionFrameLogin);
+		String contrasenaLogin = textFieldContrasenaLogin.getText();
+		boolean logInCorrecto = gestorBBDD.comprobarCliente(dniLogin, contrasenaLogin);
+		if (!logInCorrecto) {
+			JFrame jFrame = new JFrame();
+			JOptionPane.showMessageDialog(jFrame, "Login incorrecto");
+			textFieldDniLogin.setText("");
+			textFieldContrasenaLogin.setText("");
 		} else {
 			panelLogin.setVisible(false);
 			panelFichero.setVisible(true);
@@ -820,7 +804,9 @@ public class VentanasCartelera {
 
 	private void crearTicket(Entrada entradaParaRegistrar) {
 
-		final String NOMBRE_FICHERO = "fichero.txt";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_d HH-mm-ss");
+		String date = dateFormat.format(new Date());
+		final String NOMBRE_FICHERO = "Ticket " + date + ".txt";
 		final String RUTA_FICHERO = "C:\\Users\\asier\\Desktop\\workspace_2\\Reto3\\reto3\\src\\carteleraElorrieta\\tickets\\";
 		GestorBBDD gestor = new GestorBBDD();
 		ArrayList<Entrada> entradas = gestor.sacarTodosLosDatosParaTicket(entradaParaRegistrar);
@@ -836,8 +822,6 @@ public class VentanasCartelera {
 			ioe.printStackTrace();
 		}
 
-		
-
 		// Preparamos las clases necesarias para escribir un fichero
 		FileWriter fileWriter = null;
 		PrintWriter printWriter = null;
@@ -846,27 +830,34 @@ public class VentanasCartelera {
 			// Asignamos el fichero que vamos a escribir
 			fileWriter = new FileWriter(RUTA_FICHERO + NOMBRE_FICHERO);
 
-			// Si preferimos que el fichero se actualice a final...
-			// fileWriter = new FileWriter(RUTA_FICHERO + NOMBRE_FICHERO, true);
-
 			printWriter = new PrintWriter(fileWriter);
 
-			// Pedimos por teclado
 			for (int i = 0; i < entradas.size(); i++) {
 				Entrada entrada = entradas.get(i);
-				String nombreCine=entrada.getEmision().getSala().getCine().getNombre();
-				int codCine =entrada.getEmision().getSala().getCine().getCod_cine();
-				String direccionCine=entrada.getEmision().getSala().getCine().getDireccion();
-				String peliculaElegida=entrada.getEmision().getPelicula().getNombre();
-				String nombreSala=entrada.getEmision().getSala().getNombre();
-				int precio =entrada.getEmision().getPrecio();
-				String texto = nombreCine + "/n"  + codCine + "/n" + direccionCine + "/n" + peliculaElegida + "/n" + nombreSala + "/n" + precio;
+				String nombreCine = entrada.getEmision().getSala().getCine().getNombre();
+				int codCine = entrada.getEmision().getSala().getCine().getCod_cine();
+				String direccionCine = entrada.getEmision().getSala().getCine().getDireccion();
+				String peliculaElegida = entrada.getEmision().getPelicula().getNombre();
+				String nombreSala = entrada.getEmision().getSala().getNombre();
+				int precio = entrada.getEmision().getPrecio();
+				String dni = entrada.getCliente().getDni();
+				String nombreCliente = entrada.getCliente().getNombre();
+				String apellidos = entrada.getCliente().getApellidos();
+				String sexo = entrada.getCliente().getSexo();
+				String precioFinal = precioFinalString;
+
+				String texto = "Entrada" + (i + 1) + " - " + date + "\nEl nombre del cine es: " + nombreCine
+						+ "\nEl código del cine es: " + codCine + "\nLa dirección del cine es: " + direccionCine
+						+ "\nEl nombre de la película elegida es: " + peliculaElegida + "\nEl nombre de la sala es: "
+						+ nombreSala + "\nEl precio de esa película es: " + precio + "\nEl dni del cliente es: " + dni
+						+ "\nEl nombre del cliente es: " + nombreCliente + "\nLos apellidos del cliente es: "
+						+ apellidos + "\nEl sexo del cliente es: " + sexo + "\nEl precio final a pagar es de: "
+						+ precioFinal + "\n \n \n \n \n";
 				printWriter.println(texto);
+
 			}
-			
 
 			// Lo mandamos al fichero
-			
 
 		} catch (IOException e) {
 			System.out.println("IOException - Error de escritura en el fichero " + RUTA_FICHERO + NOMBRE_FICHERO);

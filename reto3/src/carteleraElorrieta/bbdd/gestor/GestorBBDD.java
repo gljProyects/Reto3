@@ -422,7 +422,7 @@ public class GestorBBDD {
 		}
 	}
 
-	public boolean comprobarCliente(String dniLogin, String contraseñaLogin) {
+	public boolean comprobarCliente(String dniLogin, String contrasenaLogin) {
 
 		// SQL que queremos lanzar
 		String sql = "select * from cliente where dni=? and contraseña=?";
@@ -446,7 +446,7 @@ public class GestorBBDD {
 			// Vamos a lanzar la sentencia...
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, dniLogin);
-			preparedStatement.setString(2, contraseñaLogin);
+			preparedStatement.setString(2, contrasenaLogin);
 			resultSet = preparedStatement.executeQuery();
 
 			// No es posible saber cuantas cosas nos ha devuelto el resultSet.
@@ -545,7 +545,7 @@ public class GestorBBDD {
 		LocalDate fecha = LocalDate.now();
 
 		// SQL que queremos lanzar
-		String sql = "select * from emision emi join sala sal on emi.cod_sala=sal.cod_sala join pelicula pel on emi.cod_pelicula=pel.cod_pelicula join cine cin on sal.cod_cine=cin.cod_cine join entrada ent on ent.cod_emision=emi.cod_emision join cliente cli on ent.dni_cliente=cli.dni where cli.dni=? and ent.fecha_compra=?";
+		String sql = "select cin.cod_cine,direccion,cin.nombre as nombrecine,dni,cli.nombre as nombrecliente,apellidos,contraseña,sexo,emi.cod_emision,fecha,horario,precio,pel.cod_pelicula,duracion,genero,pel.nombre as nombrepelicula,sal.cod_sala,sal.nombre as nombresala,ent.cod_entrada,fecha_compra from emision emi join sala sal on emi.cod_sala=sal.cod_sala join pelicula pel on emi.cod_pelicula=pel.cod_pelicula join cine cin on sal.cod_cine=cin.cod_cine join entrada ent on ent.cod_emision=emi.cod_emision join cliente cli on ent.dni_cliente=cli.dni where cli.dni=? and ent.fecha_compra=?";
 
 		// La conexion con BBDD
 		Connection connection = null;
@@ -583,7 +583,7 @@ public class GestorBBDD {
 
 				Cliente cliente = new Cliente();
 				cliente.setDni(resultSet.getString("dni"));
-				cliente.setNombre(resultSet.getString("nombre"));
+				cliente.setNombre(resultSet.getString("nombrecliente"));
 				cliente.setApellidos(resultSet.getString("apellidos"));
 				cliente.setSexo(resultSet.getString("sexo"));
 				cliente.setContraseña(resultSet.getString("contraseña"));
@@ -600,18 +600,18 @@ public class GestorBBDD {
 				Pelicula pelicula = new Pelicula();
 				pelicula.setCod_pelicula(resultSet.getInt("cod_pelicula"));
 				pelicula.setDuracion(resultSet.getInt("duracion"));
-				pelicula.setNombre(resultSet.getString("nombre"));
+				pelicula.setNombre(resultSet.getString("nombrepelicula"));
 				pelicula.setGenero(resultSet.getString("genero"));
 				emision.setPelicula(pelicula);
 
 				Sala sala = new Sala();
 				sala.setCod_sala(resultSet.getInt("cod_sala"));
-				sala.setNombre(resultSet.getString("nombre"));
+				sala.setNombre(resultSet.getString("nombresala"));
 
 				Cine cine = new Cine();
 				cine.setCod_cine(resultSet.getInt("cod_cine"));
 				cine.setDireccion(resultSet.getString("direccion"));
-				cine.setNombre(resultSet.getString("nombre"));
+				cine.setNombre(resultSet.getString("nombrecine"));
 				sala.setCine(cine);
 				emision.setSala(sala);
 				entrada.setEmision(emision);
