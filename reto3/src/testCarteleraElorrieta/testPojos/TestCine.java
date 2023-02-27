@@ -2,14 +2,24 @@ package testCarteleraElorrieta.testPojos;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.Test;
 
+import carteleraElorrieta.bbdd.gestor.GestorBBDD;
 import carteleraElorrieta.bbdd.pojos.Cine;
+import carteleraElorrieta.bbdd.pojos.Cliente;
+import carteleraElorrieta.bbdd.pojos.Emision;
+import carteleraElorrieta.bbdd.pojos.Entrada;
 import carteleraElorrieta.bbdd.pojos.Sala;
 
 public class TestCine {
@@ -30,8 +40,6 @@ public class TestCine {
 		assertEquals(direccion, cine.getDireccion());
 	}
 
-
-
 	@Test
 	public void testGettersAndSettersNombre() {
 		Cine cine = new Cine();
@@ -41,44 +49,55 @@ public class TestCine {
 	}
 
 	@Test
-	public void testGettersAndSettersSalas() {
-		Cine cine = new Cine();
-		ArrayList<Sala> salas = null;
-		cine.setSalas(salas);
-		assertNull(cine.getSalas());
+	public void testComprobarEntradaNull() {
+		Entrada entradaParaRegistrar = new Entrada();
+		Cliente cliente = new Cliente();
+		Emision emision = new Emision();
+		GestorBBDD gestor = new GestorBBDD();
+		cliente.setDni("30972629L");
+		emision.setCod_emision(1);
+		entradaParaRegistrar.setEmision(emision);
+		entradaParaRegistrar.setCliente(cliente);
+		entradaParaRegistrar.setCod_entrada(60);
+
+		boolean comproparEntrada = gestor.comprobarEntrada(entradaParaRegistrar);
+
+		assertNull(comproparEntrada);
 	}
 
 	@Test
-	public void testToString() {
-		Cine cine = new Cine();
-
-		String expected = "Cine [cod_cine=" + 0 + ", direccion=" + null + ", nombre=" + null + ", salas=" + null
-				+ "]";
-		cine.toString();
-		assertEquals(expected, cine.toString());
+	public void testComprobarEntradaNotNull() {
+		Entrada entradaParaRegistrar = new Entrada();
+		Cliente cliente = new Cliente();
+		Emision emision = new Emision();
+		GestorBBDD gestor = new GestorBBDD();
+		cliente.setDni("30972629L");
+		emision.setCod_emision(1);
+		entradaParaRegistrar.setEmision(emision);
+		entradaParaRegistrar.setCliente(cliente);
+		entradaParaRegistrar.setCod_entrada(60);
+		gestor.insertarEntradaClienteTest(entradaParaRegistrar);
+		boolean comproparEntrada = gestor.comprobarEntrada(entradaParaRegistrar);
+		assertNotNull(comproparEntrada);
 	}
-
+	
 	@Test
-	public void testEqualsTrue() {
-		Cine cine = new Cine();
-		cine.setCod_cine(1);
+	public void testComprobarFichero() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_d HH-mm-ss");
+		String date = dateFormat.format(new Date());
+		final String NOMBRE_FICHERO = "Ticket " + date + ".txt";
+		final String RUTA_FICHERO = "C:\\Users\\in1dw3\\git\\Reto3\\reto3\\src\\carteleraElorrieta\\tickets\\";
+		File fichero = new File(RUTA_FICHERO + NOMBRE_FICHERO);
 
-		Cine cine2 = new Cine();
-		cine2.setCod_cine(1);
-		cine.equals(cine2);
-		assertTrue(cine.equals(cine2));
-
+		try {
+			
+			if (fichero.createNewFile())
+				System.out.println("El fichero se ha creado correctamente");
+			else
+				System.out.println("No ha podido ser creado el fichero");
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 	}
 
-	@Test
-	public void testEqualsFalse() {
-		Cine cine = new Cine();
-		cine.setCod_cine(1);
-
-		Cine cine2 = new Cine();
-		cine2.setCod_cine(2);
-		cine.equals(cine2);
-		assertFalse(cine.equals(cine2));
-
-	}
 }

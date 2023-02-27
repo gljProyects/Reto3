@@ -79,9 +79,7 @@ public class VentanasCartelera {
 	String precioFinalString = null;
 	//arraylist emisiones que se han elegido
 	private ArrayList<Emision> emisionesConfirmadas = new ArrayList<>();
-	/**
-	 * Launch the application.
-	 */
+
 	public void iniciar() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -95,16 +93,12 @@ public class VentanasCartelera {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
 	public VentanasCartelera() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBackground(Color.WHITE);
@@ -817,7 +811,7 @@ public class VentanasCartelera {
 		File fichero = new File(RUTA_FICHERO + NOMBRE_FICHERO);
 
 		try {
-			// A partir del objeto File creamos el fichero físicamente
+			
 			if (fichero.createNewFile())
 				System.out.println("El fichero se ha creado correctamente");
 			else
@@ -826,12 +820,12 @@ public class VentanasCartelera {
 			ioe.printStackTrace();
 		}
 
-		// Preparamos las clases necesarias para escribir un fichero
+		
 		FileWriter fileWriter = null;
 		PrintWriter printWriter = null;
 
 		try {
-			// Asignamos el fichero que vamos a escribir
+			
 			fileWriter = new FileWriter(RUTA_FICHERO + NOMBRE_FICHERO);
 
 			printWriter = new PrintWriter(fileWriter);
@@ -861,7 +855,7 @@ public class VentanasCartelera {
 
 			}
 
-			// Lo mandamos al fichero
+			
 
 		} catch (IOException e) {
 			System.out.println("IOException - Error de escritura en el fichero " + RUTA_FICHERO + NOMBRE_FICHERO);
@@ -870,7 +864,7 @@ public class VentanasCartelera {
 			try {
 				fileWriter.close();
 			} catch (IOException e) {
-				// Nos da igual
+				
 			}
 		}
 	}

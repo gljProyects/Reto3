@@ -1,0 +1,68 @@
+Entrada1 - 2023_02_27 21-02-40
+El nombre del cine es: Bilbao
+El código del cine es: 1
+La dirección del cine es: Leizaola Lehendakariaren kalea, 2, 48009 Bilbao, Bizkaia
+El nombre de la película elegida es: Sleepers
+El nombre de la sala es: Sala 2
+El precio de esa película es: 5
+El dni del cliente es: 00000000M
+El nombre del cliente es: patatas
+Los apellidos del cliente es: patata
+El sexo del cliente es: Hombre
+El precio final a pagar es de: 12.0
+ 
+ 
+ 
+ 
+
+Entrada2 - 2023_02_27 21-02-40
+El nombre del cine es: Madrid
+El código del cine es: 2
+La dirección del cine es: Calle del Dr Cortezo, 6, 28012 Madrid
+El nombre de la película elegida es: El decalogo
+El nombre de la sala es: Sala 4
+El precio de esa película es: 5
+El dni del cliente es: 00000000M
+El nombre del cliente es: patatas
+Los apellidos del cliente es: patata
+El sexo del cliente es: Hombre
+El precio final a pagar es de: 12.0
+ 
+ 
+ 
+ 
+
+Entrada3 - 2023_02_27 21-02-40
+El nombre del cine es: Madrid
+El código del cine es: 2
+La dirección del cine es: Calle del Dr Cortezo, 6, 28012 Madrid
+El nombre de la película elegida es: Taxi Driver
+El nombre de la sala es: Sala 4
+El precio de esa película es: 5
+El dni del cliente es: 00000000M
+El nombre del cliente es: patatas
+Los apellidos del cliente es: patata
+El sexo del cliente es: Hombre
+El precio final a pagar es de: 12.0
+ 
+ 
+ 
+ 
+
+Entrada4 - 2023_02_27 21-02-40
+El nombre del cine es: Pamplona
+El código del cine es: 3
+La dirección del cine es: Plaza Yamaguchi, 9, bajo, 31008 Pamplona, Navarra
+El nombre de la película elegida es: Los puentes de Madison
+El nombre de la sala es: Sala 2
+El precio de esa película es: 5
+El dni del cliente es: 00000000M
+El nombre del cliente es: patatas
+Los apellidos del cliente es: patata
+El sexo del cliente es: Hombre
+El precio final a pagar es de: 12.0
+ 
+ 
+ 
+ 
+
