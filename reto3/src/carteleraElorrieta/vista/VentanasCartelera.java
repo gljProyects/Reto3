@@ -71,6 +71,7 @@ public class VentanasCartelera {
 	// textfields
 	JTextField textFieldDniRegistro = null;
 	JTextField textFieldDniLogin = null;
+	JLabel lblNewLabelPelicula=null;
 	//variables que el cliente ha seleccionado
 	String fechaSeleccionada = null;
 	String peliculaSeleccionada = null;
@@ -111,6 +112,12 @@ public class VentanasCartelera {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
+		panelEleccionPelicula = new JPanel();
+		panelEleccionPelicula.setBackground(Color.WHITE);
+		panelEleccionPelicula.setBounds(0, 0, 784, 511);
+		frame.getContentPane().add(panelEleccionPelicula);
+		panelEleccionPelicula.setLayout(null);
+		
 		panelFichero = new JPanel();
 		panelFichero.setBackground(Color.WHITE);
 		panelFichero.setBounds(0, 0, 784, 511);
@@ -386,17 +393,13 @@ public class VentanasCartelera {
 		});
 		panelResumenCompra.add(buttonContinuarResumenCompra);
 
-		panelEleccionPelicula = new JPanel();
-		panelEleccionPelicula.setBackground(Color.WHITE);
-		panelEleccionPelicula.setBounds(0, 0, 784, 511);
-		frame.getContentPane().add(panelEleccionPelicula);
-		panelEleccionPelicula.setLayout(null);
+		
 
 		comboBoxPeliculas = new JComboBox<>();
 		comboBoxPeliculas.setBounds(174, 122, 432, 22);
 		panelEleccionPelicula.add(comboBoxPeliculas);
 
-		JLabel lblNewLabelPelicula = new JLabel("SELECCIONA LA PELICULA QUE QUIERAS VER");
+		 lblNewLabelPelicula = new JLabel("");
 		lblNewLabelPelicula.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabelPelicula.setBounds(163, 44, 510, 22);
 		panelEleccionPelicula.add(lblNewLabelPelicula);
@@ -470,11 +473,11 @@ public class VentanasCartelera {
 		JButton buttonContinuarEleccionCine = new JButton("Continuar");
 		buttonContinuarEleccionCine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				elegirCine();
 				panelSeleccionCine.setVisible(false);
 				panelEleccionPelicula.setVisible(true);
-
-				elegirCine();
-
 			}
 
 		});
@@ -587,6 +590,7 @@ public class VentanasCartelera {
 		String cineSeleccionado = comboBoxEleccionCine.getSelectedItem().toString();
 		resetComboPeliculas();
 		añadirPeliculasComboBox(cineSeleccionado);
+		lblNewLabelPelicula.setText("Elige la pelicula que quieras ver en el cine "+ cineSeleccionado);
 
 	}
 
@@ -870,5 +874,4 @@ public class VentanasCartelera {
 			}
 		}
 	}
-
 }
