@@ -807,7 +807,7 @@ public class VentanasCartelera {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_d HH-mm-ss");
 		String date = dateFormat.format(new Date());
 		final String NOMBRE_FICHERO = "Ticket " + date + ".txt";
-		final String RUTA_FICHERO = "C:\\Users\\asier\\Desktop\\workspace_2\\Reto3\\reto3\\src\\carteleraElorrieta\\tickets\\";
+		final String RUTA_FICHERO = "/reto3/src/carteleraElorrieta/tickets";
 		GestorBBDD gestor = new GestorBBDD();
 		ArrayList<Entrada> entradas = gestor.sacarTodosLosDatosParaTicket(entradaParaRegistrar);
 		File fichero = new File(RUTA_FICHERO + NOMBRE_FICHERO);

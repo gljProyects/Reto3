@@ -9,7 +9,7 @@ import org.junit.Test;
 import carteleraElorrieta.bbdd.gestor.GestorBBDD;
 import carteleraElorrieta.bbdd.pojos.Cine;
 
-public class testEleccionDeCine {
+public class TestEleccionDeCine {
 
 	@Test
 	public void testCinesDisponiblesNotNull() {
@@ -39,7 +39,7 @@ public class testEleccionDeCine {
 		String expected = "Bilbao";
 		String nombreCine = null;
 		nombreCine = cines.get(0).getNombre();
-		System.out.println(nombreCine);
+		
 		assertEquals(expected, nombreCine);
 	}
 

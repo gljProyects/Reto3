@@ -57,11 +57,11 @@ class testPantallaPeliculas {
 
 		// comprobar orden de peliculas por horas
 		for (int i = 0; i < emisiones.size() - 1; i++) {
-			System.out.println(emisiones);
+			
 			Date fechaPrimeraPelicula = emisiones.get(i).getFecha();
-			System.out.println(fechaPrimeraPelicula);
+			
 			Date fechaSiguientePelicula = emisiones.get(i+1).getFecha();
-			System.out.println(fechaSiguientePelicula);
+			
 			assertTrue(fechaPrimeraPelicula.before(fechaSiguientePelicula));
 
 		}
