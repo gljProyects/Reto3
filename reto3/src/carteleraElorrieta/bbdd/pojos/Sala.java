@@ -21,7 +21,6 @@ public class Sala implements Serializable {
 	private ArrayList<Emision> emisiones = null;
 
 	
-
 	public int getCod_sala() {
 		return cod_sala;
 	}
