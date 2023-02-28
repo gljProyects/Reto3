@@ -62,7 +62,7 @@ public class TestCine {
 
 		boolean comproparEntrada = gestor.comprobarEntrada(entradaParaRegistrar);
 
-		assertNull(comproparEntrada);
+		assertFalse(comproparEntrada);
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class TestCine {
 		entradaParaRegistrar.setCod_entrada(60);
 		gestor.insertarEntradaClienteTest(entradaParaRegistrar);
 		boolean comproparEntrada = gestor.comprobarEntrada(entradaParaRegistrar);
-		assertNotNull(comproparEntrada);
+		assertTrue(comproparEntrada);
 	}
 	
 	@Test
